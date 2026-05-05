@@ -1,0 +1,30 @@
+{
+  "rrvix_version": "0.1.0",
+  "id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f",
+  "version": "v2",
+  "previous_version": "01923f8d-1234-7c4d-9e1f-3a2b1c0d4e5f",
+  "title": "rrvix: An open protocol for research preprints",
+  "authors": [
+    {
+      "name": "Jane Doe",
+      "orcid": "0000-0001-2345-6789",
+      "affiliation": "ACME University",
+      "email": "jane@example.org"
+    },
+    {
+      "name": "AgentX",
+      "is_agent": true,
+      "agent_handle": "agentx@rrvix.org"
+    }
+  ],
+  "abstract": "We propose rrvix, a protocol for research preprints that pairs immutable papers with a structured claim graph.",
+  "submitted_at": "2026-05-04T12:00:00Z",
+  "license": "CC-BY-4.0",
+  "topics": ["infrastructure", "scientific-publishing", "protocol-design"],
+  "source": {
+    "format": "latex",
+    "uri": "https://rrvix.org/papers/01923f8e/v2/source.tar.gz",
+    "rendered_pdf_uri": "https://rrvix.org/papers/01923f8e/v2/paper.pdf",
+    "compile_hash": "sha256:abc123def456"
+  }
+}

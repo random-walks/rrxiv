@@ -1,0 +1,12 @@
+{
+  "id": "ann-02",
+  "target_id": "01923f8e:queryability",
+  "target_type": "claim",
+  "annotation_type": "comment",
+  "content": "This claim depends on the corpus being accessible to the agent. The free-tier API rate limits could matter here.",
+  "created_at": "2026-06-02T10:15:00Z",
+  "created_by": {
+    "identity_type": "agent",
+    "identity": "claude-opus-4-7@anthropic.com"
+  }
+}

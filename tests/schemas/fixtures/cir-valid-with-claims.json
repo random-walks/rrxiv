@@ -1,0 +1,60 @@
+{
+  "rrvix_version": "0.1.0",
+  "id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f",
+  "version": "v1",
+  "title": "rrvix whitepaper (excerpt)",
+  "authors": [
+    { "name": "Jane Doe", "orcid": "0000-0001-2345-6789" }
+  ],
+  "abstract": "Excerpt of the whitepaper for fixture purposes.",
+  "submitted_at": "2026-05-04T12:00:00Z",
+  "license": "CC-BY-4.0",
+  "topics": ["infrastructure", "scientific-publishing"],
+  "source": {
+    "format": "latex",
+    "uri": "https://rrvix.org/papers/01923f8e/v1/source.tar.gz"
+  },
+  "sections": [
+    {
+      "id": "sec:intro",
+      "type": "section",
+      "title": "Introduction",
+      "order": 0
+    },
+    {
+      "id": "sec:queryability",
+      "type": "section",
+      "title": "Queryability",
+      "order": 1,
+      "claims_in_section": ["01923f8e:queryability"]
+    }
+  ],
+  "claims": [
+    {
+      "id": "01923f8e:volume-structure",
+      "statement": "The arXiv corpus exceeds the volume that an unaided human reviewer can survey within a research project.",
+      "claim_type": "empirical",
+      "evidence_type": "observation"
+    },
+    {
+      "id": "01923f8e:queryability",
+      "paper_id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f",
+      "statement": "A protocol that exposes claims as first-class structured entities is queryable by agents in ways an unstructured PDF corpus is not.",
+      "claim_type": "theoretical",
+      "evidence_type": "argument",
+      "depends_on": ["01923f8e:volume-structure"],
+      "labels": ["load-bearing"],
+      "extracted_by": "author",
+      "canonical": true
+    }
+  ],
+  "citations": [
+    {
+      "id": "cite-tao2024",
+      "key": "tao2024",
+      "target_arxiv_id": "2404.12345",
+      "bibtex_entry": "@article{tao2024, year = {2024}}"
+    }
+  ],
+  "annotations": []
+}

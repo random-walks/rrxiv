@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rrvix.org/schema/v0/cir.schema.json",
   "title": "Canonical Intermediate Representation (CIR)",
-  "description": "The structured representation of a rrvix paper. Extracted from TeX/Typst source. The unit of agent-readable knowledge in the rrvix corpus.",
+  "description": "The full structured representation of a rrvix paper. A Paper's metadata plus its derived structure (sections, claims, citations, figures, annotations). Extracted from TeX/Typst source by the rrvix parser. The unit of agent-readable knowledge in the rrvix corpus.",
   "version": "0.1.0",
   "type": "object",
   "required": ["rrvix_version", "id", "version", "title", "authors", "abstract", "submitted_at", "license", "source"],
@@ -36,7 +36,7 @@
     "authors": {
       "type": "array",
       "minItems": 1,
-      "items": { "$ref": "#/$defs/Author" }
+      "items": { "$ref": "paper.schema.json#/$defs/Author" }
     },
     "abstract": {
       "type": "string",
@@ -58,7 +58,7 @@
       "items": { "type": "string" }
     },
     "source": {
-      "$ref": "#/$defs/Source"
+      "$ref": "paper.schema.json#/$defs/Source"
     },
     "sections": {
       "type": "array",
@@ -67,11 +67,11 @@
     "claims": {
       "type": "array",
       "description": "Claims extracted from this paper. May be added post-hoc by annotators or agents, subject to author confirmation for canonical status.",
-      "items": { "$ref": "#/$defs/Claim" }
+      "items": { "$ref": "claim.schema.json" }
     },
     "citations": {
       "type": "array",
-      "items": { "$ref": "#/$defs/Citation" }
+      "items": { "$ref": "citation.schema.json" }
     },
     "figures": {
       "type": "array",
@@ -80,70 +80,10 @@
     "annotations": {
       "type": "array",
       "description": "Post-submission annotations attached to this paper. Populated lazily; servers may return [] and require a separate query for annotations.",
-      "items": { "$ref": "#/$defs/Annotation" }
+      "items": { "$ref": "annotation.schema.json" }
     }
   },
   "$defs": {
-    "Author": {
-      "type": "object",
-      "required": ["name"],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Display name as the author wishes to be cited."
-        },
-        "orcid": {
-          "type": ["string", "null"],
-          "pattern": "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$",
-          "description": "ORCID iD if available. Strongly recommended for verification."
-        },
-        "affiliation": {
-          "type": ["string", "null"]
-        },
-        "email": {
-          "type": ["string", "null"],
-          "format": "email"
-        },
-        "is_agent": {
-          "type": "boolean",
-          "default": false,
-          "description": "True if this 'author' is an AI agent. Agents must declare themselves."
-        },
-        "agent_handle": {
-          "type": ["string", "null"],
-          "description": "If is_agent, the agent's persistent identifier on rrvix."
-        }
-      }
-    },
-    "Source": {
-      "type": "object",
-      "required": ["format", "uri"],
-      "properties": {
-        "format": {
-          "type": "string",
-          "enum": ["latex", "typst", "markdown", "myst", "html"],
-          "description": "Source format the paper was authored in."
-        },
-        "uri": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI to retrieve the source bundle (tar.gz containing all source files and figures)."
-        },
-        "rendered_pdf_uri": {
-          "type": ["string", "null"],
-          "format": "uri",
-          "description": "URI to the rendered PDF, if available."
-        },
-        "rendered_html_uri": {
-          "type": ["string", "null"],
-          "format": "uri"
-        },
-        "compile_hash": {
-          "type": ["string", "null"],
-          "description": "Hash of the source bundle for integrity verification."
-        }
-      }
-    },
     "Section": {
       "type": "object",
       "required": ["id", "type", "title", "order"],
@@ -165,124 +105,6 @@
         }
       }
     },
-    "Claim": {
-      "type": "object",
-      "required": ["id", "statement", "claim_type", "evidence_type"],
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Stable, globally unique claim ID. Once assigned, NEVER changes. Suggested: <paper_id>:<local_id>."
-        },
-        "paper_id": {
-          "type": "string",
-          "description": "ID of the paper this claim originates in. Same paper may contain many claims."
-        },
-        "statement": {
-          "type": "string",
-          "minLength": 1,
-          "description": "The claim itself, expressed as a single falsifiable assertion in natural language. Should be standalone-readable."
-        },
-        "claim_type": {
-          "type": "string",
-          "enum": ["empirical", "theoretical", "definitional", "methodological", "computational"],
-          "description": "What kind of claim this is."
-        },
-        "evidence_type": {
-          "type": "string",
-          "enum": ["proof", "experiment", "simulation", "observation", "argument", "definition", "convention"],
-          "description": "What kind of evidence supports the claim within the paper."
-        },
-        "scope": {
-          "type": "object",
-          "description": "Conditions under which the claim is asserted to hold.",
-          "properties": {
-            "models": { "type": "array", "items": { "type": "string" } },
-            "datasets": { "type": "array", "items": { "type": "string" } },
-            "regimes": { "type": "array", "items": { "type": "string" } },
-            "assumptions": { "type": "array", "items": { "type": "string" } }
-          }
-        },
-        "confidence": {
-          "type": ["object", "null"],
-          "description": "Author's stated confidence in the claim. Optional but encouraged.",
-          "properties": {
-            "point": { "type": "number", "minimum": 0, "maximum": 1 },
-            "lower": { "type": "number", "minimum": 0, "maximum": 1 },
-            "upper": { "type": "number", "minimum": 0, "maximum": 1 },
-            "rationale": { "type": "string" }
-          }
-        },
-        "depends_on": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "IDs of claims (in this or other papers) that this claim relies on. Forms the dependency edges of the claim graph."
-        },
-        "supports": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "IDs of claims that this claim is presented as evidence for."
-        },
-        "contradicts": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "IDs of claims this claim contradicts. Author asserts the contradiction; community may dispute."
-        },
-        "extends": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "replication_status": {
-          "type": "string",
-          "enum": ["untested", "partial", "replicated", "contradicted", "retracted"],
-          "default": "untested",
-          "description": "Aggregate replication status. Updated by server based on annotations."
-        },
-        "labels": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "Free-form labels (e.g. 'load-bearing', 'speculative', 'background')."
-        },
-        "source_location": {
-          "type": ["object", "null"],
-          "properties": {
-            "section_id": { "type": "string" },
-            "paragraph": { "type": ["integer", "null"] },
-            "raw_source_excerpt": { "type": ["string", "null"] }
-          }
-        },
-        "extracted_by": {
-          "type": "string",
-          "enum": ["author", "agent", "annotator"],
-          "description": "Who extracted this claim. Author-extracted claims are canonical from submission; others require confirmation."
-        },
-        "canonical": {
-          "type": "boolean",
-          "default": false,
-          "description": "True if confirmed by paper author or via quorum of credentialed annotators."
-        }
-      }
-    },
-    "Citation": {
-      "type": "object",
-      "required": ["id", "key"],
-      "properties": {
-        "id": { "type": "string" },
-        "key": { "type": "string", "description": "BibTeX key as it appears in the paper source." },
-        "target_paper_id": {
-          "type": ["string", "null"],
-          "description": "If the cited work is itself in rrvix, its paper ID."
-        },
-        "target_doi": { "type": ["string", "null"] },
-        "target_arxiv_id": { "type": ["string", "null"] },
-        "target_url": { "type": ["string", "null"], "format": "uri" },
-        "bibtex_entry": { "type": "string", "description": "Full BibTeX entry for the cited work." },
-        "referenced_in": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "IDs of sections or claims that cite this work."
-        }
-      }
-    },
     "Figure": {
       "type": "object",
       "required": ["id", "label"],
@@ -292,53 +114,6 @@
         "caption": { "type": "string" },
         "uri": { "type": ["string", "null"], "format": "uri", "description": "URI to the figure file (PDF, PNG, SVG)." },
         "referenced_in": {
-          "type": "array",
-          "items": { "type": "string" }
-        }
-      }
-    },
-    "Annotation": {
-      "type": "object",
-      "required": ["id", "target_id", "target_type", "annotation_type", "content", "created_at", "created_by"],
-      "properties": {
-        "id": { "type": "string" },
-        "target_id": { "type": "string", "description": "ID of the paper, section, or claim this annotation is attached to." },
-        "target_type": {
-          "type": "string",
-          "enum": ["paper", "section", "claim", "figure", "annotation"]
-        },
-        "annotation_type": {
-          "type": "string",
-          "enum": ["replication", "contradiction", "extension", "erratum", "summary", "comment", "code_link", "dataset_link", "claim_extraction"]
-        },
-        "content": { "type": "string" },
-        "evidence_links": {
-          "type": "array",
-          "items": { "type": "string", "format": "uri" }
-        },
-        "structured_payload": {
-          "type": ["object", "null"],
-          "description": "Type-specific structured data. Schema varies by annotation_type."
-        },
-        "created_at": { "type": "string", "format": "date-time" },
-        "created_by": {
-          "type": "object",
-          "required": ["identity_type", "identity"],
-          "properties": {
-            "identity_type": { "type": "string", "enum": ["orcid", "agent", "anonymous"] },
-            "identity": { "type": "string" }
-          }
-        },
-        "domain_karma": {
-          "type": ["number", "null"],
-          "description": "Author's karma in the relevant domain at time of submission. Server-set."
-        },
-        "verified_by": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "Identifiers of users/agents who have verified this annotation."
-        },
-        "disputed_by": {
           "type": "array",
           "items": { "type": "string" }
         }
