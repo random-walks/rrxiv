@@ -1,0 +1,13 @@
+{
+  "rrvix_version": "0.1.0",
+  "version": "v1",
+  "title": "Missing ID",
+  "authors": [{ "name": "A. Author" }],
+  "abstract": "An abstract.",
+  "submitted_at": "2026-05-04T12:00:00Z",
+  "license": "CC-BY-4.0",
+  "source": {
+    "format": "latex",
+    "uri": "https://example.org/paper.tar.gz"
+  }
+}

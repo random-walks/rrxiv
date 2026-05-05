@@ -1,0 +1,18 @@
+{
+  "rrvix_version": "0.1.0",
+  "id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f",
+  "version": "v1",
+  "title": "CIR with an invalid claim (claim_type vibes-based, evidence_type missing)",
+  "authors": [{ "name": "A. Author" }],
+  "abstract": "An abstract.",
+  "submitted_at": "2026-05-04T12:00:00Z",
+  "license": "CC-BY-4.0",
+  "source": { "format": "latex", "uri": "https://example.org/paper.tar.gz" },
+  "claims": [
+    {
+      "id": "01923f8e:bad",
+      "statement": "Bad claim",
+      "claim_type": "vibes-based"
+    }
+  ]
+}

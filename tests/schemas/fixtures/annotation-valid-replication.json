@@ -1,0 +1,18 @@
+{
+  "id": "ann-01",
+  "target_id": "01923f8e:queryability",
+  "target_type": "claim",
+  "annotation_type": "replication",
+  "content": "Reproduced against a 10k-paper corpus; results match within tolerance.",
+  "evidence_links": ["https://github.com/example/rrvix-replication-001"],
+  "structured_payload": {
+    "outcome": "supports",
+    "method": "computational",
+    "n": 10000
+  },
+  "created_at": "2026-06-01T08:30:00Z",
+  "created_by": {
+    "identity_type": "orcid",
+    "identity": "0000-0001-2345-6789"
+  }
+}

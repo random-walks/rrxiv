@@ -1,0 +1,9 @@
+{
+  "id": "cite-01",
+  "key": "tao2024",
+  "target_arxiv_id": "2404.12345",
+  "target_url": "https://arxiv.org/abs/2404.12345",
+  "bibtex_entry": "@article{tao2024,\n  author = {Tao, Terence},\n  title = {Example title},\n  year = {2024},\n  eprint = {2404.12345},\n  archivePrefix = {arXiv}\n}",
+  "referenced_in": ["01923f8e:queryability"],
+  "is_self_citation": false
+}

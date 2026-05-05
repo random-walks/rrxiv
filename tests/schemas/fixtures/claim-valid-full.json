@@ -1,0 +1,32 @@
+{
+  "id": "01923f8e:queryability",
+  "paper_id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f",
+  "statement": "A protocol that exposes claims as first-class structured entities is queryable by agents in ways an unstructured PDF corpus is not.",
+  "claim_type": "theoretical",
+  "evidence_type": "argument",
+  "scope": {
+    "models": ["transformer-LLM"],
+    "datasets": ["rrvix-corpus"],
+    "regimes": ["read-mostly"],
+    "assumptions": ["claim graph is acyclic at the paper level"]
+  },
+  "confidence": {
+    "point": 0.85,
+    "lower": 0.7,
+    "upper": 0.95,
+    "rationale": "Argument from analogy to Wikipedia's structured corpus."
+  },
+  "depends_on": ["01923f8e:volume-structure"],
+  "supports": [],
+  "contradicts": [],
+  "extends": [],
+  "replication_status": "untested",
+  "labels": ["load-bearing"],
+  "source_location": {
+    "section_id": "sec:queryability",
+    "paragraph": 0,
+    "raw_source_excerpt": "We claim that..."
+  },
+  "extracted_by": "author",
+  "canonical": true
+}

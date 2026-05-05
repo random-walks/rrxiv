@@ -1,0 +1,14 @@
+{
+  "name": "rrvix-schema-tests",
+  "version": "0.0.0",
+  "private": true,
+  "description": "JSON Schema validation tests for rrvix schemas.",
+  "type": "module",
+  "scripts": {
+    "test": "node test.mjs"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

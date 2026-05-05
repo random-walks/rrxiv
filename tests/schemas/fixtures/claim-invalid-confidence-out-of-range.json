@@ -1,0 +1,9 @@
+{
+  "id": "01923f8e:c1",
+  "statement": "An assertion.",
+  "claim_type": "theoretical",
+  "evidence_type": "argument",
+  "confidence": {
+    "point": 1.5
+  }
+}

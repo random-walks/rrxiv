@@ -1,0 +1,6 @@
+{
+  "id": "cite-02",
+  "key": "smith2023",
+  "target_doi": "10.1234/example.5678",
+  "bibtex_entry": "@article{smith2023, author = {Smith, J.}, title = {Foo}, year = {2023}, doi = {10.1234/example.5678}}"
+}
