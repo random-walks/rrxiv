@@ -95,9 +95,9 @@ Declare typed edges between claims with no visible output:
 \contradicts{my-paper-0001:claim:foo}{another-paper:claim:opposite}
 ```
 
-Each emits a `RRVIX:edge:<type>:<src>:<dst>` marker the parser turns into a graph edge. The IDs follow the `<paper_id>:<label>` convention. Cross-paper edges are first-class — declare them whenever a claim of yours depends on, supports, extends, or contradicts a claim from another rrvix paper.
+Each emits a `RRVIX:edge:<type>:<src>|<dst>` marker the parser turns into a graph edge. The IDs follow the `<paper_id>:<label>` convention. Cross-paper edges are first-class — declare them whenever a claim of yours depends on, supports, extends, or contradicts a claim from another rrvix paper.
 
-> **v0.1 known limitation.** The colon-joined edge marker is ambiguous when source/target IDs themselves contain colons (which the canonical `<paper>:claim:<label>` convention guarantees). The parser uses a midpoint-split heuristic; this works for the canonical shape but breaks on degenerate cases. A future RRP will change the cls to use a non-`:` delimiter.
+The `|` separator was introduced in cls v0.2 (per [RRP-0002](../proposals/0002-edge-marker-delimiter.md)). v0.1 used `:` to join src and dst, which was ambiguous for IDs that themselves contained colons. The reference parser still accepts the v0.1 format with a `DeprecationWarning`; recompile any v0.1-era papers with the v0.2 cls to clear the warning.
 
 ## Compilation
 
