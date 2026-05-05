@@ -12,6 +12,10 @@
 # But DO commit the .pdf since it's a release artifact (optional - your call)
 # *.pdf
 
+# Track sidecar files inside the conformance suite (otherwise *.aux above
+# matches *.rrvix.aux and the suite ships without its expected sidecars).
+!tests/conformance/fixtures/**/*.rrvix.aux
+
 # Schema validation cache
 .schema-cache/
 
