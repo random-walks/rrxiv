@@ -1,6 +1,6 @@
 # RRP-0002 — Edge marker delimiter in `rrvix.cls`
 
-- **Status:** Draft
+- **Status:** Accepted
 - **Champion:** rrvix maintainers
 - **Created:** 2026-05-05
 - **Last updated:** 2026-05-05
@@ -154,3 +154,4 @@ A PR will follow this RRP touching:
 ## Changelog
 
 - **2026-05-05**: Created. Status: Draft.
+- **2026-05-05**: Accepted. cls bumped to v0.2; reference parser updated with v0.1 fallback + DeprecationWarning. Implementation PRs: rrvix-python#4 (parser), rrvix#7 (cls).

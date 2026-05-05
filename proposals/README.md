@@ -93,6 +93,6 @@ Disputes that maintainers cannot resolve fall back to the dispute-resolution pro
 |-----|-------|--------|
 | [0000](0000-template.md) | Template | Permanent |
 | [0001](0001-claim-graph.md) | Claim graph design (retroactive) | Accepted |
-| [0002](0002-edge-marker-delimiter.md) | Edge marker delimiter in `rrvix.cls` | Draft |
+| [0002](0002-edge-marker-delimiter.md) | Edge marker delimiter in `rrvix.cls` | Accepted |
 
 New RRPs should be added to this table as part of the same PR.

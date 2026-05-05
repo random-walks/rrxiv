@@ -1,15 +1,19 @@
-% rrvix.cls -- rrvix paper class v0.1
+% rrvix.cls -- rrvix paper class v0.2
 %
 % Provides a LaTeX class for rrvix submissions. Extends `article` with
 % semantic environments that the rrvix parser extracts into the Canonical
 % Intermediate Representation (CIR) without requiring post-hoc OCR.
 %
-% Status: v0.1, dogfooded by the rrvix whitepaper itself.
+% v0.2 (RRP-0002): edge marker delimiter changed from `:` to `|` to
+% disambiguate edges whose source/target IDs themselves contain colons
+% (which the canonical <paper_id>:claim:<label> convention guarantees).
+% Parsers that recognise the v0.1 format continue to work; the rrvix
+% reference parser emits a DeprecationWarning when it sees one.
 %
 % License: MIT.
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{rrvix}[2026/05/04 v0.1 rrvix paper class]
+\ProvidesClass{rrvix}[2026/05/05 v0.2 rrvix paper class]
 
 % Pass options to article
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -130,10 +134,11 @@
 % These declare typed edges between claims without producing visual output.
 % They emit sidecar markers only.
 
-\newcommand{\dependson}[2]{\immediate\write\rrvix@sidecar{RRVIX:edge:depends_on:#1:#2}}
-\newcommand{\contradicts}[2]{\immediate\write\rrvix@sidecar{RRVIX:edge:contradicts:#1:#2}}
-\newcommand{\extendsclaim}[2]{\immediate\write\rrvix@sidecar{RRVIX:edge:extends:#1:#2}}
-\newcommand{\supports}[2]{\immediate\write\rrvix@sidecar{RRVIX:edge:supports:#1:#2}}
+% v0.2: edge marker uses `|` between src and dst (RRP-0002).
+\newcommand{\dependson}[2]{\immediate\write\rrvix@sidecar{RRVIX:edge:depends_on:#1|#2}}
+\newcommand{\contradicts}[2]{\immediate\write\rrvix@sidecar{RRVIX:edge:contradicts:#1|#2}}
+\newcommand{\extendsclaim}[2]{\immediate\write\rrvix@sidecar{RRVIX:edge:extends:#1|#2}}
+\newcommand{\supports}[2]{\immediate\write\rrvix@sidecar{RRVIX:edge:supports:#1|#2}}
 
 % ---- Convenience macros consistent with common math notation ----
 \newcommand{\R}{\mathbb{R}}

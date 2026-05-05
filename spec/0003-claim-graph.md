@@ -141,7 +141,6 @@ Authors *can* set initial `labels` in the source; servers may override based on 
 ## Open questions for v0.2
 
 - **Edge declaration ergonomics in source.** The current `\dependson{src}{dst}` requires explicit IDs, which is verbose. A `[depends-on=other-paper:claim:foo]` argument on `\begin{claim}` would be cleaner.
-- **Edge format ambiguity.** The v0.1 sidecar uses `:` to join edge fields, but `:` also appears within claim IDs. The parser uses a midpoint-split heuristic that works for canonical IDs but fails on degenerate cases. A non-`:` separator in the cls is an obvious fix; track via RRP.
 - **Graph query language.** v0.1 ships with no specified query language. The API will expose primitive walks (`/claims/{id}/depends-on?depth=2`). Whether to adopt Cypher / GraphQL / SPARQL or a bespoke DSL is a Phase-1 RRP.
 - **Cross-paper edge integrity.** What happens when a paper claims `depends_on` an external claim ID that doesn't exist? v0.1: edge is preserved but flagged. A v0.2 RRP should specify resolution (lazy verification at query time vs. eager rejection at submission).
 
