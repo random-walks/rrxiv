@@ -11,11 +11,16 @@ JSON Schema 2020-12 definitions for the rrvix protocol data model.
 | [`claim.schema.json`](claim.schema.json)      | Claim                                  | `https://rrvix.org/schema/v0/claim.schema.json`      |
 | [`annotation.schema.json`](annotation.schema.json) | Annotation                          | `https://rrvix.org/schema/v0/annotation.schema.json` |
 | [`citation.schema.json`](citation.schema.json) | Citation                               | `https://rrvix.org/schema/v0/citation.schema.json`   |
+| [`api.openapi.yaml`](api.openapi.yaml)        | HTTP API (OpenAPI 3.1)                 | (operationId-prefixed paths)                         |
 
 `cir.schema.json` references the standalone schemas via `$ref`. The standalone
 schemas are independently usable for endpoints that return only one kind of
 object (e.g. `GET /api/v0/papers/{id}` returns a Paper, `GET /api/v0/claims/{id}`
 returns a Claim).
+
+`api.openapi.yaml` is the OpenAPI 3.1 sketch of the HTTP API. See
+[`../spec/0007-api.md`](../spec/0007-api.md) for the prose companion explaining
+endpoint design choices.
 
 ## Composition
 
