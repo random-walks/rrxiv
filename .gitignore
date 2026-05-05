@@ -1,0 +1,22 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# But DO commit the .pdf since it's a release artifact (optional - your call)
+# *.pdf
+
+# Schema validation cache
+.schema-cache/
+
+# Editor and OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
