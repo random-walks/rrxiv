@@ -1,0 +1,35 @@
+% contradicts.tex — fixture: paper that uses \contradicts (less-common edge).
+%
+% Purpose: exercise the contradicts edge specifically — the most
+% consequential edge type per spec/0003-claim-graph.md.
+
+\documentclass{rrxiv}
+
+\rrxivid{rrxiv-fixture-contradicts}
+\rrxivversion{v1}
+\rrxivprotocolversion{0.1.0}
+\rrxivlicense{CC-BY-4.0}
+\rrxivtopics{example,conformance}
+
+\title{Conformance fixture: paper with a contradicts edge}
+\author{rrxiv Project}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A single claim that contradicts a claim from another paper. Tests the
+contradicts edge's appearance in the CIR's claim record.
+\end{abstract}
+
+\section{The contradicting claim}
+
+\begin{claim}[Counter to a prior result]
+\label{claim:counter}
+A claim asserting that a previously-stated result does not hold under
+the broader regime considered here.
+\end{claim}
+
+\contradicts{rrxiv-fixture-contradicts:claim:counter}{prior-paper:claim:original-result}
+
+\end{document}

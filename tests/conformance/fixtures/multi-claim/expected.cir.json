@@ -1,0 +1,76 @@
+{
+  "rrxiv_version": "0.1.0",
+  "id": "rrxiv-fixture-multi-claim",
+  "version": "v1",
+  "title": "Conformance fixture: multi-claim paper",
+  "authors": [
+    {
+      "name": "rrxiv Project",
+      "is_agent": false
+    }
+  ],
+  "abstract": "Three claims of three different types (theoretical, empirical,\nmethodological) so the parser's ordinal-pairing can be exercised\nwithout any inline edges complicating the picture.",
+  "submitted_at": "2026-05-05T17:48:10.325146Z",
+  "license": "CC-BY-4.0",
+  "topics": [
+    "example",
+    "conformance"
+  ],
+  "source": {
+    "format": "latex",
+    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrvix-dev-workspace/repos/rrxiv/tests/conformance/fixtures/multi-claim/multi-claim.tex"
+  },
+  "sections": [
+    {
+      "id": "claim:existence",
+      "type": "section",
+      "title": "Theoretical claim",
+      "order": 0
+    },
+    {
+      "id": "claim:volume",
+      "type": "section",
+      "title": "Empirical claim",
+      "order": 1
+    },
+    {
+      "id": "claim:pairing",
+      "type": "section",
+      "title": "Methodological claim",
+      "order": 2
+    }
+  ],
+  "claims": [
+    {
+      "id": "rrxiv-fixture-multi-claim:claim:existence",
+      "paper_id": "rrxiv-fixture-multi-claim",
+      "statement": "There exists at least one rrxiv paper with three or more semantic\nenvironments of the same kind.",
+      "claim_type": "theoretical",
+      "evidence_type": "argument",
+      "replication_status": "untested",
+      "extracted_by": "author",
+      "canonical": true
+    },
+    {
+      "id": "rrxiv-fixture-multi-claim:claim:volume",
+      "paper_id": "rrxiv-fixture-multi-claim",
+      "statement": "The number of rrxiv papers grows monotonically with time once\nsubmissions are accepted.",
+      "claim_type": "theoretical",
+      "evidence_type": "argument",
+      "replication_status": "untested",
+      "extracted_by": "author",
+      "canonical": true
+    },
+    {
+      "id": "rrxiv-fixture-multi-claim:claim:pairing",
+      "paper_id": "rrxiv-fixture-multi-claim",
+      "statement": "The Nth claim environment block in source pairs with the Nth\nRRXIV:claim:N marker in the emitted sidecar.",
+      "claim_type": "theoretical",
+      "evidence_type": "argument",
+      "replication_status": "untested",
+      "extracted_by": "author",
+      "canonical": true
+    }
+  ],
+  "annotations": []
+}

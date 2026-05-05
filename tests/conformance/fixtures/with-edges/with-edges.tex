@@ -1,0 +1,55 @@
+% with-edges.tex — fixture: paper that uses every edge type.
+%
+% Purpose: exercise the v0.2 pipe-format edge markers (RRP-0002).
+
+\documentclass{rrxiv}
+
+\rrxivid{rrxiv-fixture-with-edges}
+\rrxivversion{v1}
+\rrxivprotocolversion{0.1.0}
+\rrxivlicense{CC-BY-4.0}
+\rrxivtopics{example,conformance}
+
+\title{Conformance fixture: paper with all four edge kinds}
+\author{rrxiv Project}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Three claims plus four inline edges that cover every edge kind:
+\texttt{depends\_on}, \texttt{supports}, \texttt{extends}, and
+\texttt{contradicts}.
+\end{abstract}
+
+\section{Foundation}
+
+\begin{claim}[Foundation claim]
+\label{claim:foundation}
+A foundational claim other claims will reference.
+\end{claim}
+
+\section{Derived claims}
+
+\begin{claim}[Depends on the foundation]
+\label{claim:derived}
+A claim that builds on the foundation. The dependency is declared
+explicitly via \texttt{\textbackslash dependson}.
+\end{claim}
+
+\dependson{rrxiv-fixture-with-edges:claim:derived}{rrxiv-fixture-with-edges:claim:foundation}
+
+\begin{claim}[Supports the foundation]
+\label{claim:replication}
+A claim that supports the foundation as a kind of replication.
+\end{claim}
+
+\supports{rrxiv-fixture-with-edges:claim:replication}{rrxiv-fixture-with-edges:claim:foundation}
+
+\section{Cross-paper edges}
+
+\extendsclaim{rrxiv-fixture-with-edges:claim:foundation}{rrxiv-0001:claim:queryability}
+
+\contradicts{rrxiv-fixture-with-edges:claim:derived}{some-other-paper:claim:opposite}
+
+\end{document}
