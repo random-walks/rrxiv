@@ -101,6 +101,9 @@ nav:
     - 0008 — Governance: spec/0008-governance.md
   - Proposals:
     - proposals/index.md
+    - 0000 — Template: proposals/0000-template.md
+    - 0001 — Claim graph (retroactive): proposals/0001-claim-graph.md
+    - 0002 — Edge marker delimiter: proposals/0002-edge-marker-delimiter.md
   - Contributing:
     - contributing/index.md
     - Code of Conduct: contributing/code-of-conduct.md
