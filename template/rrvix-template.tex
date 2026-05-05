@@ -1,0 +1,142 @@
+% rrvix-template.tex — skeleton paper demonstrating every rrvix.cls feature.
+%
+% Compile with:
+%   tectonic --keep-intermediates rrvix-template.tex
+%   # or: pdflatex rrvix-template.tex && pdflatex rrvix-template.tex
+%
+% Replace the metadata, authors, abstract, and content with your own.
+% Keep at least one claim, one evidence block, and one citation so the
+% template paper itself parses to a non-trivial CIR.
+
+\documentclass{rrvix}
+
+% ---- Required rrvix metadata ----
+\rrvixid{my-paper-0001}
+\rrvixversion{v1}
+\rrvixprotocolversion{0.1.0}
+\rrvixlicense{CC-BY-4.0}
+\rrvixtopics{example-topic,scientific-publishing}
+
+% ---- Standard LaTeX metadata ----
+\title{Title of the paper, as a single falsifiable claim if possible}
+
+\author[1]{First Author}
+\author[2]{Second Author}
+
+\affil[1]{Department of X, University Y}
+\affil[2]{Independent}
+
+\date{2026-05-04}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A short, plain-text abstract. Math can be inline like $E = mc^2$, but
+pretend the parser ignores math when extracting the abstract for the CIR.
+The abstract is one of the few non-environment fields the parser cares
+about, so keep it standalone-readable.
+\end{abstract}
+
+% ============================================================
+\section{Introduction}
+\label{sec:intro}
+% ============================================================
+
+Open with the motivation in a few paragraphs. State what's new and why a
+reader should care. Cite prior work: \cite{example-prior-work}.
+
+\begin{rrvixremark}[Optional remarks]
+\label{rem:context}
+Use \texttt{rrvixremark} for asides, methodological notes, or design
+context that don't constitute claims. The parser captures them as
+\texttt{remark} nodes, separate from the claim graph.
+\end{rrvixremark}
+
+% ============================================================
+\section{Setup and definitions}
+\label{sec:setup}
+% ============================================================
+
+\begin{scope}[Conditions under which the claims below hold]
+\label{scope:main}
+Use \texttt{scope} environments to declare the regime, models, datasets,
+or assumptions your claims depend on. The parser maps the body to the
+\texttt{scope} field of every claim emitted between this scope and the
+next one.
+\end{scope}
+
+\begin{observation}[A factual observation, no claim attached]
+\label{obs:setup}
+Observations are factual or empirical statements you make in passing
+without asserting them as the paper's main contribution. They get a
+node in the CIR but are typed differently from claims.
+\end{observation}
+
+% ============================================================
+\section{Main results}
+\label{sec:results}
+% ============================================================
+
+\begin{claim}[A single load-bearing assertion]
+\label{claim:main}
+State the claim as a single falsifiable assertion in plain language.
+A reader should be able to read this paragraph in isolation and know
+what is being asserted, with no reference to surrounding context.
+\end{claim}
+
+\begin{evidence}[Evidence for claim:main]
+\label{ev:main}
+Sketch or describe the evidence that supports the claim above. The
+parser pairs the most recent \texttt{claim} with the next
+\texttt{evidence} block by default; cross-paper supports relations
+should use the \texttt{\textbackslash supports} edge below.
+\end{evidence}
+
+% Inline edge: this claim depends on a prior claim in another paper.
+\dependson{my-paper-0001:claim:main}{rrvix-0001:claim:queryability}
+
+% Inline edge: this claim supports a follow-on claim.
+\supports{my-paper-0001:claim:main}{my-paper-0001:claim:secondary}
+
+\begin{claim}[A secondary claim that builds on the main one]
+\label{claim:secondary}
+A second claim. Note the inline \texttt{\textbackslash supports} edge
+above declares this claim is supported by \texttt{claim:main}.
+\end{claim}
+
+% ============================================================
+\section{Discussion}
+\label{sec:discussion}
+% ============================================================
+
+\begin{openquestion}[Something this paper does not resolve]
+\label{oq:scaling}
+Open questions are first-class in the CIR. Use them when you want to
+flag what your paper does not address but a future paper or annotation
+might.
+\end{openquestion}
+
+% Inline edge: this paper extends a claim from another paper.
+\extendsclaim{my-paper-0001:claim:main}{some-foundational-paper:claim:base-result}
+
+% Inline edge: this paper contradicts a claim from another paper.
+% Use sparingly; the parser flags contradictions for community review.
+% \contradicts{my-paper-0001:claim:main}{some-paper:claim:opposite-result}
+
+% ============================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% ============================================================
+
+A paragraph or two summarising the contribution. Restate the main claim
+and where it fits in the literature.
+
+% ============================================================
+% Bibliography
+% ============================================================
+
+\bibliographystyle{plainnat}
+\bibliography{rrvix-template}
+
+\end{document}
