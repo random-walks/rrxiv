@@ -1,21 +1,21 @@
-% rrvix-template.tex — skeleton paper demonstrating every rrvix.cls feature.
+% rrxiv-template.tex — skeleton paper demonstrating every rrxiv.cls feature.
 %
 % Compile with:
-%   tectonic --keep-intermediates rrvix-template.tex
-%   # or: pdflatex rrvix-template.tex && pdflatex rrvix-template.tex
+%   tectonic --keep-intermediates rrxiv-template.tex
+%   # or: pdflatex rrxiv-template.tex && pdflatex rrxiv-template.tex
 %
 % Replace the metadata, authors, abstract, and content with your own.
 % Keep at least one claim, one evidence block, and one citation so the
 % template paper itself parses to a non-trivial CIR.
 
-\documentclass{rrvix}
+\documentclass{rrxiv}
 
-% ---- Required rrvix metadata ----
-\rrvixid{my-paper-0001}
-\rrvixversion{v1}
-\rrvixprotocolversion{0.1.0}
-\rrvixlicense{CC-BY-4.0}
-\rrvixtopics{example-topic,scientific-publishing}
+% ---- Required rrxiv metadata ----
+\rrxivid{my-paper-0001}
+\rrxivversion{v1}
+\rrxivprotocolversion{0.1.0}
+\rrxivlicense{CC-BY-4.0}
+\rrxivtopics{example-topic,scientific-publishing}
 
 % ---- Standard LaTeX metadata ----
 \title{Title of the paper, as a single falsifiable claim if possible}
@@ -46,12 +46,12 @@ about, so keep it standalone-readable.
 Open with the motivation in a few paragraphs. State what's new and why a
 reader should care. Cite prior work: \cite{example-prior-work}.
 
-\begin{rrvixremark}[Optional remarks]
+\begin{rrxivremark}[Optional remarks]
 \label{rem:context}
-Use \texttt{rrvixremark} for asides, methodological notes, or design
+Use \texttt{rrxivremark} for asides, methodological notes, or design
 context that don't constitute claims. The parser captures them as
 \texttt{remark} nodes, separate from the claim graph.
-\end{rrvixremark}
+\end{rrxivremark}
 
 % ============================================================
 \section{Setup and definitions}
@@ -94,7 +94,7 @@ should use the \texttt{\textbackslash supports} edge below.
 \end{evidence}
 
 % Inline edge: this claim depends on a prior claim in another paper.
-\dependson{my-paper-0001:claim:main}{rrvix-0001:claim:queryability}
+\dependson{my-paper-0001:claim:main}{rrxiv-0001:claim:queryability}
 
 % Inline edge: this claim supports a follow-on claim.
 \supports{my-paper-0001:claim:main}{my-paper-0001:claim:secondary}
@@ -137,6 +137,6 @@ and where it fits in the literature.
 % ============================================================
 
 \bibliographystyle{plainnat}
-\bibliography{rrvix-template}
+\bibliography{rrxiv-template}
 
 \end{document}

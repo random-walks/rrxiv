@@ -6,7 +6,7 @@
   "evidence_type": "argument",
   "scope": {
     "models": ["transformer-LLM"],
-    "datasets": ["rrvix-corpus"],
+    "datasets": ["rrxiv-corpus"],
     "regimes": ["read-mostly"],
     "assumptions": ["claim graph is acyclic at the paper level"]
   },

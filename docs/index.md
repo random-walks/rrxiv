@@ -1,25 +1,25 @@
 ---
-title: rrvix
+title: rrxiv
 description: An open protocol for research preprints in the era of human-agent coproduction.
 hide:
   - navigation
 ---
 
-# rrvix
+# rrxiv
 
 > An open protocol for research preprints and structured scientific knowledge,
 > designed for the era where both humans and AI agents are heavy producers and
 > consumers of research.
 
 !!! warning "Phase 0 — pre-launch"
-    rrvix is in active design. This site is the working draft of the protocol.
+    rrxiv is in active design. This site is the working draft of the protocol.
     Schemas, spec documents, and the LaTeX class are all v0.x. Nothing here is
     stable yet. See [BOOTSTRAP](protocol/bootstrap.md) for the roadmap.
 
 ## The core insight
 
 A research paper is not the right atomic unit. Papers contain many claims of
-varying evidentiary status. rrvix keeps papers immutable (so citation works)
+varying evidentiary status. rrxiv keeps papers immutable (so citation works)
 but layers a structured representation of their claims, with explicit
 dependency edges, replication status, and annotations on top.
 
@@ -34,7 +34,7 @@ tractable query instead of a vibe.
 
     ---
 
-    The foundational design document. Itself a valid rrvix submission
+    The foundational design document. Itself a valid rrxiv submission
     (dogfooding from day one).
 
     [:octicons-arrow-right-24: Read the whitepaper](protocol/whitepaper.md)
@@ -55,7 +55,7 @@ tractable query instead of a vibe.
     JSON Schema 2020-12 files for the Canonical Intermediate
     Representation (CIR), claims, annotations, papers, and more.
 
-    [:octicons-arrow-right-24: View on GitHub](https://github.com/random-walks/rrvix/tree/main/schema)
+    [:octicons-arrow-right-24: View on GitHub](https://github.com/random-walks/rrxiv/tree/main/schema)
 
 -   :material-comment-text-outline: __Proposals (RRPs)__
 

@@ -1,10 +1,10 @@
 # RRP-0001 — Claim graph design (retroactive)
 
 - **Status:** Accepted
-- **Champion:** rrvix maintainers
+- **Champion:** rrxiv maintainers
 - **Created:** 2026-05-04
 - **Last updated:** 2026-05-04
-- **Affects:** schemas, spec docs, `rrvix.cls`
+- **Affects:** schemas, spec docs, `rrxiv.cls`
 - **Supersedes:** none
 - **Superseded by:** none
 
@@ -14,7 +14,7 @@ This RRP retroactively documents the design rationale for the claim graph — th
 
 ## Motivation
 
-The whitepaper makes the case for the claim graph at a narrative level, but the schemas and `rrvix.cls` carry binding design commitments — claim ID format, the four edge types, server-derived `replication_status` semantics, the canonical-claim distinction — that are not the whitepaper's primary subject. Future RRPs that touch any of these will want a single document to amend. Without RRP-0001, every such RRP would have to re-explain what the design *currently is* before proposing a change.
+The whitepaper makes the case for the claim graph at a narrative level, but the schemas and `rrxiv.cls` carry binding design commitments — claim ID format, the four edge types, server-derived `replication_status` semantics, the canonical-claim distinction — that are not the whitepaper's primary subject. Future RRPs that touch any of these will want a single document to amend. Without RRP-0001, every such RRP would have to re-explain what the design *currently is* before proposing a change.
 
 This RRP also formally adopts the design as the protocol's first concrete commitment beyond the locked principles in `spec/0008-governance.md`. From this point forward, changes to the claim graph go through the RRP process; this RRP is the baseline they amend.
 
@@ -76,11 +76,11 @@ Rejected. Paper-level citations are universal academic plumbing; we keep them. T
 
 ## Drawbacks
 
-- **Authoring friction.** Authors must write `\begin{claim}` blocks, declare edges with `\dependson{}`, and choose meaningful `\label{}`s. This is more work than dumping prose. The mitigation is good template ergonomics (see `template/rrvix-template.tex`) and tooling that lints for missing labels.
+- **Authoring friction.** Authors must write `\begin{claim}` blocks, declare edges with `\dependson{}`, and choose meaningful `\label{}`s. This is more work than dumping prose. The mitigation is good template ergonomics (see `template/rrxiv-template.tex`) and tooling that lints for missing labels.
 - **Edge declaration is currently verbose.** `\dependson{paper-id:claim:foo}{other-paper:claim:bar}` requires both IDs spelled out. A future RRP could allow `[depends-on=...]` as an environment argument.
 - **Minimal taxonomy may be too minimal.** Some real-world relationships don't fit cleanly into the four types. Authors will compress; the compression loses information.
 - **Cross-paper edge integrity is not enforced at submission time.** A paper can declare `\dependson{X}{nonexistent-id}`. v0.1 stores the edge and flags it; there's no resolve-at-submission check yet.
-- **The colon ambiguity in the v0.1 sidecar.** Edge markers `RRVIX:edge:<type>:<src>:<dst>` are colon-joined, but `:` is also the conventional separator inside IDs. The parser uses a midpoint-split heuristic. RRP-0002 (draft) addresses this directly.
+- **The colon ambiguity in the v0.1 sidecar.** Edge markers `RRXIV:edge:<type>:<src>:<dst>` are colon-joined, but `:` is also the conventional separator inside IDs. The parser uses a midpoint-split heuristic. RRP-0002 (draft) addresses this directly.
 
 ## Impact on existing code and content
 
@@ -88,7 +88,7 @@ This RRP describes the existing v0.1 design. No code or schema changes follow fr
 
 - [`schema/claim.schema.json`](../schema/claim.schema.json)
 - [`schema/cir.schema.json`](../schema/cir.schema.json) (claim graph edges live in `claim` records' `depends_on` / `supports` / `contradicts` / `extends` fields)
-- [`template/rrvix.cls`](../template/rrvix.cls) (environments and edge macros)
+- [`template/rrxiv.cls`](../template/rrxiv.cls) (environments and edge macros)
 - [`spec/0003-claim-graph.md`](../spec/0003-claim-graph.md) (prose spec)
 
 ## Open questions
@@ -103,12 +103,12 @@ This RRP describes the existing v0.1 design. No code or schema changes follow fr
 The v0.1 reference implementations are:
 
 - **Schema**: `schema/claim.schema.json` and `schema/cir.schema.json` — JSON Schema 2020-12.
-- **`rrvix.cls`**: `template/rrvix.cls` — emits sidecar markers on environment opens and inline edge declarations.
-- **Parser**: `rrvix-python/src/rrvix/parser/` — reads .tex source plus sidecar, builds CIR, validates against the schemas.
+- **`rrxiv.cls`**: `template/rrxiv.cls` — emits sidecar markers on environment opens and inline edge declarations.
+- **Parser**: `rrxiv-python/src/rrxiv/parser/` — reads .tex source plus sidecar, builds CIR, validates against the schemas.
 
 ## References
 
-- The rrvix whitepaper (`whitepaper/rrvix-whitepaper.tex`), v0.1.
+- The rrxiv whitepaper (`whitepaper/rrxiv-whitepaper.tex`), v0.1.
 - [`spec/0001-overview.md`](../spec/0001-overview.md), [`spec/0002-cir.md`](../spec/0002-cir.md), [`spec/0003-claim-graph.md`](../spec/0003-claim-graph.md).
 - Prior art: IETF RFC numbering and lifecycle; Bitcoin BIP process; Python PEP process; the W3C TAG findings on multi-stakeholder protocol design.
 

@@ -6,7 +6,7 @@
 
 ## What annotations are
 
-An **annotation** is a post-submission attachment to any paper, section, claim, figure, or another annotation. It is the discourse layer of rrvix. Replications, contradictions, errata, summaries, code links, claim extractions, comments, extensions — all annotations, all signed, all queryable, all immutable.
+An **annotation** is a post-submission attachment to any paper, section, claim, figure, or another annotation. It is the discourse layer of rrxiv. Replications, contradictions, errata, summaries, code links, claim extractions, comments, extensions — all annotations, all signed, all queryable, all immutable.
 
 Annotations are first-class citizens of the corpus. Tools that surface "what's been said about this claim?" are doing nothing more than walking a target's annotations. The corpus's self-correction loop runs through annotations: a replication that fails produces a `replication` annotation with `outcome: contradicts`, the server's aggregator updates the target claim's `replication_status`, queryable systems see the change immediately.
 
@@ -61,7 +61,7 @@ Creates a `contradicts` edge in the claim graph (see [`0003-claim-graph.md`](000
 }
 ```
 
-If the contradicting claim is itself in rrvix, `contradicting_claim_id` is its canonical ID. If it's external, this is `null` and the `evidence_links` field carries the relevant URI.
+If the contradicting claim is itself in rrxiv, `contradicting_claim_id` is its canonical ID. If it's external, this is `null` and the `evidence_links` field carries the relevant URI.
 
 ### `extension`
 
@@ -197,7 +197,7 @@ Pending promotion, the proposed claim sits in the CIR's `claims[]` array with `c
 
 ## Anti-abuse
 
-v0.1 specifies **what** the corpus measures, not **how** it polices. The hardening rules are deferred to `0008-governance.md` and the operations playbook of any rrvix instance. Mandatory minimums:
+v0.1 specifies **what** the corpus measures, not **how** it polices. The hardening rules are deferred to `0008-governance.md` and the operations playbook of any rrxiv instance. Mandatory minimums:
 
 - Rate limits per `identity_type`. Anonymous tokens get the strictest limits; ORCID identities get the most generous; agents in between (with hard daily caps until they prove sustained good behaviour).
 - Sybil resistance via ORCID's own anti-abuse — we don't try to do better than ORCID at this layer.
@@ -206,7 +206,7 @@ v0.1 specifies **what** the corpus measures, not **how** it polices. The hardeni
 
 ## Cross-instance annotations
 
-If rrvix federates (an open question per [`0008-governance.md`](0008-governance.md)), annotations are the unit that moves between instances. The schema is designed to be transport-agnostic — there's no instance-specific identifier in the annotation record. Instances that mirror each other can exchange annotations as JSON over HTTP without translation.
+If rrxiv federates (an open question per [`0008-governance.md`](0008-governance.md)), annotations are the unit that moves between instances. The schema is designed to be transport-agnostic — there's no instance-specific identifier in the annotation record. Instances that mirror each other can exchange annotations as JSON over HTTP without translation.
 
 ## Open questions
 

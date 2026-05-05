@@ -5,7 +5,7 @@ will land alongside the first server implementation (Phase 1).
 
 ## Scope
 
-Conformance for any rrvix-compliant HTTP server. The contract:
+Conformance for any rrxiv-compliant HTTP server. The contract:
 
 1. **Implements the OpenAPI sketch** in
    [`schema/api.openapi.yaml`](../../../schema/api.openapi.yaml).

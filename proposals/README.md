@@ -1,6 +1,6 @@
-# rrvix Proposals (RRPs)
+# rrxiv Proposals (RRPs)
 
-rrvix changes substantively through **RRPs** — *rrvix Proposals*. The process is modelled on IETF RFCs, Python PEPs, and Bitcoin BIPs: anyone can submit a proposal, proposals get a stable number on first publication, and the canonical text is immutable once accepted.
+rrxiv changes substantively through **RRPs** — *rrxiv Proposals*. The process is modelled on IETF RFCs, Python PEPs, and Bitcoin BIPs: anyone can submit a proposal, proposals get a stable number on first publication, and the canonical text is immutable once accepted.
 
 ## When you need an RRP
 
@@ -78,7 +78,7 @@ See [`0000-template.md`](0000-template.md) for the canonical structure. Every RR
 
 ## Stewardship
 
-In v0, the rrvix maintainers (currently a small group named in `MAINTAINERS.md` once that file lands) make acceptance decisions. The criteria, in order:
+In v0, the rrxiv maintainers (currently a small group named in `MAINTAINERS.md` once that file lands) make acceptance decisions. The criteria, in order:
 
 1. **Compatibility with locked principles** — see [`spec/0008-governance.md`](../spec/0008-governance.md). RRPs that violate these don't proceed regardless of merit.
 2. **Coherence with existing accepted RRPs.** New RRPs should not silently undermine prior commitments.
@@ -93,6 +93,6 @@ Disputes that maintainers cannot resolve fall back to the dispute-resolution pro
 |-----|-------|--------|
 | [0000](0000-template.md) | Template | Permanent |
 | [0001](0001-claim-graph.md) | Claim graph design (retroactive) | Accepted |
-| [0002](0002-edge-marker-delimiter.md) | Edge marker delimiter in `rrvix.cls` | Accepted |
+| [0002](0002-edge-marker-delimiter.md) | Edge marker delimiter in `rrxiv.cls` | Accepted |
 
 New RRPs should be added to this table as part of the same PR.

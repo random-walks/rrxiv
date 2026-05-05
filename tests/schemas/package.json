@@ -1,8 +1,8 @@
 {
-  "name": "rrvix-schema-tests",
+  "name": "rrxiv-schema-tests",
   "version": "0.0.0",
   "private": true,
-  "description": "JSON Schema validation tests for rrvix schemas.",
+  "description": "JSON Schema validation tests for rrxiv schemas.",
   "type": "module",
   "scripts": {
     "test": "node test.mjs"

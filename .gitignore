@@ -13,8 +13,8 @@
 # *.pdf
 
 # Track sidecar files inside the conformance suite (otherwise *.aux above
-# matches *.rrvix.aux and the suite ships without its expected sidecars).
-!tests/conformance/fixtures/**/*.rrvix.aux
+# matches *.rrxiv.aux and the suite ships without its expected sidecars).
+!tests/conformance/fixtures/**/*.rrxiv.aux
 
 # Schema validation cache
 .schema-cache/

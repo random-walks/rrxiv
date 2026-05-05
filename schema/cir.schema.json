@@ -1,15 +1,15 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://rrvix.org/schema/v0/cir.schema.json",
+  "$id": "https://rrxiv.com/schema/v0/cir.schema.json",
   "title": "Canonical Intermediate Representation (CIR)",
-  "description": "The full structured representation of a rrvix paper. A Paper's metadata plus its derived structure (sections, claims, citations, figures, annotations). Extracted from TeX/Typst source by the rrvix parser. The unit of agent-readable knowledge in the rrvix corpus.",
+  "description": "The full structured representation of a rrxiv paper. A Paper's metadata plus its derived structure (sections, claims, citations, figures, annotations). Extracted from TeX/Typst source by the rrxiv parser. The unit of agent-readable knowledge in the rrxiv corpus.",
   "version": "0.1.0",
   "type": "object",
-  "required": ["rrvix_version", "id", "version", "title", "authors", "abstract", "submitted_at", "license", "source"],
+  "required": ["rrxiv_version", "id", "version", "title", "authors", "abstract", "submitted_at", "license", "source"],
   "properties": {
-    "rrvix_version": {
+    "rrxiv_version": {
       "type": "string",
-      "description": "Version of the rrvix protocol this CIR conforms to. SemVer.",
+      "description": "Version of the rrxiv protocol this CIR conforms to. SemVer.",
       "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
       "examples": ["0.1.0"]
     },
@@ -45,16 +45,16 @@
     "submitted_at": {
       "type": "string",
       "format": "date-time",
-      "description": "ISO 8601 timestamp when this version was submitted to rrvix. Set by server, immutable."
+      "description": "ISO 8601 timestamp when this version was submitted to rrxiv. Set by server, immutable."
     },
     "license": {
       "type": "string",
-      "description": "SPDX license identifier for the paper content. rrvix recommends CC-BY-4.0.",
+      "description": "SPDX license identifier for the paper content. rrxiv recommends CC-BY-4.0.",
       "examples": ["CC-BY-4.0", "CC-BY-SA-4.0", "CC0-1.0"]
     },
     "topics": {
       "type": "array",
-      "description": "Topic IDs from the rrvix controlled vocabulary. May be added or refined post-submission via annotations.",
+      "description": "Topic IDs from the rrxiv controlled vocabulary. May be added or refined post-submission via annotations.",
       "items": { "type": "string" }
     },
     "source": {

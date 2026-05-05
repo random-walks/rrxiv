@@ -5,12 +5,12 @@ on:
     branches: [main]
     paths:
       - 'whitepaper/**'
-      - 'template/rrvix.cls'
+      - 'template/rrxiv.cls'
       - '.github/workflows/compile-whitepaper.yml'
   pull_request:
     paths:
       - 'whitepaper/**'
-      - 'template/rrvix.cls'
+      - 'template/rrxiv.cls'
       - '.github/workflows/compile-whitepaper.yml'
   workflow_dispatch:
 
@@ -39,25 +39,25 @@ jobs:
 
       - name: Compile whitepaper
         working-directory: whitepaper
-        run: tectonic --keep-logs --keep-intermediates rrvix-whitepaper.tex
+        run: tectonic --keep-logs --keep-intermediates rrxiv-whitepaper.tex
 
       - name: Verify sidecar emitted
         working-directory: whitepaper
         run: |
-          test -f rrvix-whitepaper.rrvix.aux
+          test -f rrxiv-whitepaper.rrxiv.aux
           echo "Sidecar contents:"
-          cat rrvix-whitepaper.rrvix.aux
+          cat rrxiv-whitepaper.rrxiv.aux
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: rrvix-whitepaper-pdf
-          path: whitepaper/rrvix-whitepaper.pdf
+          name: rrxiv-whitepaper-pdf
+          path: whitepaper/rrxiv-whitepaper.pdf
           if-no-files-found: error
 
       - name: Upload sidecar artifact
         uses: actions/upload-artifact@v4
         with:
-          name: rrvix-whitepaper-sidecar
-          path: whitepaper/rrvix-whitepaper.rrvix.aux
+          name: rrxiv-whitepaper-sidecar
+          path: whitepaper/rrxiv-whitepaper.rrxiv.aux
           if-no-files-found: error

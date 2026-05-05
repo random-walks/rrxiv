@@ -1,23 +1,23 @@
-# `rrvix.cls` — the rrvix LaTeX class
+# `rrxiv.cls` — the rrxiv LaTeX class
 
-Use this class when authoring papers for submission to a rrvix instance. It
-provides the semantic environments that the rrvix parser extracts into the
+Use this class when authoring papers for submission to a rrxiv instance. It
+provides the semantic environments that the rrxiv parser extracts into the
 Canonical Intermediate Representation (CIR).
 
 ## Files
 
 | File                          | Role                                          |
 | ----------------------------- | --------------------------------------------- |
-| [`rrvix.cls`](rrvix.cls)      | The LaTeX class itself                        |
-| [`rrvix-template.tex`](rrvix-template.tex) | A skeleton paper using every environment      |
-| [`rrvix-template.bib`](rrvix-template.bib) | Stub bibliography for the skeleton            |
-| [`examples/minimal/`](examples/minimal/) | Smallest valid rrvix paper (parser fixture) |
+| [`rrxiv.cls`](rrxiv.cls)      | The LaTeX class itself                        |
+| [`rrxiv-template.tex`](rrxiv-template.tex) | A skeleton paper using every environment      |
+| [`rrxiv-template.bib`](rrxiv-template.bib) | Stub bibliography for the skeleton            |
+| [`examples/minimal/`](examples/minimal/) | Smallest valid rrxiv paper (parser fixture) |
 
 ## Quick start
 
 ```bash
-cp template/rrvix-template.tex my-paper.tex
-cp template/rrvix-template.bib my-paper.bib   # rename and replace entries
+cp template/rrxiv-template.tex my-paper.tex
+cp template/rrxiv-template.bib my-paper.bib   # rename and replace entries
 # edit my-paper.tex, then:
 tectonic --keep-intermediates my-paper.tex
 ```
@@ -26,12 +26,12 @@ tectonic --keep-intermediates my-paper.tex
 
 | Environment      | Sidecar marker | Purpose                                                |
 | ---------------- | -------------- | ------------------------------------------------------ |
-| `claim`          | `RRVIX:claim`  | A single falsifiable assertion                         |
-| `evidence`       | `RRVIX:evidence` | The evidence supporting the most recent claim         |
-| `observation`    | `RRVIX:observation` | A factual observation, no claim attached            |
-| `scope`          | `RRVIX:scope`  | Conditions under which following claims hold           |
-| `openquestion`   | `RRVIX:openquestion` | A question this paper does not resolve            |
-| `rrvixremark`    | `RRVIX:remark` | Aside or methodological note (not a claim)             |
+| `claim`          | `RRXIV:claim`  | A single falsifiable assertion                         |
+| `evidence`       | `RRXIV:evidence` | The evidence supporting the most recent claim         |
+| `observation`    | `RRXIV:observation` | A factual observation, no claim attached            |
+| `scope`          | `RRXIV:scope`  | Conditions under which following claims hold           |
+| `openquestion`   | `RRXIV:openquestion` | A question this paper does not resolve            |
+| `rrxivremark`    | `RRXIV:remark` | Aside or methodological note (not a claim)             |
 
 ## Inline edges
 
@@ -49,11 +49,11 @@ Each emits a sidecar marker the parser turns into a graph edge.
 ## Required metadata
 
 ```latex
-\rrvixid{my-paper-0001}            % stable paper ID
-\rrvixversion{v1}                  % paper revision
-\rrvixprotocolversion{0.1.0}       % rrvix protocol version
-\rrvixlicense{CC-BY-4.0}           % SPDX license identifier
-\rrvixtopics{topic-1,topic-2}      % comma-separated topic IDs
+\rrxivid{my-paper-0001}            % stable paper ID
+\rrxivversion{v1}                  % paper revision
+\rrxivprotocolversion{0.1.0}       % rrxiv protocol version
+\rrxivlicense{CC-BY-4.0}           % SPDX license identifier
+\rrxivtopics{topic-1,topic-2}      % comma-separated topic IDs
 ```
 
 These are emitted to the sidecar at `\begin{document}` and the parser uses
@@ -76,12 +76,12 @@ pdflatex paper.tex
 pdflatex paper.tex     # second pass for cross-references
 ```
 
-You'll get `paper.pdf` and `paper.rrvix.aux` (the sidecar metadata file the
-rrvix parser reads).
+You'll get `paper.pdf` and `paper.rrxiv.aux` (the sidecar metadata file the
+rrxiv parser reads).
 
 ## Examples
 
-- [`examples/minimal/`](examples/minimal/) — the smallest valid rrvix paper.
+- [`examples/minimal/`](examples/minimal/) — the smallest valid rrxiv paper.
   Used as a parser conformance fixture.
-- The [whitepaper](../whitepaper/rrvix-whitepaper.tex) itself is a non-trivial
+- The [whitepaper](../whitepaper/rrxiv-whitepaper.tex) itself is a non-trivial
   example that uses every environment.

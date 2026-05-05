@@ -1,18 +1,18 @@
-# 0004 — `rrvix.cls` LaTeX template
+# 0004 — `rrxiv.cls` LaTeX template
 
 **Status:** v0.1 draft.
-**Reference:** [`template/rrvix.cls`](../template/rrvix.cls).
-**Skeleton paper:** [`template/rrvix-template.tex`](../template/rrvix-template.tex).
+**Reference:** [`template/rrxiv.cls`](../template/rrxiv.cls).
+**Skeleton paper:** [`template/rrxiv-template.tex`](../template/rrxiv-template.tex).
 **Minimal example:** [`template/examples/minimal/`](../template/examples/minimal/).
 
 ## Purpose
 
-`rrvix.cls` is a thin LaTeX class layered on `article` that adds:
+`rrxiv.cls` is a thin LaTeX class layered on `article` that adds:
 
-1. **Required metadata commands** — `\rrvixid`, `\rrvixversion`, `\rrvixprotocolversion`, `\rrvixlicense`, `\rrvixtopics`. Authors set these once in the preamble.
-2. **Six semantic environments** — `claim`, `evidence`, `observation`, `scope`, `openquestion`, `rrvixremark`. These render normally in the PDF and emit structured markers in a sidecar file.
+1. **Required metadata commands** — `\rrxivid`, `\rrxivversion`, `\rrxivprotocolversion`, `\rrxivlicense`, `\rrxivtopics`. Authors set these once in the preamble.
+2. **Six semantic environments** — `claim`, `evidence`, `observation`, `scope`, `openquestion`, `rrxivremark`. These render normally in the PDF and emit structured markers in a sidecar file.
 3. **Four inline edge declarations** — `\dependson`, `\supports`, `\extendsclaim`, `\contradicts`. These produce no visible output; they only emit sidecar markers.
-4. **A sidecar `\write` channel** — every compile produces `<basename>.rrvix.aux` containing the markers. The rrvix parser reads this file to build the CIR.
+4. **A sidecar `\write` channel** — every compile produces `<basename>.rrxiv.aux` containing the markers. The rrxiv parser reads this file to build the CIR.
 
 The class is intentionally minimal. It does not theme the paper, define a custom title page, or impose a citation style. Authors layer their own preferences on top.
 
@@ -21,35 +21,35 @@ The class is intentionally minimal. It does not theme the paper, define a custom
 Set these once in the preamble:
 
 ```latex
-\rrvixid{my-paper-0001}             % stable paper ID
-\rrvixversion{v1}                   % paper revision
-\rrvixprotocolversion{0.1.0}        % rrvix protocol version
-\rrvixlicense{CC-BY-4.0}            % SPDX license identifier
-\rrvixtopics{topic-1,topic-2}       % comma-separated topic IDs
+\rrxivid{my-paper-0001}             % stable paper ID
+\rrxivversion{v1}                   % paper revision
+\rrxivprotocolversion{0.1.0}        % rrxiv protocol version
+\rrxivlicense{CC-BY-4.0}            % SPDX license identifier
+\rrxivtopics{topic-1,topic-2}       % comma-separated topic IDs
 ```
 
 The class emits these to the sidecar at `\begin{document}`. They populate the CIR's top-level metadata fields.
 
 | Command | Sidecar marker | CIR field |
 |---------|----------------|-----------|
-| `\rrvixid{X}` | `RRVIX:meta:id:X` | `id` |
-| `\rrvixversion{X}` | `RRVIX:meta:version:X` | `version` |
-| `\rrvixprotocolversion{X}` | `RRVIX:meta:protocol:X` | `rrvix_version` |
-| `\rrvixlicense{X}` | `RRVIX:meta:license:X` | `license` |
-| `\rrvixtopics{X}` | `RRVIX:meta:topics:X` | `topics` (comma-split) |
+| `\rrxivid{X}` | `RRXIV:meta:id:X` | `id` |
+| `\rrxivversion{X}` | `RRXIV:meta:version:X` | `version` |
+| `\rrxivprotocolversion{X}` | `RRXIV:meta:protocol:X` | `rrxiv_version` |
+| `\rrxivlicense{X}` | `RRXIV:meta:license:X` | `license` |
+| `\rrxivtopics{X}` | `RRXIV:meta:topics:X` | `topics` (comma-split) |
 
-`\rrvixid` and `\rrvixversion` are required. The others have defaults (`v1`, `0.1.0`, `CC-BY-4.0`, empty topics) but explicit declaration is recommended.
+`\rrxivid` and `\rrxivversion` are required. The others have defaults (`v1`, `0.1.0`, `CC-BY-4.0`, empty topics) but explicit declaration is recommended.
 
 ## Semantic environments
 
 | Environment | Sidecar marker | Purpose | CIR mapping |
 |-------------|----------------|---------|-------------|
-| `claim` | `RRVIX:claim:N` | Single falsifiable assertion | `claims[]` |
-| `evidence` | `RRVIX:evidence:N` | Evidence for the most recent claim | (associated with adjacent claim) |
-| `observation` | `RRVIX:observation:N` | Factual observation, no claim | (an annotation of type `claim_extraction` may promote it) |
-| `scope` | `RRVIX:scope:N` | Conditions under which following claims hold | `claims[].scope` |
-| `openquestion` | `RRVIX:openquestion:N` | Question this paper does not resolve | (annotation target candidate) |
-| `rrvixremark` | `RRVIX:remark:N` | Aside / methodological note | (carried as commentary, not a claim) |
+| `claim` | `RRXIV:claim:N` | Single falsifiable assertion | `claims[]` |
+| `evidence` | `RRXIV:evidence:N` | Evidence for the most recent claim | (associated with adjacent claim) |
+| `observation` | `RRXIV:observation:N` | Factual observation, no claim | (an annotation of type `claim_extraction` may promote it) |
+| `scope` | `RRXIV:scope:N` | Conditions under which following claims hold | `claims[].scope` |
+| `openquestion` | `RRXIV:openquestion:N` | Question this paper does not resolve | (annotation target candidate) |
+| `rrxivremark` | `RRXIV:remark:N` | Aside / methodological note | (carried as commentary, not a claim) |
 
 `N` is the LaTeX counter value at `\begin{...}` time. The parser pairs the Nth sidecar marker of a given kind with the Nth source occurrence of that environment.
 
@@ -80,7 +80,7 @@ The optional argument in `[brackets]` is a human-readable title shown in the ren
 | `observation` | `obs:` |
 | `scope` | `scope:` |
 | `openquestion` | `oq:` |
-| `rrvixremark` | `rem:` |
+| `rrxivremark` | `rem:` |
 
 These are conventional, not enforced. The parser accepts any unique label.
 
@@ -95,7 +95,7 @@ Declare typed edges between claims with no visible output:
 \contradicts{my-paper-0001:claim:foo}{another-paper:claim:opposite}
 ```
 
-Each emits a `RRVIX:edge:<type>:<src>|<dst>` marker the parser turns into a graph edge. The IDs follow the `<paper_id>:<label>` convention. Cross-paper edges are first-class — declare them whenever a claim of yours depends on, supports, extends, or contradicts a claim from another rrvix paper.
+Each emits a `RRXIV:edge:<type>:<src>|<dst>` marker the parser turns into a graph edge. The IDs follow the `<paper_id>:<label>` convention. Cross-paper edges are first-class — declare them whenever a claim of yours depends on, supports, extends, or contradicts a claim from another rrxiv paper.
 
 The `|` separator was introduced in cls v0.2 (per [RRP-0002](../proposals/0002-edge-marker-delimiter.md)). v0.1 used `:` to join src and dst, which was ambiguous for IDs that themselves contained colons. The reference parser still accepts the v0.1 format with a `DeprecationWarning`; recompile any v0.1-era papers with the v0.2 cls to clear the warning.
 
@@ -116,13 +116,13 @@ pdflatex paper.tex
 pdflatex paper.tex      # second pass for cross-references
 ```
 
-You'll get `paper.pdf` and `paper.rrvix.aux`. The sidecar is what the rrvix parser reads. The PDF is the human rendering target.
+You'll get `paper.pdf` and `paper.rrxiv.aux`. The sidecar is what the rrxiv parser reads. The PDF is the human rendering target.
 
 ## Compile dependencies
 
-`rrvix.cls` v0.1 loads:
+`rrxiv.cls` v0.1 loads:
 
-- `geometry` (a4paper, 1in margins; override at `\documentclass[]{rrvix}`)
+- `geometry` (a4paper, 1in margins; override at `\documentclass[]{rrxiv}`)
 - `inputenc` (utf8) and `fontenc` (T1)
 - `amsmath`, `amsthm`, `amssymb`, `mathtools`
 - `graphicx`, `xcolor`, `enumitem`
@@ -131,22 +131,22 @@ You'll get `paper.pdf` and `paper.rrvix.aux`. The sidecar is what the rrvix pars
 - `authblk` (author affiliations via `\affil[]{...}`)
 - `hyperref` (colored links)
 
-These are widely available. A standard TeX Live or Tectonic install has them. If you need to add packages, `\usepackage{...}` after `\documentclass{rrvix}` is fine.
+These are widely available. A standard TeX Live or Tectonic install has them. If you need to add packages, `\usepackage{...}` after `\documentclass{rrxiv}` is fine.
 
 ## Distributing the class with your paper
 
-When submitting to rrvix, you upload the source bundle (.tex, .bib, figures, **and** `rrvix.cls`). Don't rely on the server having the class installed. The bundle convention is:
+When submitting to rrxiv, you upload the source bundle (.tex, .bib, figures, **and** `rrxiv.cls`). Don't rely on the server having the class installed. The bundle convention is:
 
 ```
 my-paper-0001/
 ├── my-paper-0001.tex
 ├── my-paper-0001.bib
-├── rrvix.cls           ← bundled with submission
+├── rrxiv.cls           ← bundled with submission
 └── figures/
     └── ...
 ```
 
-The submitting tool (`rrvix submit`, future) checks that `rrvix.cls` is present in the bundle and that its version matches a server-supported range.
+The submitting tool (`rrxiv submit`, future) checks that `rrxiv.cls` is present in the bundle and that its version matches a server-supported range.
 
 ## v0.1 limitations
 
@@ -158,7 +158,7 @@ The submitting tool (`rrvix submit`, future) checks that `rrvix.cls` is present 
 ## See also
 
 - [`0001-overview.md`](0001-overview.md) — high-level protocol overview.
-- [`0002-cir.md`](0002-cir.md) — the CIR schema produced from `rrvix.cls` papers.
+- [`0002-cir.md`](0002-cir.md) — the CIR schema produced from `rrxiv.cls` papers.
 - [`0003-claim-graph.md`](0003-claim-graph.md) — how the inline edges compose into the graph.
-- [`template/rrvix-template.tex`](../template/rrvix-template.tex) — skeleton paper using every feature.
-- [`template/examples/minimal/`](../template/examples/minimal/) — smallest valid rrvix paper, used as the parser conformance fixture.
+- [`template/rrxiv-template.tex`](../template/rrxiv-template.tex) — skeleton paper using every feature.
+- [`template/examples/minimal/`](../template/examples/minimal/) — smallest valid rrxiv paper, used as the parser conformance fixture.

@@ -1,9 +1,9 @@
 openapi: 3.1.0
 info:
-  title: rrvix HTTP API
+  title: rrxiv HTTP API
   version: 0.1.0
   description: |
-    The rrvix HTTP API. v0.1 sketch — the surface is unstable until v1.0.
+    The rrxiv HTTP API. v0.1 sketch — the surface is unstable until v1.0.
 
     See `spec/0007-api.md` for the prose companion that explains design
     choices behind individual endpoints.
@@ -13,10 +13,10 @@ info:
     payloads against the referenced schemas.
   license:
     name: MIT (code), CC-BY-4.0 (spec)
-    url: https://github.com/random-walks/rrvix
+    url: https://github.com/random-walks/rrxiv
 
 servers:
-  - url: https://rrvix.org/api/v0
+  - url: https://rrxiv.com/api/v0
     description: Canonical instance (planned).
   - url: http://localhost:8000/api/v0
     description: Local development.

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://rrvix.org/schema/v0/claim.schema.json",
+  "$id": "https://rrxiv.com/schema/v0/claim.schema.json",
   "title": "Claim",
-  "description": "A single falsifiable assertion extracted from a paper. The unit of structured knowledge in the rrvix corpus. Claim graph edges (depends_on, supports, contradicts, extends) connect claims across papers.",
+  "description": "A single falsifiable assertion extracted from a paper. The unit of structured knowledge in the rrxiv corpus. Claim graph edges (depends_on, supports, contradicts, extends) connect claims across papers.",
   "version": "0.1.0",
   "type": "object",
   "required": ["id", "statement", "claim_type", "evidence_type"],
