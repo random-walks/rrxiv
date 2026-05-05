@@ -1,0 +1,52 @@
+{
+  "rrxiv_version": "0.1.0",
+  "id": "rrxiv-fixture-multi-author",
+  "version": "v1",
+  "title": "Conformance fixture: paper with three authors and one agent co-author",
+  "authors": [
+    {
+      "name": "Jane Doe",
+      "is_agent": false
+    },
+    {
+      "name": "John Smith",
+      "is_agent": false
+    },
+    {
+      "name": "AgentX",
+      "is_agent": false
+    }
+  ],
+  "abstract": "A short paper with three authors, one of whom is an AI agent. Used as\na parser conformance fixture for the multi-author + agent-co-author\ncase.",
+  "submitted_at": "2026-05-05T17:48:10.746242Z",
+  "license": "CC-BY-4.0",
+  "topics": [
+    "example",
+    "conformance"
+  ],
+  "source": {
+    "format": "latex",
+    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrvix-dev-workspace/repos/rrxiv/tests/conformance/fixtures/multi-author/multi-author.tex"
+  },
+  "sections": [
+    {
+      "id": "claim:multi-author",
+      "type": "section",
+      "title": "The claim",
+      "order": 0
+    }
+  ],
+  "claims": [
+    {
+      "id": "rrxiv-fixture-multi-author:claim:multi-author",
+      "paper_id": "rrxiv-fixture-multi-author",
+      "statement": "A rrxiv paper can list multiple authors, including AI agents declared\nvia the is_agent flag in the CIR.",
+      "claim_type": "theoretical",
+      "evidence_type": "argument",
+      "replication_status": "untested",
+      "extracted_by": "author",
+      "canonical": true
+    }
+  ],
+  "annotations": []
+}

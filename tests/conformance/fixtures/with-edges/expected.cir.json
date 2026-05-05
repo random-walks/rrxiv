@@ -1,0 +1,88 @@
+{
+  "rrxiv_version": "0.1.0",
+  "id": "rrxiv-fixture-with-edges",
+  "version": "v1",
+  "title": "Conformance fixture: paper with all four edge kinds",
+  "authors": [
+    {
+      "name": "rrxiv Project",
+      "is_agent": false
+    }
+  ],
+  "abstract": "Three claims plus four inline edges that cover every edge kind:\ndepends_on, supports, extends, and\ncontradicts.",
+  "submitted_at": "2026-05-05T17:48:10.468559Z",
+  "license": "CC-BY-4.0",
+  "topics": [
+    "example",
+    "conformance"
+  ],
+  "source": {
+    "format": "latex",
+    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrvix-dev-workspace/repos/rrxiv/tests/conformance/fixtures/with-edges/with-edges.tex"
+  },
+  "sections": [
+    {
+      "id": "claim:foundation",
+      "type": "section",
+      "title": "Foundation",
+      "order": 0
+    },
+    {
+      "id": "claim:derived",
+      "type": "section",
+      "title": "Derived claims",
+      "order": 1
+    },
+    {
+      "id": "sec:2",
+      "type": "section",
+      "title": "Cross-paper edges",
+      "order": 2
+    }
+  ],
+  "claims": [
+    {
+      "id": "rrxiv-fixture-with-edges:claim:foundation",
+      "paper_id": "rrxiv-fixture-with-edges",
+      "statement": "A foundational claim other claims will reference.",
+      "claim_type": "theoretical",
+      "evidence_type": "argument",
+      "extends": [
+        "rrxiv-0001:claim:queryability"
+      ],
+      "replication_status": "untested",
+      "extracted_by": "author",
+      "canonical": true
+    },
+    {
+      "id": "rrxiv-fixture-with-edges:claim:derived",
+      "paper_id": "rrxiv-fixture-with-edges",
+      "statement": "A claim that builds on the foundation. The dependency is declared\nexplicitly via \\textbackslash dependson.",
+      "claim_type": "theoretical",
+      "evidence_type": "argument",
+      "depends_on": [
+        "rrxiv-fixture-with-edges:claim:foundation"
+      ],
+      "contradicts": [
+        "some-other-paper:claim:opposite"
+      ],
+      "replication_status": "untested",
+      "extracted_by": "author",
+      "canonical": true
+    },
+    {
+      "id": "rrxiv-fixture-with-edges:claim:replication",
+      "paper_id": "rrxiv-fixture-with-edges",
+      "statement": "A claim that supports the foundation as a kind of replication.",
+      "claim_type": "theoretical",
+      "evidence_type": "argument",
+      "supports": [
+        "rrxiv-fixture-with-edges:claim:foundation"
+      ],
+      "replication_status": "untested",
+      "extracted_by": "author",
+      "canonical": true
+    }
+  ],
+  "annotations": []
+}

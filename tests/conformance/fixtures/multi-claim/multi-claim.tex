@@ -1,0 +1,50 @@
+% multi-claim.tex — fixture: paper with multiple claims and no edges.
+%
+% Purpose: exercise ordinal-pairing in the parser. The Nth claim env in
+% source must pair with the Nth RRXIV:claim:N marker in the sidecar.
+
+\documentclass{rrxiv}
+
+\rrxivid{rrxiv-fixture-multi-claim}
+\rrxivversion{v1}
+\rrxivprotocolversion{0.1.0}
+\rrxivlicense{CC-BY-4.0}
+\rrxivtopics{example,conformance}
+
+\title{Conformance fixture: multi-claim paper}
+\author{rrxiv Project}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Three claims of three different types (theoretical, empirical,
+methodological) so the parser's ordinal-pairing can be exercised
+without any inline edges complicating the picture.
+\end{abstract}
+
+\section{Theoretical claim}
+
+\begin{claim}[Existence]
+\label{claim:existence}
+There exists at least one rrxiv paper with three or more semantic
+environments of the same kind.
+\end{claim}
+
+\section{Empirical claim}
+
+\begin{claim}[Volume]
+\label{claim:volume}
+The number of rrxiv papers grows monotonically with time once
+submissions are accepted.
+\end{claim}
+
+\section{Methodological claim}
+
+\begin{claim}[Pairing]
+\label{claim:pairing}
+The Nth \texttt{claim} environment block in source pairs with the Nth
+\texttt{RRXIV:claim:N} marker in the emitted sidecar.
+\end{claim}
+
+\end{document}

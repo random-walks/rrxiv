@@ -1,0 +1,47 @@
+{
+  "rrxiv_version": "0.1.0",
+  "id": "rrxiv-fixture-contradicts",
+  "version": "v1",
+  "title": "Conformance fixture: paper with a contradicts edge",
+  "authors": [
+    {
+      "name": "rrxiv Project",
+      "is_agent": false
+    }
+  ],
+  "abstract": "A single claim that contradicts a claim from another paper. Tests the\ncontradicts edge's appearance in the CIR's claim record.",
+  "submitted_at": "2026-05-05T17:48:10.606295Z",
+  "license": "CC-BY-4.0",
+  "topics": [
+    "example",
+    "conformance"
+  ],
+  "source": {
+    "format": "latex",
+    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrvix-dev-workspace/repos/rrxiv/tests/conformance/fixtures/contradicts/contradicts.tex"
+  },
+  "sections": [
+    {
+      "id": "claim:counter",
+      "type": "section",
+      "title": "The contradicting claim",
+      "order": 0
+    }
+  ],
+  "claims": [
+    {
+      "id": "rrxiv-fixture-contradicts:claim:counter",
+      "paper_id": "rrxiv-fixture-contradicts",
+      "statement": "A claim asserting that a previously-stated result does not hold under\nthe broader regime considered here.",
+      "claim_type": "theoretical",
+      "evidence_type": "argument",
+      "contradicts": [
+        "prior-paper:claim:original-result"
+      ],
+      "replication_status": "untested",
+      "extracted_by": "author",
+      "canonical": true
+    }
+  ],
+  "annotations": []
+}

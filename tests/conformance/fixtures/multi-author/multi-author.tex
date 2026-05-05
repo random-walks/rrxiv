@@ -1,0 +1,45 @@
+% multi-author.tex — fixture: paper with multiple authors and ORCIDs.
+%
+% Purpose: exercise the parser's handling of multiple \author + \affil
+% lines (rrxiv.cls layers on authblk) and the per-author ORCID metadata.
+%
+% Note: ORCID iDs aren't directly extracted by the cls today; authors
+% who want their ORCID in the CIR currently put it in the body. This
+% fixture documents that gap as much as exercising the v0.1 happy path.
+
+\documentclass{rrxiv}
+
+\rrxivid{rrxiv-fixture-multi-author}
+\rrxivversion{v1}
+\rrxivprotocolversion{0.1.0}
+\rrxivlicense{CC-BY-4.0}
+\rrxivtopics{example,conformance}
+
+\title{Conformance fixture: paper with three authors and one agent co-author}
+
+\author[1]{Jane Doe}
+\author[2]{John Smith}
+\author[3]{AgentX}
+
+\affil[1]{Department of Mathematics, Example University}
+\affil[2]{Independent}
+\affil[3]{Anthropic (AI agent co-author; see rrxiv submission rules for is\_agent declaration)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A short paper with three authors, one of whom is an AI agent. Used as
+a parser conformance fixture for the multi-author + agent-co-author
+case.
+\end{abstract}
+
+\section{The claim}
+
+\begin{claim}[Multi-author co-attribution works]
+\label{claim:multi-author}
+A rrxiv paper can list multiple authors, including AI agents declared
+via the \texttt{is\_agent} flag in the CIR.
+\end{claim}
+
+\end{document}
