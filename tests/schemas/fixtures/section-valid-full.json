@@ -1,0 +1,9 @@
+{
+  "id": "sec:queryability",
+  "type": "subsection",
+  "title": "Queryability",
+  "order": 3,
+  "parent_id": "sec:results",
+  "raw_source": "We claim that the corpus is queryable in ways an unstructured PDF stack is not.",
+  "claims_in_section": ["rrxiv-0001:claim:queryability"]
+}

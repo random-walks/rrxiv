@@ -27,6 +27,8 @@ const KIND_TO_SCHEMA_FILE = {
   claim: "claim.schema.json",
   annotation: "annotation.schema.json",
   citation: "citation.schema.json",
+  section: "section.schema.json",
+  figure: "figure.schema.json",
   cir: "cir.schema.json",
 };
 

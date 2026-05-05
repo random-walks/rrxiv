@@ -1,0 +1,7 @@
+{
+  "id": "fig:rho",
+  "label": "fig:rho",
+  "caption": "Distribution of the load parameter rho across our 10k-paper sample.",
+  "uri": "https://rrxiv.com/papers/p1/v1/figures/rho.svg",
+  "referenced_in": ["sec:results", "rrxiv-fixture:claim:queryability"]
+}
