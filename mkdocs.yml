@@ -91,6 +91,14 @@ nav:
     - Whitepaper: protocol/whitepaper.md
   - Spec:
     - spec/index.md
+    - 0001 — Overview: spec/0001-overview.md
+    - 0002 — CIR: spec/0002-cir.md
+    - 0003 — Claim graph: spec/0003-claim-graph.md
+    - 0004 — TeX template: spec/0004-tex-template.md
+    - 0005 — Submission: spec/0005-submission.md
+    - 0006 — Annotations: spec/0006-annotations.md
+    - 0007 — API: spec/0007-api.md
+    - 0008 — Governance: spec/0008-governance.md
   - Proposals:
     - proposals/index.md
   - Contributing:

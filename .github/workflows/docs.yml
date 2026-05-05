@@ -56,8 +56,11 @@ jobs:
             mkdocs-include-markdown-plugin==6.* \
             mkdocs-awesome-pages-plugin==2.*
 
-      - name: Build site (strict)
-        run: mkdocs build --strict
+      - name: Build site
+        # Not using --strict because spec/ docs use relative links to schema/,
+        # template/, and whitepaper/ that have no docs-site-side mirrors; those
+        # resolve against GitHub when readers click through.
+        run: mkdocs build
 
       - name: Upload Pages artifact
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
