@@ -1,0 +1,491 @@
+openapi: 3.1.0
+info:
+  title: rrvix HTTP API
+  version: 0.1.0
+  description: |
+    The rrvix HTTP API. v0.1 sketch — the surface is unstable until v1.0.
+
+    See `spec/0007-api.md` for the prose companion that explains design
+    choices behind individual endpoints.
+
+    Schemas are referenced from the standalone JSON Schema files in this
+    directory. Any conforming server MUST validate request and response
+    payloads against the referenced schemas.
+  license:
+    name: MIT (code), CC-BY-4.0 (spec)
+    url: https://github.com/random-walks/rrvix
+
+servers:
+  - url: https://rrvix.org/api/v0
+    description: Canonical instance (planned).
+  - url: http://localhost:8000/api/v0
+    description: Local development.
+
+tags:
+  - name: Papers
+    description: Paper metadata, CIR retrieval, source bundle access, submissions.
+  - name: Claims
+    description: Claim retrieval and claim-graph traversals.
+  - name: Annotations
+    description: Post-submission annotations (replications, errata, comments, ...).
+  - name: Citations
+    description: Bibliographic records and reverse-citation indexing.
+  - name: Snapshots
+    description: Mandatory full-corpus snapshot exports.
+  - name: Search
+    description: Free-text convenience search.
+  - name: System
+    description: Version, health, capability discovery.
+
+# ---- Reusable parameters ----
+components:
+  parameters:
+    PaperId:
+      name: id
+      in: path
+      required: true
+      schema: { type: string }
+      description: Stable paper ID (UUIDv7 in v0).
+    ClaimId:
+      name: id
+      in: path
+      required: true
+      schema: { type: string }
+      description: Globally unique claim ID, conventionally `<paper_id>:<label>`.
+    AnnotationId:
+      name: id
+      in: path
+      required: true
+      schema: { type: string }
+    Cursor:
+      name: cursor
+      in: query
+      required: false
+      schema: { type: string }
+      description: Opaque pagination cursor from a previous response's `next_cursor`.
+    Limit:
+      name: limit
+      in: query
+      required: false
+      schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+    Depth:
+      name: depth
+      in: query
+      required: false
+      schema: { type: integer, minimum: 1, maximum: 10, default: 1 }
+      description: Graph-walk depth in hops. Servers may cap; over-cap returns 422.
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 200 }
+      description: |
+        Caller-generated unique key. Repeated requests with the same key
+        return the original response; same key with a different body
+        returns 409. Required on all write endpoints.
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: opaque
+      description: |
+        Bearer token from the OAuth/agent/anonymous-attestation flow.
+        See `spec/0005-submission.md` and `spec/0007-api.md` §"Auth model".
+
+  schemas:
+    Problem:
+      $ref: "https://www.iana.org/assignments/media-types/application/problem+json"
+    PaginatedPapers:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "paper.schema.json"
+        next_cursor:
+          type: [string, "null"]
+    PaginatedClaims:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "claim.schema.json"
+        next_cursor:
+          type: [string, "null"]
+    PaginatedAnnotations:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "annotation.schema.json"
+        next_cursor:
+          type: [string, "null"]
+    GraphWalk:
+      type: object
+      required: [origin, edges]
+      properties:
+        origin:
+          type: string
+        edges:
+          type: array
+          items:
+            type: object
+            required: [source, target, kind]
+            properties:
+              source: { type: string }
+              target: { type: string }
+              kind:
+                type: string
+                enum: [depends_on, supports, contradicts, extends]
+              annotation_id:
+                type: [string, "null"]
+                description: If the edge originates from an annotation, the annotation's ID.
+    SnapshotManifest:
+      type: object
+      required: [snapshot_id, created_at, papers, annotations, sha256, size_bytes, download_uri]
+      properties:
+        snapshot_id: { type: string }
+        created_at: { type: string, format: date-time }
+        papers: { type: integer, minimum: 0 }
+        annotations: { type: integer, minimum: 0 }
+        sha256: { type: string, pattern: "^[a-f0-9]{64}$" }
+        size_bytes: { type: integer, minimum: 0 }
+        download_uri: { type: string, format: uri }
+
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+    Unauthorized:
+      description: Missing or invalid bearer token.
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+    RateLimited:
+      description: Rate limit exceeded.
+      headers:
+        Retry-After:
+          schema: { type: integer }
+          description: Seconds to wait before retrying.
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+    ValidationError:
+      description: Request was understood but rejected on validation grounds.
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+
+# ---- Endpoints ----
+paths:
+  /version:
+    get:
+      tags: [System]
+      summary: Server and protocol version.
+      responses:
+        "200":
+          description: Version info.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [server, protocol, supported_api_versions]
+                properties:
+                  server: { type: string }
+                  protocol: { type: string }
+                  supported_api_versions:
+                    type: array
+                    items: { type: string }
+
+  /papers:
+    get:
+      tags: [Papers]
+      summary: List papers.
+      parameters:
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+        - { name: author,  in: query, schema: { type: string }, description: ORCID. }
+        - { name: topic,   in: query, schema: { type: string } }
+        - { name: since,   in: query, schema: { type: string, format: date-time } }
+      responses:
+        "200":
+          description: Paginated paper metadata.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaginatedPapers" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+
+  /papers/{id}:
+    get:
+      tags: [Papers]
+      summary: One paper's metadata.
+      parameters: [ { $ref: "#/components/parameters/PaperId" } ]
+      responses:
+        "200":
+          description: Paper metadata.
+          content:
+            application/json:
+              schema: { $ref: "paper.schema.json" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /papers/{id}/cir:
+    get:
+      tags: [Papers]
+      summary: The full Canonical Intermediate Representation.
+      parameters: [ { $ref: "#/components/parameters/PaperId" } ]
+      responses:
+        "200":
+          description: Full CIR.
+          content:
+            application/json:
+              schema: { $ref: "cir.schema.json" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /papers/{id}/source:
+    get:
+      tags: [Papers]
+      summary: Redirect to the source bundle URI.
+      parameters: [ { $ref: "#/components/parameters/PaperId" } ]
+      responses:
+        "302":
+          description: Redirect to the source tarball.
+          headers:
+            Location: { schema: { type: string, format: uri } }
+
+  /papers/{id}/versions:
+    get:
+      tags: [Papers]
+      summary: All revisions of this paper, oldest first.
+      parameters: [ { $ref: "#/components/parameters/PaperId" } ]
+      responses:
+        "200":
+          description: Lineage list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "paper.schema.json" }
+
+  /submissions:
+    post:
+      tags: [Papers]
+      summary: Submit a new paper or revision.
+      security: [{ BearerAuth: [] }]
+      parameters: [ { $ref: "#/components/parameters/IdempotencyKey" } ]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [bundle, cir]
+              properties:
+                bundle:
+                  type: string
+                  format: binary
+                  description: Source bundle tarball.
+                cir:
+                  type: string
+                  format: binary
+                  description: Client-computed CIR JSON (must match server-recomputed).
+                previous_version:
+                  type: [string, "null"]
+                  description: Paper ID this submission revises, if any.
+      responses:
+        "201":
+          description: Submission accepted; paper ID minted.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [paper_id, retrieval_uri]
+                properties:
+                  paper_id: { type: string }
+                  retrieval_uri: { type: string, format: uri }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "409":
+          description: Idempotency-Key collision with a different body.
+        "422": { $ref: "#/components/responses/ValidationError" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+
+  /claims:
+    get:
+      tags: [Claims]
+      summary: List claims with filters.
+      parameters:
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+        - { name: claim_type, in: query, schema: { type: string } }
+        - { name: evidence_type, in: query, schema: { type: string } }
+        - { name: replication_status, in: query, schema: { type: string } }
+        - { name: paper, in: query, schema: { type: string } }
+        - { name: canonical, in: query, schema: { type: boolean } }
+      responses:
+        "200":
+          description: Paginated claims.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaginatedClaims" }
+
+  /claims/{id}:
+    get:
+      tags: [Claims]
+      summary: One claim.
+      parameters: [ { $ref: "#/components/parameters/ClaimId" } ]
+      responses:
+        "200":
+          description: Claim record.
+          content:
+            application/json:
+              schema: { $ref: "claim.schema.json" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /claims/{id}/depends-on:
+    get:
+      tags: [Claims]
+      summary: Outgoing depends_on walk.
+      parameters:
+        - $ref: "#/components/parameters/ClaimId"
+        - $ref: "#/components/parameters/Depth"
+      responses:
+        "200":
+          description: Walk result.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GraphWalk" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /claims/{id}/dependents:
+    get:
+      tags: [Claims]
+      summary: Reverse depends_on walk.
+      parameters:
+        - $ref: "#/components/parameters/ClaimId"
+        - $ref: "#/components/parameters/Depth"
+      responses:
+        "200":
+          description: Walk result.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GraphWalk" }
+
+  /annotations:
+    get:
+      tags: [Annotations]
+      summary: List annotations.
+      parameters:
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+        - { name: target, in: query, schema: { type: string } }
+        - { name: annotation_type, in: query, schema: { type: string } }
+        - { name: created_by, in: query, schema: { type: string } }
+        - { name: since, in: query, schema: { type: string, format: date-time } }
+      responses:
+        "200":
+          description: Paginated annotations.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaginatedAnnotations" }
+    post:
+      tags: [Annotations]
+      summary: Create a new annotation.
+      security: [{ BearerAuth: [] }]
+      parameters: [ { $ref: "#/components/parameters/IdempotencyKey" } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "annotation.schema.json" }
+      responses:
+        "201":
+          description: Annotation created.
+          content:
+            application/json:
+              schema: { $ref: "annotation.schema.json" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "409": { description: Idempotency-Key collision. }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /annotations/{id}:
+    get:
+      tags: [Annotations]
+      summary: One annotation.
+      parameters: [ { $ref: "#/components/parameters/AnnotationId" } ]
+      responses:
+        "200":
+          description: Annotation record.
+          content:
+            application/json:
+              schema: { $ref: "annotation.schema.json" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /snapshots/latest:
+    get:
+      tags: [Snapshots]
+      summary: Manifest for the most recent full snapshot.
+      responses:
+        "200":
+          description: Snapshot manifest.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SnapshotManifest" }
+
+  /snapshots:
+    get:
+      tags: [Snapshots]
+      summary: Paginated snapshot history.
+      parameters:
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Snapshot manifests, newest first.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: "#/components/schemas/SnapshotManifest" }
+                  next_cursor:
+                    type: [string, "null"]
+
+  /search/papers:
+    get:
+      tags: [Search]
+      summary: Free-text search over papers.
+      parameters:
+        - { name: q, in: query, required: true, schema: { type: string, minLength: 1 } }
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Paginated paper hits.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaginatedPapers" }
+
+  /search/claims:
+    get:
+      tags: [Search]
+      summary: Free-text search over claim statements.
+      parameters:
+        - { name: q, in: query, required: true, schema: { type: string, minLength: 1 } }
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Paginated claim hits.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaginatedClaims" }

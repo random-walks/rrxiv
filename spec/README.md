@@ -10,7 +10,7 @@ The rrvix protocol is described in this directory. Each document focuses on a si
 | [0004](0004-tex-template.md) | `rrvix.cls` LaTeX template | v0.1 draft |
 | [0005](0005-submission.md) | Submission flow | v0.1 draft |
 | [0006](0006-annotations.md) | Annotation model | v0.1 draft |
-| [0007](0007-api.md) | HTTP API | stub |
+| [0007](0007-api.md) | HTTP API | v0.1 sketch |
 | [0008](0008-governance.md) | Governance | v0.1 draft |
 
 ## Reading order
