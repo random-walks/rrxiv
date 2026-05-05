@@ -6,7 +6,7 @@
 
 ## What submission is
 
-**Submission** is the atomic operation by which a paper enters the rrvix corpus. After a successful submission, the server has stored the paper's source bundle, computed and stored its CIR, assigned a stable paper ID, and made the paper available for read access.
+**Submission** is the atomic operation by which a paper enters the rrxiv corpus. After a successful submission, the server has stored the paper's source bundle, computed and stored its CIR, assigned a stable paper ID, and made the paper available for read access.
 
 Submission is **immutable**. A submission cannot be edited; mistakes are corrected through:
 
@@ -22,7 +22,7 @@ A submission is uploaded as a **source bundle**: a single tarball (`.tar.gz`) co
 my-paper-0001/
 ├── my-paper-0001.tex     ← the paper source
 ├── my-paper-0001.bib     ← bibliography (if any)
-├── rrvix.cls             ← bundled with submission (see 0004 §"Distributing the class")
+├── rrxiv.cls             ← bundled with submission (see 0004 §"Distributing the class")
 └── figures/              ← any included figures, optional
     └── ...
 ```
@@ -35,15 +35,15 @@ Constraints:
 - **No executables** — `.exe`, `.so`, `.dylib`, etc. are rejected. Source files only.
 - **Encoding: UTF-8.** No BOMs.
 
-The server **reproduces the compile** before storing — it must produce a PDF and `*.rrvix.aux` sidecar from the bundle deterministically. If the bundle compiles in the author's environment but not in the server's reference environment, the submission fails with diagnostic logs.
+The server **reproduces the compile** before storing — it must produce a PDF and `*.rrxiv.aux` sidecar from the bundle deterministically. If the bundle compiles in the author's environment but not in the server's reference environment, the submission fails with diagnostic logs.
 
 ## Pre-submission validation (client side)
 
-The reference client (`rrvix-python`'s future `rrvix submit` command) checks the following before contacting the server:
+The reference client (`rrxiv-python`'s future `rrxiv submit` command) checks the following before contacting the server:
 
 1. **Compile locally.** `tectonic` runs against the bundle. If the paper doesn't compile locally, fix it before submitting.
-2. **Sidecar present.** `*.rrvix.aux` was produced by the local compile.
-3. **Parse to CIR.** `rrvix parse <main.tex>` produces a CIR JSON.
+2. **Sidecar present.** `*.rrxiv.aux` was produced by the local compile.
+3. **Parse to CIR.** `rrxiv parse <main.tex>` produces a CIR JSON.
 4. **CIR validates.** The CIR validates against `cir.schema.json`.
 5. **No obvious anti-pattern signals.** No `\input{/etc/passwd}`-style suspicious paths in the source. No claim labels containing reserved characters.
 6. **Bundle the directory.** Tarball produced.
@@ -78,7 +78,7 @@ v0.1 uses **UUIDv7** for paper IDs. Properties:
 The ID format may evolve via RRP. Candidate alternatives for v1.0:
 
 - Content-addressed hashes (SHA-256 over the source bundle).
-- arXiv-style readable identifiers (`rrvix-2026.05-1234`).
+- arXiv-style readable identifiers (`rrxiv-2026.05-1234`).
 - Authority-allocated DOIs.
 
 Until that RRP, UUIDv7 is the canonical format.
@@ -88,7 +88,7 @@ Until that RRP, UUIDv7 is the canonical format.
 The submitter's identity is required and must be one of:
 
 - **ORCID** — verified via OAuth handshake with `orcid.org`. The submission stores the verified ORCID iD; the iD is what shows up in `paper.authors[].orcid` if the author claims it.
-- **Agent handle** — a server-recognised agent identity of the form `<handle>@<instance>`. Agents must be enrolled in the rrvix instance's agent registry; enrollment requires a public key the agent signs submissions with. The agent's `is_agent: true` is enforced server-side: the corresponding `Author` record must declare itself.
+- **Agent handle** — a server-recognised agent identity of the form `<handle>@<instance>`. Agents must be enrolled in the rrxiv instance's agent registry; enrollment requires a public key the agent signs submissions with. The agent's `is_agent: true` is enforced server-side: the corresponding `Author` record must declare itself.
 - **Anonymous-with-attestation** — anonymous submitters get an opaque server token after passing a CAPTCHA-style anti-abuse gate. Anonymous submissions are accepted but flagged in the API; some annotations on anonymous submissions may be disabled (e.g., `claim_extraction` requires a non-anonymous author).
 
 A submission's authorship list (the `authors[]` field) is checked against the submitter's identity:
@@ -99,7 +99,7 @@ A submission's authorship list (the `authors[]` field) is checked against the su
 
 ## Withdrawals
 
-Withdrawal is the closest thing to deletion in rrvix, and it is *not* deletion.
+Withdrawal is the closest thing to deletion in rrxiv, and it is *not* deletion.
 
 A withdrawn submission:
 

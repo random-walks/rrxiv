@@ -1,16 +1,16 @@
 # Parser conformance
 
-Implementations of the rrvix TeX → CIR parser are conformant if they pass
+Implementations of the rrxiv TeX → CIR parser are conformant if they pass
 the suite under [`../runner.py`](../runner.py) against every fixture in
 [`../fixtures/`](../fixtures/).
 
 ## Reference implementation
 
-[`rrvix-python`](https://github.com/random-walks/rrvix-python) is the
+[`rrxiv-python`](https://github.com/random-walks/rrxiv-python) is the
 reference. From this directory:
 
 ```bash
-python ../runner.py --impl 'uv run rrvix parse'
+python ../runner.py --impl 'uv run rrxiv parse'
 ```
 
 ## Adding a new implementation
@@ -19,7 +19,7 @@ If you're building a parser in another language (Rust, Go, JavaScript,
 Typst-side, …), the conformance contract is:
 
 1. **Take a `.tex` path** as the first positional argument.
-2. **Read the `.rrvix.aux` sidecar** from the same directory as the
+2. **Read the `.rrxiv.aux` sidecar** from the same directory as the
    `.tex` (default location), or accept a `--sidecar` flag.
 3. **Read the `.bib` file** referenced via `\bibliography{NAME}` from
    the same directory, or accept a `--bib` flag. Also fall back to

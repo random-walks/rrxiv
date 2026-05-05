@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""rrvix conformance test runner.
+"""rrxiv conformance test runner.
 
 Drives an arbitrary parser implementation (any command that takes a
 .tex file and writes a CIR JSON) through the fixtures in
@@ -8,8 +8,8 @@ fixture's ``expected.cir.json``, ignoring environment-specific fields.
 
 Usage:
 
-    python tests/conformance/runner.py --impl 'uv run rrvix parse'
-    python tests/conformance/runner.py --impl '/path/to/parse-rrvix' --verbose
+    python tests/conformance/runner.py --impl 'uv run rrxiv parse'
+    python tests/conformance/runner.py --impl '/path/to/parse-rrxiv' --verbose
 
 Exit codes: 0 on full pass, 1 on any failure.
 """
@@ -112,8 +112,8 @@ def _run_one(
         env = os.environ.copy()
         result = subprocess.run(
             cmd,
-            cwd=str(REPO_ROOT.parent / "rrvix-python")
-            if (REPO_ROOT.parent / "rrvix-python").is_dir()
+            cwd=str(REPO_ROOT.parent / "rrxiv-python")
+            if (REPO_ROOT.parent / "rrxiv-python").is_dir()
             else None,
             capture_output=True,
             text=True,
@@ -149,7 +149,7 @@ def main() -> int:
     parser.add_argument(
         "--impl",
         required=True,
-        help="Command line for the parser under test, e.g. 'uv run rrvix parse'.",
+        help="Command line for the parser under test, e.g. 'uv run rrxiv parse'.",
     )
     parser.add_argument("--verbose", "-v", action="store_true")
     args = parser.parse_args()

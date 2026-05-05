@@ -1,6 +1,6 @@
 ---
 title: Bootstrap
-description: Phase 0 milestones for getting rrvix to public-launch readiness.
+description: Phase 0 milestones for getting rrxiv to public-launch readiness.
 ---
 
 {%

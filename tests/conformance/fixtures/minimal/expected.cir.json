@@ -1,15 +1,15 @@
 {
-  "rrvix_version": "0.1.0",
-  "id": "rrvix-example-minimal",
+  "rrxiv_version": "0.1.0",
+  "id": "rrxiv-example-minimal",
   "version": "v1",
-  "title": "A minimal rrvix paper",
+  "title": "A minimal rrxiv paper",
   "authors": [
     {
-      "name": "rrvix Project",
+      "name": "rrxiv Project",
       "is_agent": false
     }
   ],
-  "abstract": "This paper exists as a parser conformance fixture. It contains one claim,\none piece of evidence, one citation, and one open question. Its only\npurpose is to round-trip through rrvix-python's parser into a\nvalid Canonical Intermediate Representation (CIR).",
+  "abstract": "This paper exists as a parser conformance fixture. It contains one claim,\none piece of evidence, one citation, and one open question. Its only\npurpose is to round-trip through rrxiv-python's parser into a\nvalid Canonical Intermediate Representation (CIR).",
   "submitted_at": "2026-05-05T17:08:46.441623Z",
   "license": "CC-BY-4.0",
   "topics": [
@@ -18,7 +18,7 @@
   ],
   "source": {
     "format": "latex",
-    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrvix-dev-workspace/repos/rrvix/tests/conformance/fixtures/minimal/minimal.tex"
+    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrxiv-dev-workspace/repos/rrxiv/tests/conformance/fixtures/minimal/minimal.tex"
   },
   "sections": [
     {
@@ -30,9 +30,9 @@
   ],
   "claims": [
     {
-      "id": "rrvix-example-minimal:claim:fixture",
-      "paper_id": "rrvix-example-minimal",
-      "statement": "A minimal rrvix paper, when compiled by rrvix.cls v0.1, emits a\nsidecar *.rrvix.aux file from which the rrvix parser can produce\na CIR object that validates against cir.schema.json v0.1.0.",
+      "id": "rrxiv-example-minimal:claim:fixture",
+      "paper_id": "rrxiv-example-minimal",
+      "statement": "A minimal rrxiv paper, when compiled by rrxiv.cls v0.1, emits a\nsidecar *.rrxiv.aux file from which the rrxiv parser can produce\na CIR object that validates against cir.schema.json v0.1.0.",
       "claim_type": "theoretical",
       "evidence_type": "argument",
       "replication_status": "untested",
@@ -42,10 +42,10 @@
   ],
   "citations": [
     {
-      "id": "cite-rrvix-example-minimal:rrvix-cir-schema",
-      "key": "rrvix-cir-schema",
-      "target_url": "https://rrvix.org/schema/v0/cir.schema.json",
-      "bibtex_entry": "@misc{rrvix-cir-schema,\n  note = {JSON Schema 2020-12 definition.},\n  howpublished = {\\url{https://rrvix.org/schema/v0/cir.schema.json}},\n  year = {2026},\n  title = {{Canonical Intermediate Representation Schema, v0.1.0}},\n  author = {{rrvix Project}}\n}",
+      "id": "cite-rrxiv-example-minimal:rrxiv-cir-schema",
+      "key": "rrxiv-cir-schema",
+      "target_url": "https://rrxiv.com/schema/v0/cir.schema.json",
+      "bibtex_entry": "@misc{rrxiv-cir-schema,\n  note = {JSON Schema 2020-12 definition.},\n  howpublished = {\\url{https://rrxiv.com/schema/v0/cir.schema.json}},\n  year = {2026},\n  title = {{Canonical Intermediate Representation Schema, v0.1.0}},\n  author = {{rrxiv Project}}\n}",
       "is_self_citation": false
     }
   ],

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://rrvix.org/schema/v0/annotation.schema.json",
+  "$id": "https://rrxiv.com/schema/v0/annotation.schema.json",
   "title": "Annotation",
-  "description": "A post-submission annotation attached to a paper, section, claim, figure, or another annotation. The discourse layer of rrvix: replications, contradictions, errata, summaries, code links.",
+  "description": "A post-submission annotation attached to a paper, section, claim, figure, or another annotation. The discourse layer of rrxiv: replications, contradictions, errata, summaries, code links.",
   "version": "0.1.0",
   "type": "object",
   "required": ["id", "target_id", "target_type", "annotation_type", "content", "created_at", "created_by"],
@@ -96,7 +96,7 @@
       "target_type": "claim",
       "annotation_type": "replication",
       "content": "Reproduced the queryability claim against a corpus of 10k papers using the reference parser. Results match within tolerance.",
-      "evidence_links": ["https://github.com/example/rrvix-replication-001"],
+      "evidence_links": ["https://github.com/example/rrxiv-replication-001"],
       "structured_payload": {
         "outcome": "supports",
         "method": "computational",

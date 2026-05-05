@@ -4,7 +4,7 @@
   "target_type": "claim",
   "annotation_type": "replication",
   "content": "Reproduced against a 10k-paper corpus; results match within tolerance.",
-  "evidence_links": ["https://github.com/example/rrvix-replication-001"],
+  "evidence_links": ["https://github.com/example/rrxiv-replication-001"],
   "structured_payload": {
     "outcome": "supports",
     "method": "computational",

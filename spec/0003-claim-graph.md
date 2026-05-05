@@ -6,7 +6,7 @@
 
 ## What the claim graph is
 
-The **claim graph** is the corpus-spanning directed graph whose nodes are claims and whose edges are typed relationships between claims. It is *the* central data structure rrvix exposes that the existing preprint stack does not.
+The **claim graph** is the corpus-spanning directed graph whose nodes are claims and whose edges are typed relationships between claims. It is *the* central data structure rrxiv exposes that the existing preprint stack does not.
 
 ```mermaid
 flowchart LR
@@ -29,9 +29,9 @@ Edges are typed. The four edge types in v0.1 are `depends_on`, `supports`, `cont
 
 A claim is a **single falsifiable assertion** with a stable ID. The full schema is in [`claim.schema.json`](../schema/claim.schema.json); the load-bearing fields are:
 
-- **`id`** — globally unique. The convention is `<paper_id>:<local_label>` (e.g. `rrvix-0001:claim:queryability`). The `id` of a claim never changes.
+- **`id`** — globally unique. The convention is `<paper_id>:<local_label>` (e.g. `rrxiv-0001:claim:queryability`). The `id` of a claim never changes.
 - **`statement`** — the assertion in plain language. Should be standalone-readable. *"A claim graph with explicit `supports`/`depends_on`/`contradicts` edges is queryable in ways an unstructured PDF corpus is not"* is a well-formed claim. *"This is true"* is not.
-- **`claim_type`** — `empirical`, `theoretical`, `definitional`, `methodological`, `computational`. The taxonomy is derived from how research claims actually decompose; see [the whitepaper §3.2](../whitepaper/rrvix-whitepaper.tex) for the rationale.
+- **`claim_type`** — `empirical`, `theoretical`, `definitional`, `methodological`, `computational`. The taxonomy is derived from how research claims actually decompose; see [the whitepaper §3.2](../whitepaper/rrxiv-whitepaper.tex) for the rationale.
 - **`evidence_type`** — `proof`, `experiment`, `simulation`, `observation`, `argument`, `definition`, `convention`. Orthogonal to `claim_type`: a `theoretical` claim can be supported by a `proof` or by an `argument`.
 - **`scope`** — the regime the claim is asserted to hold in: `models`, `datasets`, `regimes`, `assumptions`. A claim about LLM scaling holding "in the dense-attention regime" is meaningfully different from the same statement without that scope.
 - **`replication_status`** — server-derived, one of `untested`, `partial`, `replicated`, `contradicted`, `retracted`. Updated when annotations land.
@@ -48,7 +48,7 @@ A claim's `paper_id` field links it back to the paper. A claim cannot exist outs
 
 `depends_on` is the strongest edge. It is the structural backbone of the graph for derivation chains.
 
-When a paper `\cite{}`s another paper to invoke a result, that's *usually* a `depends_on` relationship at the claim level — but the cite-key alone doesn't identify *which* claim of the cited paper is being invoked. Authors who care about claim-level dependencies declare them explicitly in `rrvix.cls` via `\dependson{<source>}{<target>}`.
+When a paper `\cite{}`s another paper to invoke a result, that's *usually* a `depends_on` relationship at the claim level — but the cite-key alone doesn't identify *which* claim of the cited paper is being invoked. Authors who care about claim-level dependencies declare them explicitly in `rrxiv.cls` via `\dependson{<source>}{<target>}`.
 
 `depends_on` cycles are forbidden. The reference parser warns on cycles in the within-paper subgraph. Cross-paper cycles can happen via mistakes (paper A depends on B which depends on A); they're flagged on submission of the second paper but not blocking, on the assumption that they're usually clerical errors that get fixed by erratum.
 
@@ -82,14 +82,14 @@ A theorem with weaker assumptions extends the original. An empirical study at la
 
 Edges are declared in two places:
 
-1. **By authors, in the paper source.** The `rrvix.cls` macros `\dependson{S}{T}`, `\supports{S}{T}`, `\extendsclaim{S}{T}`, `\contradicts{S}{T}` emit edge markers in the sidecar that the parser turns into edges. See [`0004-tex-template.md`](0004-tex-template.md).
+1. **By authors, in the paper source.** The `rrxiv.cls` macros `\dependson{S}{T}`, `\supports{S}{T}`, `\extendsclaim{S}{T}`, `\contradicts{S}{T}` emit edge markers in the sidecar that the parser turns into edges. See [`0004-tex-template.md`](0004-tex-template.md).
 2. **By annotators, after submission.** A `contradiction` or `extension` annotation creates the corresponding edge. The annotation is signed; the edge inherits provenance from the annotation.
 
 In both cases, the edge has a `source` and `target` claim ID. The IDs may belong to claims in different papers (cross-paper edges are first-class).
 
 ## Claim graph properties relied on by queries
 
-Most rrvix queries assume:
+Most rrxiv queries assume:
 
 - **Claim IDs are globally unique** and never change once assigned. This is the contract that lets edges be stable.
 - **Claims are immutable.** An "updated" claim is a *new* claim with a new ID, with an `extends` edge from the new claim to the old. The old claim's `replication_status` may evolve, but its `statement` and `scope` do not.
@@ -99,17 +99,17 @@ Cycles in `depends_on` are a soft error (see above). Cycles in `extends` are for
 
 ## Worked example: the whitepaper's claim graph
 
-The rrvix whitepaper itself is a paper in rrvix. Its CIR has 4 claims and 1 explicit edge:
+The rrxiv whitepaper itself is a paper in rrxiv. Its CIR has 4 claims and 1 explicit edge:
 
 ```mermaid
 flowchart TD
-    VS["rrvix-0001:claim:volume-structure
+    VS["rrxiv-0001:claim:volume-structure
         empirical · observation"]
-    QY["rrvix-0001:claim:queryability
+    QY["rrxiv-0001:claim:queryability
         theoretical · argument"]
-    ST["rrvix-0001:claim:source-truth
+    ST["rrxiv-0001:claim:source-truth
         methodological · argument"]
-    AG["rrvix-0001:claim:agents-first
+    AG["rrxiv-0001:claim:agents-first
         methodological · argument"]
 
     QY -- depends_on --> VS
@@ -120,7 +120,7 @@ flowchart TD
 
 Read: the queryability claim is built on the empirical observation that the corpus has outgrown human-only readers. The other claims (source-of-truth and agents-as-first-class) stand alone as design assertions. None are replicated yet (they're recent), so all carry `replication_status: untested`.
 
-This is the smallest non-trivial claim graph in rrvix. As papers cite the whitepaper and extract claims of their own, the graph grows outward — `extends` edges from new methodological claims, `supports` edges from any replication studies of `volume-structure`, and so on.
+This is the smallest non-trivial claim graph in rrxiv. As papers cite the whitepaper and extract claims of their own, the graph grows outward — `extends` edges from new methodological claims, `supports` edges from any replication studies of `volume-structure`, and so on.
 
 ## Server-derived fields
 

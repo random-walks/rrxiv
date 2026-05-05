@@ -1,6 +1,6 @@
 ---
 title: Proposals (RRPs)
-description: Index of rrvix Proposals — the RFC/BIP-style change-management process.
+description: Index of rrxiv Proposals — the RFC/BIP-style change-management process.
 ---
 
 {%

@@ -44,8 +44,8 @@ What are the costs of accepting this? Implementation effort, ecosystem disruptio
 
 - **Schemas**: which `*.schema.json` files change? With what version bump (patch / minor / major)?
 - **Spec docs**: which `spec/*.md` documents need updating to reflect the new behaviour?
-- **`rrvix.cls`**: are new commands or environments needed? Are existing ones changed?
-- **`rrvix-python`**: what code needs to change? What new tests?
+- **`rrxiv.cls`**: are new commands or environments needed? Are existing ones changed?
+- **`rrxiv-python`**: what code needs to change? What new tests?
 - **Existing CIRs**: does the change require a CIR migration script? Or is it backwards-compatible?
 
 ## Open questions

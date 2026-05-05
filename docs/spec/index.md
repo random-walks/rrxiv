@@ -1,6 +1,6 @@
 ---
 title: Spec documents
-description: Index of rrvix protocol specification documents.
+description: Index of rrxiv protocol specification documents.
 ---
 
 {%

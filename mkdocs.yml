@@ -1,11 +1,11 @@
-site_name: rrvix
+site_name: rrxiv
 site_description: An open protocol for research preprints in the era of human-agent coproduction.
-site_url: https://random-walks.github.io/rrvix/
-site_author: rrvix contributors
+site_url: https://random-walks.github.io/rrxiv/
+site_author: rrxiv contributors
 copyright: Content licensed CC-BY 4.0; code MIT.
 
-repo_url: https://github.com/random-walks/rrvix
-repo_name: random-walks/rrvix
+repo_url: https://github.com/random-walks/rrxiv
+repo_name: random-walks/rrxiv
 edit_uri: edit/main/docs/
 
 docs_dir: docs
@@ -114,8 +114,8 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/random-walks/rrvix
-      name: rrvix on GitHub
+      link: https://github.com/random-walks/rrxiv
+      name: rrxiv on GitHub
   generator: false
 
 extra_css:

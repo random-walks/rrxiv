@@ -3,7 +3,7 @@
 **Status:** v0.1 draft.
 **Prereqs:** [`0001-overview.md`](0001-overview.md). The RRP process is in [`proposals/README.md`](../proposals/README.md).
 
-This document describes how rrvix is governed: who decides what enters the protocol, what changes require an RRP, the RRP lifecycle (cross-referenced from the proposals README), the dispute-resolution process, the relationship between the rrvix.org canonical instance and the protocol itself, and the legal/license posture.
+This document describes how rrxiv is governed: who decides what enters the protocol, what changes require an RRP, the RRP lifecycle (cross-referenced from the proposals README), the dispute-resolution process, the relationship between the rrxiv.com canonical instance and the protocol itself, and the legal/license posture.
 
 ## Locked principles
 
@@ -11,19 +11,19 @@ These principles are baseline commitments. They cannot be altered by ordinary co
 
 1. **The protocol is permissively-licensed open source.** Code is MIT; spec docs and the whitepaper are CC-BY-4.0.
 2. **The corpus is CC-BY licensed.** Submitted content must be under a CC-BY-compatible license; CC-BY-4.0 is the default and recommendation.
-3. **Snapshot exports are mandatory and free.** Any rrvix instance must expose a complete, downloadable corpus archive at no cost to the requester.
+3. **Snapshot exports are mandatory and free.** Any rrxiv instance must expose a complete, downloadable corpus archive at no cost to the requester.
 4. **Forks are first-class.** If the canonical instance fails its users, the corpus and the code can be forked; the protocol must not introduce technical or legal lock-in. New mechanisms that would create such lock-in are rejected.
 5. **Read access is free for both humans and agents.** Read access cannot be paywalled. Rate limits for anti-abuse are permitted but must not effectively gate research access.
 
-A governance RRP that proposes amending one of these principles requires (i) a substantively higher acceptance bar, including a longer discussion window (≥30 days vs. ≥14 days) and (ii) explicit acknowledgement from current maintainers and from any third parties who relied on the principle when they integrated with rrvix.
+A governance RRP that proposes amending one of these principles requires (i) a substantively higher acceptance bar, including a longer discussion window (≥30 days vs. ≥14 days) and (ii) explicit acknowledgement from current maintainers and from any third parties who relied on the principle when they integrated with rrxiv.
 
 ## Stewardship structure
 
-In v0, rrvix is stewarded by a small **maintainer group** named in [`MAINTAINERS.md`](../MAINTAINERS.md). Maintainer authority:
+In v0, rrxiv is stewarded by a small **maintainer group** named in [`MAINTAINERS.md`](../MAINTAINERS.md). Maintainer authority:
 
-- **Merge rights** on the canonical repository (the `rrvix` repo).
+- **Merge rights** on the canonical repository (the `rrxiv` repo).
 - **RRP acceptance authority** — a maintainer may merge an RRP that has reached its discussion threshold.
-- **Operations of rrvix.org** — separately, the canonical instance is run by an operator (a cooperative / nonprofit; see *Operator vs. protocol* below). The operator is **not** automatically a maintainer.
+- **Operations of rrxiv.com** — separately, the canonical instance is run by an operator (a cooperative / nonprofit; see *Operator vs. protocol* below). The operator is **not** automatically a maintainer.
 
 Maintainer additions and removals are themselves an RRP. The first maintainer set is whoever is named in `MAINTAINERS.md` at v0.1 — those people inherit authority from the project's founding act.
 
@@ -54,9 +54,9 @@ This is intentionally light-touch. The intent is to surface obvious conflicts be
 
 ## Operator vs. protocol
 
-**rrvix-the-protocol** is what this repository defines: schemas, spec docs, the cls, the RRP process. It is governed by the maintainer group above.
+**rrxiv-the-protocol** is what this repository defines: schemas, spec docs, the cls, the RRP process. It is governed by the maintainer group above.
 
-**rrvix.org-the-service** is one instance — the canonical one, eventually — that runs the protocol. The instance is operated by an organisational entity (a cooperative or nonprofit; see below). The operator:
+**rrxiv.com-the-service** is one instance — the canonical one, eventually — that runs the protocol. The instance is operated by an organisational entity (a cooperative or nonprofit; see below). The operator:
 
 - **Cannot unilaterally amend the protocol.** Operator-driven changes go through the RRP process like any other.
 - **Cannot privatise the corpus.** Snapshot exports remain free. Locked principle 3.
@@ -100,7 +100,7 @@ Fork events are themselves RRPs; the urgency may shorten the discussion window.
 
 ### Protocol-itself sunset
 
-If the rrvix protocol itself is no longer being maintained — no maintainers active, no RRPs accepted in 12 months, no replacement plan — the corpus snapshot at that time becomes the canonical artifact. The protocol enters a **frozen** state; existing instances may continue to operate but new RRPs cannot be accepted.
+If the rrxiv protocol itself is no longer being maintained — no maintainers active, no RRPs accepted in 12 months, no replacement plan — the corpus snapshot at that time becomes the canonical artifact. The protocol enters a **frozen** state; existing instances may continue to operate but new RRPs cannot be accepted.
 
 This isn't an outcome anyone wants, but the corpus's value to readers must survive even if the protocol's governance does not.
 
@@ -110,6 +110,6 @@ This isn't an outcome anyone wants, but the corpus's value to readers must survi
 - **Operator selection criteria.** When the cooperative is being formed, what's the procedure? An open call? An invited founding board? Both have precedent in adjacent communities (Open Library Foundation, Code for Science & Society).
 - **Cross-instance governance.** If federation lands, do other instances participate in protocol governance? Probably yes — but the mechanism is unspecified.
 - **Funding-the-protocol-itself.** The operator funds its own operations. Who funds the protocol's maintenance (RRP review, schema work, the cls)? In adjacent communities this is often grants + sponsor donations; needs concrete sketching.
-- **Trademark.** Should "rrvix" be a registered trademark held by the operator, with a permissive licence for compatible implementations? Outside scope for spec docs but a real legal question.
+- **Trademark.** Should "rrxiv" be a registered trademark held by the operator, with a permissive licence for compatible implementations? Outside scope for spec docs but a real legal question.
 
 These are tracked in [`proposals/`](../proposals/) once they crystallise.

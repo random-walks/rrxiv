@@ -18,19 +18,19 @@ on:
 
 jobs:
   parser-conformance:
-    name: Parser conformance via rrvix-python
+    name: Parser conformance via rrxiv-python
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout rrvix
+      - name: Checkout rrxiv
         uses: actions/checkout@v4
         with:
-          path: rrvix
+          path: rrxiv
 
-      - name: Checkout rrvix-python
+      - name: Checkout rrxiv-python
         uses: actions/checkout@v4
         with:
-          repository: random-walks/rrvix-python
-          path: rrvix-python
+          repository: random-walks/rrxiv-python
+          path: rrxiv-python
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -40,20 +40,20 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v3
 
-      - name: Install rrvix-python deps
-        working-directory: rrvix-python
+      - name: Install rrxiv-python deps
+        working-directory: rrxiv-python
         run: uv sync --all-extras
 
       - name: Run conformance suite
-        working-directory: rrvix
+        working-directory: rrxiv
         run: |
           if [ ! -d tests/conformance/fixtures ] || [ -z "$(ls -A tests/conformance/fixtures 2>/dev/null)" ]; then
             echo "No fixtures present yet — skipping."
             exit 0
           fi
-          # Run from rrvix-python so 'uv run rrvix' resolves; the runner
+          # Run from rrxiv-python so 'uv run rrxiv' resolves; the runner
           # works with absolute paths so the cwd doesn't otherwise matter.
-          cd ../rrvix-python
-          uv run python ../rrvix/tests/conformance/runner.py \
-            --impl 'uv run rrvix parse' \
+          cd ../rrxiv-python
+          uv run python ../rrxiv/tests/conformance/runner.py \
+            --impl 'uv run rrxiv parse' \
             --verbose

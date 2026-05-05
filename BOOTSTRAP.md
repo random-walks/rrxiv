@@ -1,30 +1,30 @@
-# rrvix — Bootstrap Document
+# rrxiv — Bootstrap Document
 
-This is the kickoff document for the `rrvix` repo. Read this end-to-end before making changes. If you're an AI agent (Claude Code, etc.) executing on this repo, treat the **Phase 0 Milestones** section as your task list.
+This is the kickoff document for the `rrxiv` repo. Read this end-to-end before making changes. If you're an AI agent (Claude Code, etc.) executing on this repo, treat the **Phase 0 Milestones** section as your task list.
 
 ---
 
-## What rrvix is
+## What rrxiv is
 
-rrvix is an open protocol for research preprints and structured scientific knowledge, designed for the era where both humans and AI agents are heavy producers and consumers of research. It pairs the immutability and citability of arXiv with a Wikipedia-style commentary layer, plus a structured *claim graph* that makes the corpus natively queryable by agents.
+rrxiv is an open protocol for research preprints and structured scientific knowledge, designed for the era where both humans and AI agents are heavy producers and consumers of research. It pairs the immutability and citability of arXiv with a Wikipedia-style commentary layer, plus a structured *claim graph* that makes the corpus natively queryable by agents.
 
-The core insight: a research paper is not the right atomic unit. Papers contain many claims of varying evidentiary status. rrvix keeps papers immutable (so citation works) but layers a structured representation of their claims, with explicit dependency edges, replication status, and annotations on top. This makes "where are the load-bearing unverified claims in topic X" a tractable query instead of a vibe.
+The core insight: a research paper is not the right atomic unit. Papers contain many claims of varying evidentiary status. rrxiv keeps papers immutable (so citation works) but layers a structured representation of their claims, with explicit dependency edges, replication status, and annotations on top. This makes "where are the load-bearing unverified claims in topic X" a tractable query instead of a vibe.
 
-rrvix is a protocol, not a product. There will be one canonical instance hosted at rrvix.org for now, but the data is CC-licensed, the code is permissive open source, and snapshot exports are mandatory and free. If the official instance ever fails its users, anyone can fork the corpus and run a clean version.
+rrxiv is a protocol, not a product. There will be one canonical instance hosted at rrxiv.com for now, but the data is CC-licensed, the code is permissive open source, and snapshot exports are mandatory and free. If the official instance ever fails its users, anyone can fork the corpus and run a clean version.
 
 ## What this repo is
 
-This repo (`rrvix`) is the canonical home for:
+This repo (`rrxiv`) is the canonical home for:
 
-- The **rrvix whitepaper** — the foundational design document, written in TeX, itself a valid rrvix submission (dogfooding from day one)
-- The **rrvix protocol spec** — Markdown documents describing each component of the protocol
+- The **rrxiv whitepaper** — the foundational design document, written in TeX, itself a valid rrxiv submission (dogfooding from day one)
+- The **rrxiv protocol spec** — Markdown documents describing each component of the protocol
 - **JSON Schema** files for the Canonical Intermediate Representation (CIR), claims, annotations, papers, and all other data objects
 - An **OpenAPI 3.1** spec for the HTTP API
-- The **rrvix LaTeX class** (`rrvix.cls`) — the recommended submission template with semantic environments
-- **RRPs (rrvix Proposals)** — RFC/BIP-style improvement proposals
-- **Conformance tests** — a test suite any rrvix implementation must pass
+- The **rrxiv LaTeX class** (`rrxiv.cls`) — the recommended submission template with semantic environments
+- **RRPs (rrxiv Proposals)** — RFC/BIP-style improvement proposals
+- **Conformance tests** — a test suite any rrxiv implementation must pass
 
-This repo does NOT contain server implementations, client SDKs, or the actual rrvix.org website. Those live in separate repos (`rrvix-python`, eventually `rrvix-server`, `rrvix-web`, etc.).
+This repo does NOT contain server implementations, client SDKs, or the actual rrxiv.com website. Those live in separate repos (`rrxiv-python`, eventually `rrxiv-server`, `rrxiv-web`, etc.).
 
 ## Design principles
 
@@ -39,7 +39,7 @@ This repo does NOT contain server implementations, client SDKs, or the actual rr
 ## Repo structure
 
 ```
-rrvix/
+rrxiv/
 ├── README.md                          # Project intro, links, quickstart
 ├── LICENSE                            # MIT (for code)
 ├── LICENSE-CONTENT                    # CC-BY 4.0 (for spec docs and whitepaper)
@@ -52,8 +52,8 @@ rrvix/
 │   │   └── conformance-tests.yml      # CI: run conformance tests
 │   └── ISSUE_TEMPLATE/
 ├── whitepaper/
-│   ├── rrvix-whitepaper.tex           # The first whitepaper (TBD - written next)
-│   ├── rrvix-whitepaper.bib           # Bibliography
+│   ├── rrxiv-whitepaper.tex           # The first whitepaper (TBD - written next)
+│   ├── rrxiv-whitepaper.bib           # Bibliography
 │   ├── figures/                       # Figure source files
 │   └── README.md                      # How to compile
 ├── spec/
@@ -61,7 +61,7 @@ rrvix/
 │   ├── 0001-overview.md               # High-level protocol overview
 │   ├── 0002-cir.md                    # Canonical Intermediate Representation
 │   ├── 0003-claim-graph.md            # Claim graph data model
-│   ├── 0004-tex-template.md           # rrvix LaTeX class spec
+│   ├── 0004-tex-template.md           # rrxiv LaTeX class spec
 │   ├── 0005-submission.md             # Submission flow
 │   ├── 0006-annotations.md            # Annotation model
 │   ├── 0007-api.md                    # HTTP API design
@@ -75,11 +75,11 @@ rrvix/
 │   ├── citation.schema.json           # Citation object
 │   └── api.openapi.yaml               # OpenAPI 3.1 spec
 ├── template/
-│   ├── rrvix.cls                      # LaTeX class file with semantic environments
-│   ├── rrvix-template.tex             # Skeleton paper using the class
+│   ├── rrxiv.cls                      # LaTeX class file with semantic environments
+│   ├── rrxiv-template.tex             # Skeleton paper using the class
 │   ├── README.md                      # How to use the template
 │   └── examples/
-│       └── minimal/                   # Smallest valid rrvix paper
+│       └── minimal/                   # Smallest valid rrxiv paper
 ├── proposals/
 │   ├── README.md                      # The RRP process
 │   ├── 0000-template.md               # RRP template
@@ -103,7 +103,7 @@ rrvix/
 
 **Schema definitions:** JSON Schema 2020-12 (`$schema: https://json-schema.org/draft/2020-12/schema`). Every schema file has a stable `$id` and a `version` field. Schemas are versioned independently and use semantic versioning at the schema level (additive changes are minor, breaking changes major).
 
-**API definition:** OpenAPI 3.1 in YAML. References JSON Schema files via `$ref`. Generates client code via `openapi-generator` or language-specific tools. The reference Python client (`rrvix-python`) consumes this spec.
+**API definition:** OpenAPI 3.1 in YAML. References JSON Schema files via `$ref`. Generates client code via `openapi-generator` or language-specific tools. The reference Python client (`rrxiv-python`) consumes this spec.
 
 **Spec docs:** Markdown with optional Mermaid diagrams. No HTML, no proprietary formats. Each doc has a stable filename prefix (`0001-`, `0002-`, etc.) and is referenced by that ID in proposals and code.
 
@@ -131,13 +131,13 @@ These are the milestones to ship before the repo goes public. Each has a clear d
 
 **Done when:** Schemas validate against meta-schema, tests pass in CI.
 
-### M0.3 — rrvix LaTeX class v0.1
-- [ ] Write `template/rrvix.cls` with semantic environments: `claim`, `evidence`, `replicates`, `contradicts`, `extends`, `scope`
-- [ ] Each environment accepts a `label` and emits both human-readable rendered output AND a machine-readable side-channel (suggestion: write a parallel `.rrvix.json` file during compilation, OR use `\write` to a special log file the parser reads)
-- [ ] Write `template/rrvix-template.tex` demonstrating every environment
-- [ ] Write `template/examples/minimal/` — the smallest valid rrvix paper (one claim, one citation, abstract, conclusion)
+### M0.3 — rrxiv LaTeX class v0.1
+- [ ] Write `template/rrxiv.cls` with semantic environments: `claim`, `evidence`, `replicates`, `contradicts`, `extends`, `scope`
+- [ ] Each environment accepts a `label` and emits both human-readable rendered output AND a machine-readable side-channel (suggestion: write a parallel `.rrxiv.json` file during compilation, OR use `\write` to a special log file the parser reads)
+- [ ] Write `template/rrxiv-template.tex` demonstrating every environment
+- [ ] Write `template/examples/minimal/` — the smallest valid rrxiv paper (one claim, one citation, abstract, conclusion)
 
-**Done when:** `pdflatex template/rrvix-template.tex` produces a clean PDF and `template/examples/minimal/` compiles.
+**Done when:** `pdflatex template/rrxiv-template.tex` produces a clean PDF and `template/examples/minimal/` compiles.
 
 ### M0.4 — Spec documents
 - [ ] Write `spec/0001-overview.md` (~2000 words, the whole protocol in plain English)
@@ -146,15 +146,15 @@ These are the milestones to ship before the repo goes public. Each has a clear d
 - [ ] Write `spec/0004-tex-template.md` — the spec for the LaTeX class as a separate doc
 - [ ] Stub out `spec/0005-`, `0006-`, `0007-`, `0008-` with one-paragraph summaries and `TODO` markers
 
-**Done when:** Someone unfamiliar with the project can read `0001-overview.md` and understand what rrvix is.
+**Done when:** Someone unfamiliar with the project can read `0001-overview.md` and understand what rrxiv is.
 
 ### M0.5 — The whitepaper (the main event)
-- [ ] Write `whitepaper/rrvix-whitepaper.tex` using `rrvix.cls`
-- [ ] Whitepaper itself uses the semantic environments — every claim it makes about rrvix is a `\begin{claim}`, every reference to prior art is properly cited, etc.
+- [ ] Write `whitepaper/rrxiv-whitepaper.tex` using `rrxiv.cls`
+- [ ] Whitepaper itself uses the semantic environments — every claim it makes about rrxiv is a `\begin{claim}`, every reference to prior art is properly cited, etc.
 - [ ] Whitepaper compiles cleanly to PDF in CI
-- [ ] Whitepaper, when fed through the (yet-to-exist) `rrvix-python` parser, produces a valid CIR JSON object — this is the dogfooding milestone
+- [ ] Whitepaper, when fed through the (yet-to-exist) `rrxiv-python` parser, produces a valid CIR JSON object — this is the dogfooding milestone
 
-**Done when:** `whitepaper/rrvix-whitepaper.pdf` is produced by CI, AND the same source produces a valid CIR via `rrvix-python` parser, AND the resulting CIR validates against `cir.schema.json`.
+**Done when:** `whitepaper/rrxiv-whitepaper.pdf` is produced by CI, AND the same source produces a valid CIR via `rrxiv-python` parser, AND the resulting CIR validates against `cir.schema.json`.
 
 ### M0.6 — RRP process
 - [ ] Write `proposals/README.md` describing the RRP lifecycle (draft → discussion → accepted/rejected/withdrawn)
@@ -166,14 +166,14 @@ These are the milestones to ship before the repo goes public. Each has a clear d
 ### M0.7 — Public launch
 - [ ] Repo made public
 - [ ] README has a clear "what this is, what it isn't, how to read this repo, how to contribute" section
-- [ ] rrvix.org points to the whitepaper PDF and the spec docs
+- [ ] rrxiv.com points to the whitepaper PDF and the spec docs
 - [ ] Announcement post (separate concern; don't optimize for HN)
 
 **Done when:** External contributors can find the project, understand it, and submit issues or RRPs.
 
 ## What is explicitly NOT in scope for Phase 0
 
-- A running rrvix.org server
+- A running rrxiv.com server
 - A web UI for browsing claims
 - Any actual ingested papers other than the whitepaper itself and the minimal example
 - Authentication, accounts, ORCIDs integration
@@ -196,7 +196,7 @@ These are real and important and they are all Phase 1+. Phase 0 is about getting
 ## Open questions (to surface as issues or RRPs as the project develops)
 
 - How are claim IDs assigned (UUIDv7? Content-addressed hash? Author-chosen string with collision detection?)
-- How does the LaTeX class export the structured claim data — sidecar `.rrvix.json` written via `\write18`, post-hoc parser, or a dedicated build tool?
+- How does the LaTeX class export the structured claim data — sidecar `.rrxiv.json` written via `\write18`, post-hoc parser, or a dedicated build tool?
 - What's the canonical paper ID scheme? (DOI is the obvious answer but DOIs cost money; arXiv-style identifiers are free but require central allocation; UUIDs are free but not human-readable)
 - How are author identities verified? ORCID is the obvious answer but introduces a dependency.
 - What are the exact content moderation rules for the main namespace?

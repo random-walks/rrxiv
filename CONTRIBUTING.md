@@ -1,6 +1,6 @@
-# Contributing to rrvix
+# Contributing to rrxiv
 
-Thank you for your interest. rrvix is in v0.1 spec phase, which means the
+Thank you for your interest. rrxiv is in v0.1 spec phase, which means the
 substantive contribution opportunity is engagement with the **design**, not
 the implementation (which mostly doesn't exist yet).
 
@@ -14,7 +14,7 @@ the implementation (which mostly doesn't exist yet).
 ## What we are not yet ready for
 
 - Pull requests that significantly expand the whitepaper before v0.2.
-- Code contributions to `rrvix-python` beyond what its own CONTRIBUTING.md says.
+- Code contributions to `rrxiv-python` beyond what its own CONTRIBUTING.md says.
 - Discussions about which AI vendors to partner with. The protocol is vendor-neutral.
 
 ## Code of conduct

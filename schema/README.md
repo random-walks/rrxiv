@@ -1,16 +1,16 @@
-# rrvix schemas
+# rrxiv schemas
 
-JSON Schema 2020-12 definitions for the rrvix protocol data model.
+JSON Schema 2020-12 definitions for the rrxiv protocol data model.
 
 ## Files
 
 | Schema                                        | Title                                  | $id                                                  |
 | --------------------------------------------- | -------------------------------------- | ---------------------------------------------------- |
-| [`cir.schema.json`](cir.schema.json)          | Canonical Intermediate Representation  | `https://rrvix.org/schema/v0/cir.schema.json`        |
-| [`paper.schema.json`](paper.schema.json)      | Paper                                  | `https://rrvix.org/schema/v0/paper.schema.json`      |
-| [`claim.schema.json`](claim.schema.json)      | Claim                                  | `https://rrvix.org/schema/v0/claim.schema.json`      |
-| [`annotation.schema.json`](annotation.schema.json) | Annotation                          | `https://rrvix.org/schema/v0/annotation.schema.json` |
-| [`citation.schema.json`](citation.schema.json) | Citation                               | `https://rrvix.org/schema/v0/citation.schema.json`   |
+| [`cir.schema.json`](cir.schema.json)          | Canonical Intermediate Representation  | `https://rrxiv.com/schema/v0/cir.schema.json`        |
+| [`paper.schema.json`](paper.schema.json)      | Paper                                  | `https://rrxiv.com/schema/v0/paper.schema.json`      |
+| [`claim.schema.json`](claim.schema.json)      | Claim                                  | `https://rrxiv.com/schema/v0/claim.schema.json`      |
+| [`annotation.schema.json`](annotation.schema.json) | Annotation                          | `https://rrxiv.com/schema/v0/annotation.schema.json` |
+| [`citation.schema.json`](citation.schema.json) | Citation                               | `https://rrxiv.com/schema/v0/citation.schema.json`   |
 | [`api.openapi.yaml`](api.openapi.yaml)        | HTTP API (OpenAPI 3.1)                 | (operationId-prefixed paths)                         |
 
 `cir.schema.json` references the standalone schemas via `$ref`. The standalone

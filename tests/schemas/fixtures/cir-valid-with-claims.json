@@ -1,8 +1,8 @@
 {
-  "rrvix_version": "0.1.0",
+  "rrxiv_version": "0.1.0",
   "id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f",
   "version": "v1",
-  "title": "rrvix whitepaper (excerpt)",
+  "title": "rrxiv whitepaper (excerpt)",
   "authors": [
     { "name": "Jane Doe", "orcid": "0000-0001-2345-6789" }
   ],
@@ -12,7 +12,7 @@
   "topics": ["infrastructure", "scientific-publishing"],
   "source": {
     "format": "latex",
-    "uri": "https://rrvix.org/papers/01923f8e/v1/source.tar.gz"
+    "uri": "https://rrxiv.com/papers/01923f8e/v1/source.tar.gz"
   },
   "sections": [
     {
