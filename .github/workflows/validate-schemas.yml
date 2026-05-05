@@ -1,0 +1,51 @@
+name: validate-schemas
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'schema/**'
+      - 'tests/schemas/**'
+      - '.github/workflows/validate-schemas.yml'
+  pull_request:
+    paths:
+      - 'schema/**'
+      - 'tests/schemas/**'
+      - '.github/workflows/validate-schemas.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install ajv tooling
+        run: npm install -g ajv-cli@5 ajv-formats@3
+
+      - name: Validate every schema against the JSON Schema 2020-12 meta-schema
+        run: |
+          set -e
+          shopt -s nullglob
+          for f in schema/*.schema.json; do
+            echo "==> Compiling $f"
+            ajv compile -s "$f" --spec=draft2020 --strict=false -c ajv-formats
+          done
+
+      - name: Run schema validation tests if present
+        run: |
+          if [ -d tests/schemas ] && [ -n "$(ls -A tests/schemas 2>/dev/null)" ]; then
+            cd tests/schemas
+            if [ -f package.json ]; then
+              npm ci
+              npm test
+            else
+              echo "tests/schemas exists but has no package.json — skipping for now"
+            fi
+          else
+            echo "No tests/schemas yet — placeholder until M0.2 lands the test suite"
+          fi

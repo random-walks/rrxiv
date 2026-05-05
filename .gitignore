@@ -15,6 +15,10 @@
 # Schema validation cache
 .schema-cache/
 
+# MkDocs build output
+site/
+.cache/
+
 # Editor and OS
 .DS_Store
 .vscode/
