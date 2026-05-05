@@ -5,24 +5,55 @@ on:
     branches: [main]
     paths:
       - 'tests/conformance/**'
+      - 'schema/**'
+      - 'template/**'
       - '.github/workflows/conformance-tests.yml'
   pull_request:
     paths:
       - 'tests/conformance/**'
+      - 'schema/**'
+      - 'template/**'
       - '.github/workflows/conformance-tests.yml'
   workflow_dispatch:
 
 jobs:
-  conformance:
+  parser-conformance:
+    name: Parser conformance via rrvix-python
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout rrvix
+        uses: actions/checkout@v4
+        with:
+          path: rrvix
+
+      - name: Checkout rrvix-python
+        uses: actions/checkout@v4
+        with:
+          repository: random-walks/rrvix-python
+          path: rrvix-python
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Install rrvix-python deps
+        working-directory: rrvix-python
+        run: uv sync --all-extras
 
       - name: Run conformance suite
+        working-directory: rrvix
         run: |
-          if [ -d tests/conformance ] && [ -n "$(ls -A tests/conformance 2>/dev/null)" ]; then
-            echo "Conformance suite present — runner TBD per BOOTSTRAP.md M0.5"
-            ls -la tests/conformance/
-          else
-            echo "No conformance tests yet — placeholder workflow until M0.5 lands the suite"
+          if [ ! -d tests/conformance/fixtures ] || [ -z "$(ls -A tests/conformance/fixtures 2>/dev/null)" ]; then
+            echo "No fixtures present yet — skipping."
+            exit 0
           fi
+          # Run from rrvix-python so 'uv run rrvix' resolves; the runner
+          # works with absolute paths so the cwd doesn't otherwise matter.
+          cd ../rrvix-python
+          uv run python ../rrvix/tests/conformance/runner.py \
+            --impl 'uv run rrvix parse' \
+            --verbose
