@@ -107,6 +107,7 @@ nav:
     - 0000 — Template: proposals/0000-template.md
     - 0001 — Claim graph (retroactive): proposals/0001-claim-graph.md
     - 0002 — Edge marker delimiter: proposals/0002-edge-marker-delimiter.md
+    - 0003 — Whitepaper formatting: proposals/0003-whitepaper-formatting.md
   - Contributing:
     - contributing/index.md
     - Code of Conduct: contributing/code-of-conduct.md

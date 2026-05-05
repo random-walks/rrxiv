@@ -94,5 +94,6 @@ Disputes that maintainers cannot resolve fall back to the dispute-resolution pro
 | [0000](0000-template.md) | Template | Permanent |
 | [0001](0001-claim-graph.md) | Claim graph design (retroactive) | Accepted |
 | [0002](0002-edge-marker-delimiter.md) | Edge marker delimiter in `rrxiv.cls` | Accepted |
+| [0003](0003-whitepaper-formatting.md) | Whitepaper formatting cleanup | Accepted |
 
 New RRPs should be added to this table as part of the same PR.
