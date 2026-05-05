@@ -205,6 +205,169 @@ paths:
                     type: array
                     items: { type: string }
 
+  # ---- Auth (RRP-0005) ----
+  /auth/orcid/start:
+    get:
+      tags: [Auth]
+      summary: Begin the ORCID OAuth flow.
+      description: |
+        Server redirects the user to orcid.org with its registered
+        client_id. The user approves the requested scope; orcid.org
+        redirects to `redirect_uri` with `?code=…&state=…`.
+
+        The client must verify that the returned `state` matches what
+        it sent here.
+      parameters:
+        - { name: redirect_uri, in: query, required: true, schema: { type: string, format: uri } }
+        - { name: scope,        in: query, required: false, schema: { type: string, default: "/authenticate" } }
+        - { name: state,        in: query, required: true, schema: { type: string }, description: "Client-generated CSRF token." }
+      responses:
+        "302":
+          description: Redirect to orcid.org with the OAuth authorization request.
+          headers:
+            Location: { schema: { type: string, format: uri } }
+
+  /auth/orcid/callback:
+    post:
+      tags: [Auth]
+      summary: Exchange an ORCID OAuth code for a rrxiv bearer token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code, state]
+              properties:
+                code:  { type: string, description: "Authorization code from orcid.org." }
+                state: { type: string, description: "CSRF token; must match the value sent to /auth/orcid/start." }
+      responses:
+        "200":
+          description: Token issued.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [token, orcid_id]
+                properties:
+                  token:    { type: string, description: "Opaque bearer token." }
+                  orcid_id: { type: string, description: "ORCID iD, e.g. 0000-0001-2345-6789." }
+                  expires_in_seconds: { type: integer, minimum: 0 }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /auth/agent/enroll:
+    post:
+      tags: [Auth]
+      summary: Enroll an agent and receive a bearer token.
+      description: |
+        Submits an agent handle, an Ed25519 public key, and a signed
+        canonical enrollment payload. Server verifies the signature
+        and issues a bearer token bound to the handle.
+
+        See RRP-0005 §"Agent enrollment" for the canonical payload
+        format and signature semantics.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [handle, public_key_b64, payload_b64, signature_b64]
+              properties:
+                handle:
+                  type: string
+                  pattern: "^@[a-z0-9][-a-z0-9]{0,31}$"
+                  description: "Agent handle, e.g. @my-extractor."
+                public_key_b64:
+                  type: string
+                  description: "Base64 standard-encoded 32-byte Ed25519 public key."
+                payload_b64:
+                  type: string
+                  description: "Base64 of the canonical enrollment JSON payload (sorted keys, no whitespace)."
+                signature_b64:
+                  type: string
+                  description: "Base64 Ed25519 signature over the payload_b64 string bytes."
+                contact:
+                  type: string
+                  format: email
+                  description: "Optional ops contact for abuse reports."
+      responses:
+        "201":
+          description: Enrollment accepted; token issued.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [token, handle]
+                properties:
+                  token:  { type: string }
+                  handle: { type: string }
+                  expires_in_seconds: { type: integer, minimum: 0 }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403":
+          description: "Handle already taken or not permitted (reserved prefix)."
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/Problem" }
+        "422": { $ref: "#/components/responses/ValidationError" }
+
+  /auth/anonymous/challenge:
+    post:
+      tags: [Auth]
+      summary: Request an anonymous-attestation challenge.
+      responses:
+        "200":
+          description: Challenge issued.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [challenge_id, challenge_type, site_key, expires_in_seconds]
+                properties:
+                  challenge_id:
+                    type: string
+                    description: "Opaque challenge ID; pass back unchanged in /verify."
+                  challenge_type:
+                    type: string
+                    enum: [hcaptcha]
+                    description: "Challenge mechanism. v0.1 supports hCaptcha only."
+                  site_key:
+                    type: string
+                    description: "Per-server widget key for rendering the challenge."
+                  expires_in_seconds:
+                    type: integer
+                    minimum: 1
+
+  /auth/anonymous/verify:
+    post:
+      tags: [Auth]
+      summary: Submit a solved challenge and receive a bearer token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [challenge_id, response]
+              properties:
+                challenge_id: { type: string }
+                response:
+                  type: string
+                  description: "Solution token (e.g. hCaptcha h-captcha-response)."
+      responses:
+        "200":
+          description: Token issued.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [token]
+                properties:
+                  token: { type: string }
+                  expires_in_seconds: { type: integer, minimum: 0 }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
   /papers:
     get:
       tags: [Papers]
