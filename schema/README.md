@@ -11,6 +11,8 @@ JSON Schema 2020-12 definitions for the rrxiv protocol data model.
 | [`claim.schema.json`](claim.schema.json)      | Claim                                  | `https://rrxiv.com/schema/v0/claim.schema.json`      |
 | [`annotation.schema.json`](annotation.schema.json) | Annotation                          | `https://rrxiv.com/schema/v0/annotation.schema.json` |
 | [`citation.schema.json`](citation.schema.json) | Citation                               | `https://rrxiv.com/schema/v0/citation.schema.json`   |
+| [`section.schema.json`](section.schema.json)  | Section                                | `https://rrxiv.com/schema/v0/section.schema.json`    |
+| [`figure.schema.json`](figure.schema.json)    | Figure                                 | `https://rrxiv.com/schema/v0/figure.schema.json`     |
 | [`api.openapi.yaml`](api.openapi.yaml)        | HTTP API (OpenAPI 3.1)                 | (operationId-prefixed paths)                         |
 
 `cir.schema.json` references the standalone schemas via `$ref`. The standalone
