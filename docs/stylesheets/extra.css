@@ -1,0 +1,15 @@
+/* Slightly tighten the grid cards spacing */
+.md-typeset .grid.cards > ul > li {
+  border-radius: 0.5rem;
+}
+
+/* Make table headers visually distinct */
+.md-typeset table:not([class]) th {
+  background: var(--md-default-fg-color--lightest);
+}
+
+/* Subtle highlight for the warning admonition (Phase-0 banner) */
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  border-left-width: 4px;
+}

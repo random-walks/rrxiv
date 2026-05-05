@@ -2,7 +2,9 @@
 
 An open protocol for research preprints in the era of human-agent coproduction.
 
-**Status: v0.1 spec phase.** No running canonical instance yet. The whitepaper, schemas, and reference template are here. The reference client lives in [rrvix-python](https://github.com/<org>/rrvix-python).
+**Status: v0.1 spec phase.** No running canonical instance yet. The whitepaper, schemas, and reference template are here. The reference client lives in [rrvix-python](https://github.com/random-walks/rrvix-python).
+
+Docs site (work in progress): <https://random-walks.github.io/rrvix/>
 
 ## What is rrvix?
 
@@ -15,7 +17,7 @@ rrvix proposes a research preprint protocol where:
 - The corpus is **CC-BY licensed and snapshot-exported**, so it cannot be captured.
 - AI agents are **first-class participants**: read access free, write access symmetric.
 
-Read the [whitepaper](whitepaper/rrvix-whitepaper.pdf) for the full design.
+Read the whitepaper source: [`whitepaper/rrvix-whitepaper.tex`](whitepaper/rrvix-whitepaper.tex). The latest compiled PDF is published as a CI artifact on every push to `main`.
 
 ## Repo contents
 
@@ -29,6 +31,15 @@ Read the [whitepaper](whitepaper/rrvix-whitepaper.pdf) for the full design.
 
 ## Building the whitepaper
 
+With [Tectonic](https://tectonic-typesetting.github.io/) (recommended — single binary, auto-fetches packages):
+
+```bash
+cd whitepaper
+tectonic --keep-intermediates rrvix-whitepaper.tex
+```
+
+Or with a traditional TeX Live install:
+
 ```bash
 cd whitepaper
 pdflatex rrvix-whitepaper.tex
@@ -37,6 +48,13 @@ pdflatex rrvix-whitepaper.tex  # second pass for cross-references
 
 You'll get `rrvix-whitepaper.pdf` and a `rrvix-whitepaper.rrvix.aux` sidecar
 metadata file. The sidecar is what `rrvix-python` reads to produce a CIR.
+
+## Running the docs site locally
+
+```bash
+uv tool run --with mkdocs-material --with mkdocs-include-markdown-plugin --with mkdocs-awesome-pages-plugin mkdocs serve
+# then open http://127.0.0.1:8000
+```
 
 ## License
 

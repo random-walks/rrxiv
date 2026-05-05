@@ -1,0 +1,63 @@
+name: compile-whitepaper
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'whitepaper/**'
+      - 'template/rrvix.cls'
+      - '.github/workflows/compile-whitepaper.yml'
+  pull_request:
+    paths:
+      - 'whitepaper/**'
+      - 'template/rrvix.cls'
+      - '.github/workflows/compile-whitepaper.yml'
+  workflow_dispatch:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache tectonic
+        id: cache-tectonic
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/bin/tectonic
+          key: tectonic-${{ runner.os }}-v0.16.9
+
+      - name: Install tectonic
+        if: steps.cache-tectonic.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
+          mv tectonic "$HOME/.local/bin/"
+
+      - name: Add tectonic to PATH
+        run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Compile whitepaper
+        working-directory: whitepaper
+        run: tectonic --keep-logs --keep-intermediates rrvix-whitepaper.tex
+
+      - name: Verify sidecar emitted
+        working-directory: whitepaper
+        run: |
+          test -f rrvix-whitepaper.rrvix.aux
+          echo "Sidecar contents:"
+          cat rrvix-whitepaper.rrvix.aux
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rrvix-whitepaper-pdf
+          path: whitepaper/rrvix-whitepaper.pdf
+          if-no-files-found: error
+
+      - name: Upload sidecar artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rrvix-whitepaper-sidecar
+          path: whitepaper/rrvix-whitepaper.rrvix.aux
+          if-no-files-found: error

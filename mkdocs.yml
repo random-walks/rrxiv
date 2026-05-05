@@ -1,0 +1,108 @@
+site_name: rrvix
+site_description: An open protocol for research preprints in the era of human-agent coproduction.
+site_url: https://random-walks.github.io/rrvix/
+site_author: rrvix contributors
+copyright: Content licensed CC-BY 4.0; code MIT.
+
+repo_url: https://github.com/random-walks/rrvix
+repo_name: random-walks/rrvix
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/file-edit-outline
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path: ['.', '..']
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;'
+  - include-markdown:
+      preserve_includer_indent: true
+      dedent: false
+      trailing_newlines: true
+      comments: false
+  - awesome-pages
+
+nav:
+  - Home: index.md
+  - Protocol:
+    - protocol/index.md
+    - Bootstrap: protocol/bootstrap.md
+    - Whitepaper: protocol/whitepaper.md
+  - Spec:
+    - spec/index.md
+  - Proposals:
+    - proposals/index.md
+  - Contributing:
+    - contributing/index.md
+    - Code of Conduct: contributing/code-of-conduct.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/random-walks/rrvix
+      name: rrvix on GitHub
+  generator: false
+
+extra_css:
+  - stylesheets/extra.css
