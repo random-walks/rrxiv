@@ -24,6 +24,7 @@ const FIXTURES_DIR = join(__dirname, "fixtures");
 
 const KIND_TO_SCHEMA_FILE = {
   paper: "paper.schema.json",
+  paper_list_item: "paper_list_item.schema.json",
   claim: "claim.schema.json",
   annotation: "annotation.schema.json",
   citation: "citation.schema.json",
@@ -54,7 +55,7 @@ function buildAjv() {
 }
 
 function classifyFixture(filename) {
-  const m = filename.match(/^([a-z]+)-(valid|invalid)-/);
+  const m = filename.match(/^([a-z_]+)-(valid|invalid)-/);
   if (!m) return null;
   const [, kind, validity] = m;
   if (!(kind in KIND_TO_SCHEMA_FILE)) return null;

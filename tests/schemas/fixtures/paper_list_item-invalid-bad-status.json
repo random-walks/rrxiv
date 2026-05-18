@@ -1,0 +1,24 @@
+{
+  "rrxiv_version": "0.1.0",
+  "id": "01923f8e-cccc-7c4d-9e1f-3a2b1c0d4e5f",
+  "id_slug": "rrxiv:2605.00004",
+  "version": "v1",
+  "title": "Status field uses an enum not present in the schema",
+  "authors": [{ "name": "Solo Author" }],
+  "abstract": "Status 'questionable' is not a permitted enum value.",
+  "submitted_at": "2026-05-18T10:00:00Z",
+  "license": "CC-BY-4.0",
+  "source": {
+    "format": "latex",
+    "uri": "https://rrxiv.com/papers/01923f8e-cccc/v1/source.tar.gz"
+  },
+  "stats": {
+    "claims": 1,
+    "replicated": 0,
+    "contradicted": 0,
+    "contested": 0,
+    "untested": 1,
+    "status": "questionable",
+    "computed_at": "2026-05-18T10:00:01Z"
+  }
+}

@@ -95,5 +95,15 @@ Disputes that maintainers cannot resolve fall back to the dispute-resolution pro
 | [0001](0001-claim-graph.md) | Claim graph design (retroactive) | Accepted |
 | [0002](0002-edge-marker-delimiter.md) | Edge marker delimiter in `rrxiv.cls` | Accepted |
 | [0003](0003-whitepaper-formatting.md) | Whitepaper formatting cleanup | Accepted |
+| [0004](0004-tex-parser-ast.md) | AST-based TeX parser | Accepted |
+| [0005](0005-token-acquisition.md) | Token-acquisition flows | Accepted |
+| [0006](0006-cli-login.md) | CLI login | Accepted |
+| [0007](0007-message-signatures.md) | HTTP message signatures | Accepted |
+| [0008](0008-reference-server.md) | Reference server | Accepted |
+| [0009](0009-refresh-tokens.md) | Refresh tokens | Accepted |
+| [0010](0010-agent-key-rotation.md) | Agent key rotation | Accepted |
+| [0011](0011-sqlite-store.md) | SQLite persistent store | Accepted |
+| [0012](0012-paper-list-item-projection.md) | Paper list-item projection (stats) | Accepted |
+| [0013](0013-id-slug.md) | Human-friendly paper slugs (`id_slug`) | Accepted |
 
 New RRPs should be added to this table as part of the same PR.

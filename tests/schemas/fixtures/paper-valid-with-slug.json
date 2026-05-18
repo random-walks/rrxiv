@@ -1,0 +1,15 @@
+{
+  "rrxiv_version": "0.1.0",
+  "id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f",
+  "id_slug": "rrxiv:2605.00001",
+  "version": "v1",
+  "title": "Paper with a server-minted id_slug",
+  "authors": [{ "name": "Jane Doe", "orcid": "0000-0001-2345-6789" }],
+  "abstract": "Exercises the new id_slug field added by RRP-0013.",
+  "submitted_at": "2026-05-18T12:00:00Z",
+  "license": "CC-BY-4.0",
+  "source": {
+    "format": "latex",
+    "uri": "https://rrxiv.com/papers/01923f8e/v1/source.tar.gz"
+  }
+}

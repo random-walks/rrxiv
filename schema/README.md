@@ -8,6 +8,7 @@ JSON Schema 2020-12 definitions for the rrxiv protocol data model.
 | --------------------------------------------- | -------------------------------------- | ---------------------------------------------------- |
 | [`cir.schema.json`](cir.schema.json)          | Canonical Intermediate Representation  | `https://rrxiv.com/schema/v0/cir.schema.json`        |
 | [`paper.schema.json`](paper.schema.json)      | Paper                                  | `https://rrxiv.com/schema/v0/paper.schema.json`      |
+| [`paper_list_item.schema.json`](paper_list_item.schema.json) | Paper list-item (Paper + stats) | `https://rrxiv.com/schema/v0/paper_list_item.schema.json` |
 | [`claim.schema.json`](claim.schema.json)      | Claim                                  | `https://rrxiv.com/schema/v0/claim.schema.json`      |
 | [`annotation.schema.json`](annotation.schema.json) | Annotation                          | `https://rrxiv.com/schema/v0/annotation.schema.json` |
 | [`citation.schema.json`](citation.schema.json) | Citation                               | `https://rrxiv.com/schema/v0/citation.schema.json`   |
@@ -19,6 +20,12 @@ JSON Schema 2020-12 definitions for the rrxiv protocol data model.
 schemas are independently usable for endpoints that return only one kind of
 object (e.g. `GET /api/v0/papers/{id}` returns a Paper, `GET /api/v0/claims/{id}`
 returns a Claim).
+
+`paper_list_item.schema.json` is a server-computed projection of `paper.schema.json`
+that adds aggregate `stats` (claim counts, paper-level rollup status). It is the
+wire shape of `GET /api/v0/papers` and `GET /api/v0/papers/{id}?include=stats`.
+The canonical `Paper` is immutable; stats are derived and change as the corpus
+evolves. See [RRP-0012](../proposals/0012-paper-list-item-projection.md).
 
 `api.openapi.yaml` is the OpenAPI 3.1 sketch of the HTTP API. See
 [`../spec/0007-api.md`](../spec/0007-api.md) for the prose companion explaining
