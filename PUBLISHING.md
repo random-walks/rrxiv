@@ -157,6 +157,45 @@ The web client renders the version chain on the paper page so readers can see th
 
 ---
 
+## Writing meaty claims
+
+A bare claim ("Proposition X: statement.") is the bare minimum. To make the claim view useful — the web client renders an entire detail page per claim — populate the optional fields the schema reserves for *what's actually known about the claim*: the proof, the figures it relies on, where it lives in the source. The parser pulls this content out of the .tex automatically when you follow a small set of conventions; the same conventions are how `rrxiv-web` renders a proof inline on the claim page.
+
+The encoding contract is two LaTeX environments + one pairing rule:
+
+```latex
+\begin{claim}[Proposition I.10: To bisect a given finite straight line]
+\label{prop:I.10}
+To bisect a given finite straight line.
+\end{claim}
+
+\begin{evidence}[Proof of I.10]
+\label{ev:I.10}
+\input{figures/fig-i-10}
+Let $AB$ be the given finite straight line. With centre $A$ and distance
+$AB$ describe the circle $BCD$ (Postulate 3). \dots
+\dependson{I.10}{I.1}
+\dependson{I.10}{I.9}
+\end{evidence}
+```
+
+- **Pair the proof to its claim via the label suffix.** A `\label{prop:X.Y}` on the claim pairs to a `\label{ev:X.Y}` on the evidence block by the `X.Y` tail. The parser walks claim → evidence by this rule and writes the cleaned evidence body into `Claim.proof`. Math (`$...$`, `\[...\]`) is preserved verbatim so the web client (KaTeX) can render formulas; `\dependson{}{}` lines are stripped because that information already rides on `Claim.depends_on`.
+- **Reference figures inside the evidence block.** Any `\input{figures/foo}` inside `\begin{evidence}...\end{evidence}` becomes a `Claim.figures[]` entry — the path is preserved relative to the source-archive root, and any `\caption{...}` inside the figure file is captured. The web client renders the diagrams alongside the proof; readers don't have to open the source tarball to see the construction.
+- **Source provenance is computed automatically.** The parser writes `Claim.source_location.file`, `line_start`, and `line_end` so deep links into the source viewer work. For multi-file papers (Euclid puts each book in its own .tex), use `\input` from `main.tex` and run `flatten-tex.py` before parsing — the parser maps the flattened lines back to the original file via the `% [flatten-tex.py] inlined: <path>` markers.
+
+Why each field exists:
+
+| Field | Why |
+|-------|-----|
+| `proof` | The reader of a claim page is asking "why is this claim true?" If the proof lives only in the PDF, the claim page is dead text. The proof is the first-class content of a `Claim`, not a sidecar. |
+| `figures` | A geometric proof without its diagram is harder to read than it needs to be. Figures referenced inside the evidence block are *part of the proof* — surfacing them inline on the claim page closes the loop. |
+| `source_location` | Provenance. A reader who wants to verify the encoding (translate this from the original .tex?) needs a deep link, not a "go read the tarball" instruction. |
+| `pdf_anchor` | A `#page=N` (or `#nameddest=...`) URL fragment so the "open in PDF" affordance jumps to the right page. The parser leaves this unset — computing page numbers requires the rendered PDF — but the schema reserves a place for a downstream tool to write it. |
+
+Claims that aren't propositions (definitions, postulates, conventions) usually have no paired evidence block — that's fine. The fields are optional; the parser writes them when they're available and omits them when they're not. The schema (claim.schema.json v0.2.0) and the protocol guidance for this encoding are in [RRP-0015](proposals/0015-meaty-claims.md).
+
+---
+
 ## See also
 
 - [`rrxiv-paper-template`](https://github.com/random-walks/rrxiv-paper-template) — the canonical GitHub template

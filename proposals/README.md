@@ -105,5 +105,7 @@ Disputes that maintainers cannot resolve fall back to the dispute-resolution pro
 | [0011](0011-sqlite-store.md) | SQLite persistent store | Accepted |
 | [0012](0012-paper-list-item-projection.md) | Paper list-item projection (stats) | Accepted |
 | [0013](0013-id-slug.md) | Human-friendly paper slugs (`id_slug`) | Accepted |
+| [0014](0014-cursor-pagination.md) | Cursor pagination for list endpoints | Accepted |
+| [0015](0015-meaty-claims.md) | Meaty claims (proof, figures, source-location) | Accepted |
 
 New RRPs should be added to this table as part of the same PR.
