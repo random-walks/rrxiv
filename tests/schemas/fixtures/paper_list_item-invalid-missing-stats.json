@@ -1,0 +1,15 @@
+{
+  "rrxiv_version": "0.1.0",
+  "id": "01923f8e-bbbb-7c4d-9e1f-3a2b1c0d4e5f",
+  "id_slug": "rrxiv:2605.00003",
+  "version": "v1",
+  "title": "A paper without stats is not a valid list-item",
+  "authors": [{ "name": "Solo Author" }],
+  "abstract": "Stats are required on the list-item projection.",
+  "submitted_at": "2026-05-18T10:00:00Z",
+  "license": "CC-BY-4.0",
+  "source": {
+    "format": "latex",
+    "uri": "https://rrxiv.com/papers/01923f8e-bbbb/v1/source.tar.gz"
+  }
+}

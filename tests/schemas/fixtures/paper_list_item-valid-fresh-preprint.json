@@ -1,0 +1,24 @@
+{
+  "rrxiv_version": "0.1.0",
+  "id": "01923f8e-aaaa-7c4d-9e1f-3a2b1c0d4e5f",
+  "id_slug": "rrxiv:2605.00002",
+  "version": "v1",
+  "title": "A freshly submitted paper with no annotations yet",
+  "authors": [{ "name": "Solo Author" }],
+  "abstract": "No replication evidence, no contradictions, no annotations. Preprint state.",
+  "submitted_at": "2026-05-18T10:00:00Z",
+  "license": "CC-BY-4.0",
+  "source": {
+    "format": "latex",
+    "uri": "https://rrxiv.com/papers/01923f8e-aaaa/v1/source.tar.gz"
+  },
+  "stats": {
+    "claims": 3,
+    "replicated": 0,
+    "contradicted": 0,
+    "contested": 0,
+    "untested": 3,
+    "status": "preprint",
+    "computed_at": "2026-05-18T10:00:01Z"
+  }
+}
