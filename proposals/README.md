@@ -107,5 +107,10 @@ Disputes that maintainers cannot resolve fall back to the dispute-resolution pro
 | [0013](0013-id-slug.md) | Human-friendly paper slugs (`id_slug`) | Accepted |
 | [0014](0014-cursor-pagination.md) | Cursor pagination for list endpoints | Accepted |
 | [0015](0015-meaty-claims.md) | Meaty claims (proof, figures, source-location) | Accepted |
+| [0016](0016-submission-request-schema.md) | Submission request schema (multipart wire format + `dry_run`) | Accepted |
+| [0017](0017-revision-flow-and-diff.md) | Revision flow + semantic diff (RevisionDiff schema + diff endpoint + `revision_summary` annotation) | Accepted |
+| [0018](0018-annotation-threads.md) | Annotation threads (`in_reply_to`) | Accepted |
+| [0019](0019-reproducibility-manifests.md) | Reproducibility manifests (`reproduction_kind` + per-discipline quorum) | Accepted |
+| [0020](0020-author-claim-retraction.md) | Author claim retraction (signed fast path + lift convention) | Accepted |
 
 New RRPs should be added to this table as part of the same PR.
