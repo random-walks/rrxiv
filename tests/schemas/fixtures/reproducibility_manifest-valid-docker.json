@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "title": "Reproduction of Proposition I.1 (equilateral triangle construction)",
+  "claim_uri": "https://rrxiv.com/claims/01923f8e-0009-7c4d-9e1f-3a2b1c0d4e5f:prop:I.1",
+  "environment": {
+    "kind": "docker",
+    "image": "ghcr.io/example/euclid-coq:lean4-1.0",
+    "digest": "sha256:abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234",
+    "platform": "linux/amd64"
+  },
+  "entrypoint": "lake build EuclidI1",
+  "expected_outputs": [
+    { "path": "build/EuclidI1.olean", "description": "Compiled Lean proof object." }
+  ],
+  "estimated_runtime_minutes": 3,
+  "estimated_cost_usd": 0.01
+}

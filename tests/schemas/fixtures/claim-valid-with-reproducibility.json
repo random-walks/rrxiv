@@ -1,0 +1,13 @@
+{
+  "id": "01923f8e-0009-7c4d-9e1f-3a2b1c0d4e5f:prop:I.1",
+  "paper_id": "01923f8e-0009-7c4d-9e1f-3a2b1c0d4e5f",
+  "statement": "On a given finite straight line to construct an equilateral triangle.",
+  "claim_type": "theoretical",
+  "evidence_type": "proof",
+  "reproducibility": {
+    "manifest_uri": "https://github.com/random-walks/rrxiv-paper-euclid-elements/blob/v1/manifests/I-1.json",
+    "manifest_hash": "sha256:abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234"
+  },
+  "extracted_by": "author",
+  "canonical": true
+}

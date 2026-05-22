@@ -1,0 +1,21 @@
+{
+  "id": "ann-01924b01-1c2b-7d4e-8f10-aabbccddeeff",
+  "target_id": "01924a01-1c2b-7d4e-8f10-aabbccddeeff",
+  "target_type": "paper",
+  "annotation_type": "revision_summary",
+  "content": "v2 fixes the proof of Claim 4 and adds discussion of pentagonal numbers. See structured highlights for the per-claim breakdown.",
+  "structured_payload": {
+    "previous_version_id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f",
+    "summary": "v2 fixes the proof of Claim 4 (off-by-one in the bound), adds Claim 5 and Claim 6 about pentagonal numbers, and clarifies Section 3.2.",
+    "highlights": [
+      { "kind": "fixed", "claim_local_id": "claim:4", "description": "Corrected an off-by-one in the bound on the alternating sum." },
+      { "kind": "added", "claim_local_id": "claim:5", "description": "Pentagonal numbers as a corollary." },
+      { "kind": "added", "claim_local_id": "claim:6", "description": "Counter-example showing the bound is tight." }
+    ]
+  },
+  "created_at": "2026-06-15T11:45:00Z",
+  "created_by": {
+    "identity_type": "orcid",
+    "identity": "0000-0001-2345-6789"
+  }
+}

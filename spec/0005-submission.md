@@ -1,7 +1,7 @@
 # 0005 — Submission flow
 
 **Status:** v0.1 draft.
-**Schema:** [`schema/paper.schema.json`](../schema/paper.schema.json).
+**Schemas:** [`schema/paper.schema.json`](../schema/paper.schema.json), [`schema/submission_request.schema.json`](../schema/submission_request.schema.json) (RRP-0016), [`schema/revision_diff.schema.json`](../schema/revision_diff.schema.json) (RRP-0017).
 **Prereqs:** [`0001-overview.md`](0001-overview.md), [`0002-cir.md`](0002-cir.md), [`0004-tex-template.md`](0004-tex-template.md).
 
 ## What submission is
@@ -53,18 +53,32 @@ A failing pre-submission check is a hard error; the client does not contact the 
 
 ## Server-side ingestion
 
+The wire format is documented in [`schema/submission_request.schema.json`](../schema/submission_request.schema.json) (RRP-0016): a multipart request with `cir` (JSON file part) + `bundle` (tar.gz file part) + form fields (`previous_version`, `revision_summary`, `dry_run`, `client_compile_hash`).
+
 1. **Receive the bundle** at `POST /api/v0/submissions` (see [`0007-api.md`](0007-api.md)).
 2. **Authenticate** the submitting identity (ORCID / agent / anonymous-with-attestation).
-3. **Re-validate** the bundle against the constraints in *Source bundle format* above.
-4. **Re-compile** in the server's reference environment (a sandboxed Tectonic invocation; no network during compile).
-5. **Re-parse** the source + sidecar to a CIR. Compare against the client-provided CIR; if they diverge by anything beyond the trivial `submitted_at` and `id` fields, reject the submission.
-6. **Mint an ID.** v0.1 uses **UUIDv7** — see *ID assignment* below. The minted ID becomes the paper's `id` and is stamped into the stored CIR.
-7. **Sign and store** the canonical CIR.
-8. **Index** the CIR for query: claim graph edges, citations, search terms.
-9. **Snapshot eligibility.** The new submission is included in the next snapshot export (per [`0008-governance.md`](0008-governance.md)).
-10. **Acknowledge** with the assigned ID and the canonical retrieval URI.
+3. **Verify `client_compile_hash`** if present: recompute SHA-256 over the received bundle bytes, reject with 400 `bundle_hash_mismatch` on disagreement.
+4. **Re-validate** the bundle against the constraints in *Source bundle format* above.
+5. **Re-compile** in the server's reference environment (a sandboxed Tectonic invocation; no network during compile).
+6. **Re-parse** the source + sidecar to a CIR. Compare against the client-provided CIR; if they diverge by anything beyond the trivial `submitted_at` and `id` fields, reject the submission.
+7. **Mint an ID.** v0.1 uses **UUIDv7** — see *ID assignment* below. The minted ID becomes the paper's `id` and is stamped into the stored CIR.
+8. **Sign and store** the canonical CIR. **If `previous_version` is set**, compute the `revision_diff` against the prior version's CIR (see RRP-0017) and store it.
+9. **Index** the CIR for query: claim graph edges, citations, search terms.
+10. **Snapshot eligibility.** The new submission is included in the next snapshot export (per [`0008-governance.md`](0008-governance.md)).
+11. **Revision summary**, if the `revision_summary` form field was provided: synthesise a `revision_summary` annotation (RRP-0017) attached to the new paper, authored by the submitting identity. Authors may supersede this with a richer annotation later.
+12. **Acknowledge** with the assigned ID, retrieval URI, version chain pointer, and (for revisions) the computed `revision_diff` inline.
 
-If any step after 6 fails, the assigned ID is **retired** — never recycled — and the submission is rejected with a server error. Authors retry with a fresh client-initiated submission; the previous attempt's ID is dead.
+If any step after 7 fails, the assigned ID is **retired** — never recycled — and the submission is rejected with a server error. Authors retry with a fresh client-initiated submission; the previous attempt's ID is dead.
+
+### Dry-run mode
+
+When the request sets `dry_run=true`:
+
+- Steps 1–6 execute normally (authenticate, validate, compile, parse, compare).
+- Steps 7–11 **do not happen** — no ID minted, nothing persisted, no annotation synthesised, Idempotency-Key not stored.
+- The server returns 200 (not 201) with `paper_id: null`, the would-be `id_slug`, the would-be `revision_diff` (for revisions), and `would_persist` reporting whether validation passed.
+
+Dry-run lets authors and CI pipelines validate against the server's reference environment without committing to a submission. See RRP-0016 §Dry-run semantics for the full contract.
 
 ## ID assignment
 

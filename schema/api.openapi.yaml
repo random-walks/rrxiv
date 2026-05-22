@@ -451,42 +451,115 @@ paths:
                 type: array
                 items: { $ref: "paper.schema.json" }
 
+  /papers/{id}/diff:
+    get:
+      tags: [Papers]
+      summary: Semantic diff between two versions of this paper.
+      description: |
+        Computes the structural diff between two versions of the same paper.
+        `{id}` is the newer paper; `from` is the prior version's paper_id.
+        Both must share a `previous_version` lineage; otherwise 400. The diff
+        is deterministic and cacheable (immutable inputs → immutable output).
+        See RRP-0017.
+      parameters:
+        - { $ref: "#/components/parameters/PaperId" }
+        - in: query
+          name: from
+          required: true
+          schema: { type: string, format: uuid }
+          description: Paper ID of the prior version.
+      responses:
+        "200":
+          description: Revision diff between `from` and the path-`id` paper.
+          content:
+            application/json:
+              schema: { $ref: "revision_diff.schema.json" }
+        "400":
+          description: Papers are not in the same lineage (or `from` is missing).
+        "404":
+          description: Either paper does not exist.
+
+  /papers/{id}/errata:
+    get:
+      tags: [Papers]
+      summary: List erratum annotations for this paper.
+      description: Convenience endpoint that filters /annotations to `annotation_type=erratum` for `target_id=<paper_id>`. Ordered by `created_at` desc. Paginated via cursor.
+      parameters:
+        - { $ref: "#/components/parameters/PaperId" }
+        - { $ref: "#/components/parameters/Cursor" }
+        - { $ref: "#/components/parameters/Limit" }
+      responses:
+        "200":
+          description: Erratum list with pagination cursor.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: "annotation.schema.json" }
+                  next_cursor: { type: [string, "null"] }
+
   /submissions:
     post:
       tags: [Papers]
       summary: Submit a new paper or revision.
+      description: |
+        Multipart-encoded request following submission_request.schema.json.
+        When `dry_run=true`, the server performs validation + compile + parse
+        + diff without persisting; the response carries the would-be paper_id
+        as null and a `would_persist` boolean. See RRP-0016.
       security: [{ BearerAuth: [] }]
       parameters: [ { $ref: "#/components/parameters/IdempotencyKey" } ]
       requestBody:
         required: true
         content:
           multipart/form-data:
-            schema:
-              type: object
-              required: [bundle, cir]
-              properties:
-                bundle:
-                  type: string
-                  format: binary
-                  description: Source bundle tarball.
-                cir:
-                  type: string
-                  format: binary
-                  description: Client-computed CIR JSON (must match server-recomputed).
-                previous_version:
-                  type: [string, "null"]
-                  description: Paper ID this submission revises, if any.
+            schema: { $ref: "submission_request.schema.json" }
       responses:
-        "201":
-          description: Submission accepted; paper ID minted.
+        "200":
+          description: Dry-run completed; would-be result returned, nothing persisted.
           content:
             application/json:
               schema:
                 type: object
-                required: [paper_id, retrieval_uri]
+                required: [paper_id, would_persist, dry_run]
+                properties:
+                  paper_id: { type: [string, "null"] }
+                  id_slug: { type: [string, "null"] }
+                  version: { type: [string, "null"] }
+                  previous_version: { type: [string, "null"] }
+                  revision_diff:
+                    oneOf:
+                      - { $ref: "revision_diff.schema.json" }
+                      - { type: "null" }
+                  would_persist: { type: boolean }
+                  dry_run: { type: boolean, const: true }
+        "201":
+          description: Submission accepted and persisted; paper ID minted.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [paper_id, retrieval_uri, version, would_persist, dry_run]
                 properties:
                   paper_id: { type: string }
+                  id_slug: { type: string }
                   retrieval_uri: { type: string, format: uri }
+                  version: { type: string }
+                  previous_version: { type: [string, "null"] }
+                  revision_diff:
+                    oneOf:
+                      - { $ref: "revision_diff.schema.json" }
+                      - { type: "null" }
+                  would_persist: { type: boolean, const: true }
+                  dry_run: { type: boolean, const: false }
+        "400":
+          description: |
+            Submission rejected — bundle constraint violation, bundle_hash_mismatch,
+            previous_version not found, or other client-side error.
         "401": { $ref: "#/components/responses/Unauthorized" }
         "409":
           description: Idempotency-Key collision with a different body.
@@ -602,6 +675,26 @@ paths:
           content:
             application/json:
               schema: { $ref: "annotation.schema.json" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /annotations/{id}/replies:
+    get:
+      tags: [Annotations]
+      summary: Direct replies to this annotation.
+      description: |
+        Returns annotations whose `in_reply_to` field equals `{id}`, ordered by
+        `created_at` ascending. Reduces client-side filtering when reconstructing
+        threads. See RRP-0018.
+      parameters:
+        - { $ref: "#/components/parameters/AnnotationId" }
+        - { $ref: "#/components/parameters/Cursor" }
+        - { $ref: "#/components/parameters/Limit" }
+      responses:
+        "200":
+          description: Paginated direct replies, oldest first.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PaginatedAnnotations" }
         "404": { $ref: "#/components/responses/NotFound" }
 
   /snapshots/latest:

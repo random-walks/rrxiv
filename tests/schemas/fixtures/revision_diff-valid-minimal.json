@@ -1,0 +1,23 @@
+{
+  "from": {
+    "paper_id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f",
+    "version": "v1",
+    "id_slug": "rrxiv:2605.00001"
+  },
+  "to": {
+    "paper_id": "01924a01-1c2b-7d4e-8f10-aabbccddeeff",
+    "version": "v2",
+    "id_slug": "rrxiv:2605.00001"
+  },
+  "abstract_changed": false,
+  "topics_changed": false,
+  "topics_added": [],
+  "topics_removed": [],
+  "claims": {
+    "added": [],
+    "removed": [],
+    "modified": [],
+    "unchanged_count": 15
+  },
+  "computed_at": "2026-06-15T11:42:00Z"
+}
