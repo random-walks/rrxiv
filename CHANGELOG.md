@@ -12,6 +12,9 @@ For breaking schema changes, see [`MIGRATIONS.md`](MIGRATIONS.md) for the migrat
 
 #### SRV sprint (May 2026) — submission, revision, community
 
+- **Relaxed URI formats** to `uri-reference` on [`schema/paper.schema.json`](schema/paper.schema.json) (`source.uri`, `source.rendered_pdf_uri`, `source.rendered_html_uri`) and [`schema/figure.schema.json`](schema/figure.schema.json) (`uri`). Relative URIs like `/api/v0/papers/<id>/source` are now first-class — they keep CIRs portable across rrxiv instances (the URI resolves against whichever host serves the CIR). Surfaced by strict CIR validation in the new diff endpoint (RRP-0017) when the canonical instance had been emitting relative URIs all along. Absolute URIs remain valid; this is strictly a widening.
+
+
 - [RRP-0016](proposals/0016-submission-request-schema.md): codifies `POST /api/v0/submissions` wire format into [`schema/submission_request.schema.json`](schema/submission_request.schema.json); adds `dry_run` mode + `client_compile_hash` field. **Status: Accepted.**
 - [RRP-0017](proposals/0017-revision-flow-and-diff.md): semantic diff format between paper versions ([`schema/revision_diff.schema.json`](schema/revision_diff.schema.json)) + new `revision_summary` annotation type + `GET /api/v0/papers/{id}/diff?from=…` endpoint. **Status: Accepted.**
 - [RRP-0018](proposals/0018-annotation-threads.md): `in_reply_to` field on annotations for comment threading. Additive; existing annotations remain valid. **Status: Accepted.**
