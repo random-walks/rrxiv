@@ -1,0 +1,14 @@
+{
+  "id": "ann-01924d01-3e4f-7a5b-8c10-ccddeeff0011",
+  "target_id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f:claim:4",
+  "target_type": "claim",
+  "annotation_type": "comment",
+  "content": "I disagree with the methodology used in the replication above — the n=30 sample is undersized for the claimed effect size. A power-analysis sketch is in the linked notebook.",
+  "evidence_links": ["https://github.com/example/power-analysis-claim-4"],
+  "in_reply_to": "ann-01923f99-1234-7abc-9def-0123456789ab",
+  "created_at": "2026-06-15T13:15:00Z",
+  "created_by": {
+    "identity_type": "orcid",
+    "identity": "0000-0002-3456-7890"
+  }
+}

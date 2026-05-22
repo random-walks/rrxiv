@@ -1,0 +1,18 @@
+{
+  "id": "ann-01924c01-2d3e-7f4a-8b10-bbccddeeff00",
+  "target_id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f:claim:4",
+  "target_type": "claim",
+  "annotation_type": "claim_retraction",
+  "content": "I am retracting this claim. The proof contains an error that I cannot repair without restructuring the surrounding argument; see v2 for the corrected formulation.",
+  "structured_payload": {
+    "reason": "Proof contains an off-by-one error in the bound; the corrected version lives in v2 as claim:4 with the new statement.",
+    "kind": "superseded_by_revision",
+    "recommended_action": "use_v2",
+    "see_also_paper_id": "01924a01-1c2b-7d4e-8f10-aabbccddeeff"
+  },
+  "created_at": "2026-06-15T12:00:00Z",
+  "created_by": {
+    "identity_type": "orcid",
+    "identity": "0000-0001-2345-6789"
+  }
+}

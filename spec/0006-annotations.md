@@ -26,26 +26,37 @@ The full schema is [`annotation.schema.json`](../schema/annotation.schema.json).
 
 Optional fields: `evidence_links` (URIs to supporting material), `structured_payload` (kind-specific data — see below), `domain_karma` (server-set, author's karma in the relevant domain at submission time), `verified_by` (IDs of users/agents who confirmed), `disputed_by` (IDs of users/agents who contested), `supersedes` (the prior annotation this one replaces).
 
-## The nine annotation types
+## The eleven annotation types
 
 ### `replication`
 
 > Independent attempt to replicate a claim, with outcome and method.
 
-Replication is the load-bearing annotation type. The `structured_payload` for a `replication` is intended to carry, at minimum:
+Replication is the load-bearing annotation type. The `structured_payload` for a `replication` (refined by RRP-0019):
 
 ```json
 {
   "outcome": "supports" | "contradicts" | "partial" | "inconclusive",
-  "method": "computational" | "experimental" | "analytical" | "theoretical",
+  "reproduction_kind": "fresh_replication" | "reproduction_from_artifacts",
+  "method": "<plaintext description of methodology>",
   "n": <integer or null>,
-  "effect_size": <object or null>,
+  "effect_size": <number or null>,
+  "confidence_interval": [<lower>, <upper>] | null,
   "code_uri": "<URI or null>",
-  "data_uri": "<URI or null>"
+  "data_uri": "<URI or null>",
+  "reproducibility_manifest_uri": "<URI or null>",
+  "reproducibility_manifest_hash": "sha256:<hex> | null",
+  "discipline_tags": ["<tag>", "..."],
+  "notes": "<plaintext or null>"
 }
 ```
 
-When a `replication` annotation lands, the server's aggregator may update the target claim's `replication_status` field per rules in [`0003-claim-graph.md`](0003-claim-graph.md).
+`reproduction_kind` discriminates two distinct activities:
+
+- **`fresh_replication`** — an independent attempt: replicator designed their own protocol from the claim's statement, with their own data. `method` is required and substantive.
+- **`reproduction_from_artifacts`** — re-running the original author's published code on the original author's published data (possibly with extensions). `reproducibility_manifest_uri` is strongly recommended.
+
+The server **derives** the target claim's `replication_status` from accumulated replication annotations (RRP-0019): independent `supports` ≥ per-discipline quorum → `replicated`; `contradicts` ≥ supports → `contradicted`; any non-superseded `claim_retraction` → `retracted` (highest precedence). Defaults: 1 (math/formal verification), 2 (algorithms/crypto), 3 (ML/CV/NLP/experimental sciences), 5 (behavioural/social/economics). Instances may override.
 
 ### `contradiction`
 
@@ -162,6 +173,45 @@ The `structured_payload` contains the proposed claim:
 }
 ```
 
+### `revision_summary`
+
+> Author's machine-readable description of what changed between two versions of their paper.
+
+Attached to the *newer* paper in a `previous_version` chain. Surfaced prominently in the discussion section of the v2 page. The `structured_payload` (RRP-0017):
+
+```json
+{
+  "previous_version_id": "<v1 paper_id>",
+  "summary": "<plaintext author summary>",
+  "highlights": [
+    {
+      "kind": "fixed" | "added" | "removed" | "clarified" | "contested",
+      "claim_local_id": "<local id e.g. prop:I.5>",
+      "description": "<plaintext>"
+    }
+  ]
+}
+```
+
+Servers may auto-generate a skeleton from the `revision_summary` form field on the submission request (RRP-0016). Authors can post a follow-up annotation that `supersedes` the skeleton with richer highlights. The annotation type is **not** restricted to the paper's author at the protocol level — any signed identity can post one — but the canonical instance may restrict to authors via policy.
+
+### `claim_retraction`
+
+> Author-only fast-path for retracting a single claim without publishing a full v2 (RRP-0020).
+
+The submitting identity must be on the paper's author list (or hold an instance-specific `paper_admin` role); otherwise 403. A non-superseded retraction overrides any other derived `replication_status` for the target claim, surfacing it as `retracted`. The `structured_payload`:
+
+```json
+{
+  "reason": "<plaintext, minimum 32 characters>",
+  "kind": "error" | "withdrawal" | "superseded_by_revision" | "other",
+  "recommended_action": "use_v2" | "file_v2" | "no_action" | "see_replications",
+  "see_also_paper_id": "<paper_id or null>"
+}
+```
+
+A retraction can be **lifted** by a later annotation of `annotation_type: "comment"` from the same author, with `in_reply_to` pointing at the retraction and `structured_payload.lifts_retraction: true`. After a lift, the derivation reverts to the normal rule. Lifts cannot themselves be lifted; only a new retraction follows.
+
 ## Provenance: `created_by`
 
 Every annotation is signed. There are three identity kinds:
@@ -185,6 +235,19 @@ A claim's *aggregate* trust signal (visible in the API as e.g. `replication_stat
 The `supersedes` field points at a prior annotation's ID. When a new annotation supersedes an older one (e.g. an erratum that's later corrected, a replication that turned out to use flawed methodology), the server treats the older as effectively superseded for aggregation but keeps it visible. Supersession does not delete history.
 
 Cycles in `supersedes` are forbidden by construction.
+
+## Threading: `in_reply_to`
+
+The `in_reply_to` field (RRP-0018) points at another annotation. Constraints enforced by the server:
+
+- **Same artefact.** The target's `target_id` + `target_type` must match (for paper-targeted) or be on the same paper (for claim-targeted). Cross-paper replies are rejected with 400 `in_reply_to_artefact_mismatch`.
+- **Target exists.** Otherwise 400 `in_reply_to_not_found`.
+- **Not self.** A reply cannot point at its own ID.
+- **Type-agnostic.** A `comment` may reply to a `replication`; an `erratum` may reply to a `comment`. The thread's *first* annotation sets the topic; replies elaborate.
+
+Servers may cap thread depth as a policy concern (the canonical instance caps at 32). The convenience endpoint `GET /api/v0/annotations/{id}/replies` returns direct children of a given annotation, ordered by `created_at` ascending. Clients reconstruct deeper trees recursively or batch via the general `/annotations` listing.
+
+`in_reply_to` is independent of `supersedes` — a reply is conversation, a supersession is correction. Both fields can be set on the same annotation in principle (e.g. a corrected reply), but the canonical pattern is one or the other.
 
 ## Promotion rules: `claim_extraction` → canonical claim
 

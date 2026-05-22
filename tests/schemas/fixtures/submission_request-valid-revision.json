@@ -1,0 +1,8 @@
+{
+  "cir": "{\"rrxiv_version\":\"0.1.0\",\"id\":\"placeholder\",\"version\":\"v2\",\"previous_version\":\"01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f\",\"title\":\"Toy paper\"}",
+  "bundle": "<binary tar.gz placeholder>",
+  "previous_version": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f",
+  "revision_summary": "Fixed an off-by-one in the proof of Claim 4; added two new claims about pentagonal numbers; updated abstract.",
+  "dry_run": false,
+  "client_compile_hash": "a3f5b1c9e2d4f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1"
+}
