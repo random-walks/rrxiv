@@ -10,6 +10,35 @@ For breaking schema changes, see [`MIGRATIONS.md`](MIGRATIONS.md) for the migrat
 
 ### Added
 
+#### SRV sprint (May 2026) — submission, revision, community
+
+- [RRP-0016](proposals/0016-submission-request-schema.md): codifies `POST /api/v0/submissions` wire format into [`schema/submission_request.schema.json`](schema/submission_request.schema.json); adds `dry_run` mode + `client_compile_hash` field. **Status: Accepted.**
+- [RRP-0017](proposals/0017-revision-flow-and-diff.md): semantic diff format between paper versions ([`schema/revision_diff.schema.json`](schema/revision_diff.schema.json)) + new `revision_summary` annotation type + `GET /api/v0/papers/{id}/diff?from=…` endpoint. **Status: Accepted.**
+- [RRP-0018](proposals/0018-annotation-threads.md): `in_reply_to` field on annotations for comment threading. Additive; existing annotations remain valid. **Status: Accepted.**
+- [RRP-0019](proposals/0019-reproducibility-manifests.md): split replication into fresh-replication vs reproduction-from-artifacts; new `reproducibility_manifest.schema.json`; server-side derivation of `claim.replication_status` with per-discipline quorum defaults. **Status: Accepted.**
+- [RRP-0020](proposals/0020-author-claim-retraction.md): new `claim_retraction` annotation type so paper authors can retract individual claims without publishing a full v2. **Status: Accepted.**
+- New schema [`schema/submission_request.schema.json`](schema/submission_request.schema.json) (RRP-0016).
+- New schema [`schema/revision_diff.schema.json`](schema/revision_diff.schema.json) (RRP-0017).
+- New schema [`schema/reproducibility_manifest.schema.json`](schema/reproducibility_manifest.schema.json) (RRP-0019).
+- New top-level [`CONVENTIONS.md`](CONVENTIONS.md) — workflow conventions, paper-repo layout, RRP cadence, sync rules. Previously referenced from the README without existing.
+
+#### Backfill — RRPs 0004 through 0015 (previously unlogged)
+
+- [RRP-0004](proposals/0004-tex-parser-ast.md): parser uses AST (not regex). **Status: Accepted.**
+- [RRP-0005](proposals/0005-token-acquisition.md): ORCID OAuth, agent enrollment (Ed25519 signed), anonymous-with-captcha; `/auth/*` endpoints. **Status: Accepted.**
+- [RRP-0006](proposals/0006-cli-login.md): `rrxiv login` CLI for minting tokens (orcid/agent/anonymous) with keychain persistence. **Status: Accepted.**
+- [RRP-0007](proposals/0007-message-signatures.md): agent writes require Ed25519 RFC 9421 HTTP Message Signatures over request body. **Status: Accepted.**
+- [RRP-0008](proposals/0008-reference-server.md): canonical reference-server shape, idempotency semantics, conformance test fixture. **Status: Accepted.**
+- [RRP-0009](proposals/0009-refresh-tokens.md): bearer token refresh (`/auth/*/refresh`). **Status: Accepted.**
+- [RRP-0010](proposals/0010-agent-key-rotation.md): agents rotate Ed25519 keys; old keys stay valid for 90 days. **Status: Accepted.**
+- [RRP-0011](proposals/0011-sqlite-store.md): reference SQLite schema for per-instance state. **Status: Accepted.**
+- [RRP-0012](proposals/0012-paper-list-item-projection.md): [`schema/paper_list_item.schema.json`](schema/paper_list_item.schema.json) — paper + aggregate stats projection. **Status: Accepted.**
+- [RRP-0013](proposals/0013-id-slug.md): human-friendly `id_slug` format `rrxiv:YYMM.NNNNN` minted at submission. **Status: Accepted.**
+- [RRP-0014](proposals/0014-cursor-pagination.md): cursor pagination for list endpoints; offset pagination deprecated. **Status: Accepted.**
+- [RRP-0015](proposals/0015-meaty-claims.md): four optional `Claim` fields — `proof`, `figures[]`, `source_location.file/line_start/line_end`, `pdf_anchor`. **Status: Accepted.**
+
+#### Earlier in [Unreleased]
+
 - **Conformance test fixtures**: `multi-claim`, `with-edges`, `contradicts`, `multi-author` (was: only `minimal`). Cross-implementation parser conformance now exercises ordinal pairing, all four edge kinds, and multi-author + agent co-author patterns.
 - **`Section` and `Figure` standalone schemas** (`schema/section.schema.json`, `schema/figure.schema.json`). Were inlined as `$defs` of `cir.schema.json` until v0.2-protocol; now `cir.schema.json` `$ref`s them.
 - **`schema/api.openapi.yaml`** — OpenAPI 3.1 sketch of the HTTP API. 17 endpoints across papers / claims / annotations / snapshots / search / submissions. Companion prose in [`spec/0007-api.md`](spec/0007-api.md).
@@ -20,6 +49,17 @@ For breaking schema changes, see [`MIGRATIONS.md`](MIGRATIONS.md) for the migrat
 - [RRP-0003](proposals/0003-whitepaper-formatting.md): whitepaper title and date stripped of inline cosmetic LaTeX formatting; the source now matches the CIR. **Status: Accepted.**
 
 ### Changed
+
+#### SRV sprint (May 2026)
+
+- **[`CONTRIBUTING.md`](CONTRIBUTING.md)**: rewritten. Removed "implementation mostly doesn't exist yet" framing — the canonical instance is live and `rrxiv-python` ships in production. New sections direct contributors to: design discussion, the live instance, second-language implementations, and the paper corpus.
+- **[`schema/annotation.schema.json`](schema/annotation.schema.json)**: additive — new `in_reply_to` field (RRP-0018); new recognised `annotation_type` values `revision_summary` (RRP-0017) and `claim_retraction` (RRP-0020); refined `replication` payload with required `reproduction_kind` discriminator (RRP-0019); new optional `confidence_interval`, `reproducibility_manifest_uri`, `reproducibility_manifest_hash` fields.
+- **[`schema/claim.schema.json`](schema/claim.schema.json)**: new optional `reproducibility.manifest_uri` + `reproducibility.manifest_hash` for author-attached reproducibility manifests (RRP-0019). `replication_status` is now **derived server-side** from annotations rather than stored as authored — backward-compatible at the wire level, but a behaviour change worth noting.
+- **[`schema/api.openapi.yaml`](schema/api.openapi.yaml)**: adds `GET /papers/{id}/diff?from=…` (RRP-0017), `GET /papers/{id}/errata`, `POST /api/v0/submissions?dry_run=true` (RRP-0016), `GET /annotations/{id}/replies` (RRP-0018).
+- **[`spec/0005-submission.md`](spec/0005-submission.md)**: points to `submission_request.schema.json`; documents dry-run mode.
+- **[`spec/0006-annotations.md`](spec/0006-annotations.md)**: documents `in_reply_to`, `revision_summary`, `claim_retraction`, `reproduction_kind`; replaces "future annotations RRP" placeholder for quorum rules with concrete defaults per RRP-0019.
+
+#### Earlier in [Unreleased]
 
 - **`rrxiv.cls` v0.1 → v0.2**: edge-marker delimiter is `|` (RRP-0002).
 - **Whitepaper v0.1 source**: title and date blocks no longer carry `\Large`, `\large`, `\\[0.2em]`, `\small` macros. Re-rendered PDF is slightly different visually (article-class default sizing); CIR title is now clean prose without needing the parser's TeX-to-text pass.
