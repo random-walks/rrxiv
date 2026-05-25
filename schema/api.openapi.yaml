@@ -140,6 +140,54 @@ components:
             $ref: "annotation.schema.json"
         next_cursor:
           type: [string, "null"]
+    BulkAnnotationsRequest:
+      type: object
+      required: [annotations]
+      description: |
+        Body for `POST /annotations/bulk` (RRP-TBD; landed Sprint 19 P3).
+        Each item is an `annotation.schema.json` payload. The server
+        validates and persists each entry independently — partial
+        success is allowed. Up to 100 items per request.
+      properties:
+        annotations:
+          type: array
+          minItems: 0
+          maxItems: 100
+          items:
+            $ref: "annotation.schema.json"
+    BulkAnnotationsResponse:
+      type: object
+      required: [results]
+      description: |
+        Per-index result list for a bulk POST. The outer HTTP status is
+        always 200; clients check `results[i].status` to detect partial
+        failures. Best-effort semantics: validation errors on item N do
+        not abort items > N.
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            required: [index, status]
+            properties:
+              index:
+                type: integer
+                minimum: 0
+                description: Zero-based index into the request array.
+              status:
+                type: integer
+                description: HTTP-shaped status code (201 success, 400/422/409 failure).
+              body:
+                description: The persisted annotation when `status==201`.
+                $ref: "annotation.schema.json"
+              error:
+                description: |
+                  Either a `Problem`-shaped object (string keys) or a
+                  pydantic ValidationError detail list (for `status==422`).
+                oneOf:
+                  - type: string
+                  - type: array
+                  - type: object
     GraphWalk:
       type: object
       required: [origin, edges]
@@ -663,6 +711,48 @@ paths:
         "401": { $ref: "#/components/responses/Unauthorized" }
         "409": { description: Idempotency-Key collision. }
         "422": { $ref: "#/components/responses/ValidationError" }
+
+  /annotations/bulk:
+    post:
+      tags: [Annotations]
+      summary: Create up to 100 annotations in a single request.
+      description: |
+        Batched annotation create. Each item is validated and persisted
+        independently; the response carries a per-index status array so
+        partial success surfaces cleanly. Counts as **one** request
+        against the per-identity rate limiter regardless of payload size
+        — the motivating use case (Sprint 16) was a 44-claim retraction
+        that previously tripped the 30 rpm write budget.
+
+        Auth: named identity required (ORCID or agent). Anonymous
+        identities are forbidden, matching `POST /annotations`. No
+        outer-call `Idempotency-Key`; each inner annotation MAY carry
+        its own `id` for client-side dedup on retries.
+
+        The HTTP status of the bulk call itself is always `200` when the
+        envelope parses; per-item failures appear in `results[i].status`.
+        `400` is returned only for envelope-level rejections (missing
+        `annotations` array, oversize batch).
+      security: [{ BearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/BulkAnnotationsRequest" }
+      responses:
+        "200":
+          description: Per-index outcomes (some may be failures).
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BulkAnnotationsResponse" }
+        "400":
+          description: Envelope rejected (missing array, > 100 items).
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/Problem" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { description: Anonymous identities forbidden. }
+        "429": { $ref: "#/components/responses/RateLimited" }
 
   /annotations/{id}:
     get:
