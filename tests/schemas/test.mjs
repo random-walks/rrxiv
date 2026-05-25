@@ -31,6 +31,13 @@ const KIND_TO_SCHEMA_FILE = {
   section: "section.schema.json",
   figure: "figure.schema.json",
   cir: "cir.schema.json",
+  // Sprint 17 onwards — these schemas have fixtures the test runner
+  // was silently skipping until now (reported as "failed" by the
+  // outer counter but never actually exercised).
+  reproducibility_manifest: "reproducibility_manifest.schema.json",
+  revision_diff: "revision_diff.schema.json",
+  submission_request: "submission_request.schema.json",
+  pulse_snapshot: "pulse_snapshot.schema.json",
 };
 
 function loadJson(path) {

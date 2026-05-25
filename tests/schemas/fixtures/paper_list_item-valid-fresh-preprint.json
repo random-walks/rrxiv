@@ -15,6 +15,7 @@
   "stats": {
     "claims": 3,
     "replicated": 0,
+    "partial": 0,
     "contradicted": 0,
     "contested": 0,
     "untested": 3,
