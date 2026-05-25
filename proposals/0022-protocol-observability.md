@@ -108,9 +108,29 @@ A v1.0 stabilization RRP will close the schema (additionalProperties: false) onc
 - Add `tests/test_stats_pulse.py` to the conformance suite — covers empty store, distinct writer counts, exclude-list behavior, replication-coverage math, third-party-rate, agent-participation-rate, reproduction-kind breakdown, leaderboards, revisions count, growth metrics, cache behavior. (Already shipped in rrxiv-python#60.)
 - `pulse_snapshot.schema.json` validates the live response from `api.rrxiv.com` (round-trip).
 
+## Sprint 22 amendment — per-claim view counter + cohort groundwork
+
+Sprint 22 lands two additive expansions to this RRP:
+
+### Per-claim view counter
+
+- New optional `views_count` field on the [`claim.schema.json`](../schema/claim.schema.json) read response. Server-stamped only; submitters MUST NOT populate it (validators don't enforce, but the counter is reset on `clear_corpus`).
+- Counter is bumped on every successful `GET /api/v0/claims/{id}`. Failures bumping the counter MUST NOT fail the read.
+- New `leaderboards.top_claims_by_views` field on `PulseSnapshot`. Capped at 5; distinct signal from `top_claims_by_replications` (discovery engagement vs. contributed engagement).
+- The counter is intentionally *server-side*, not derived from Plausible. Plausible records anonymous pageviews (the `claim.viewed` custom event from Sprint 20); the server-side counter is the authoritative number for downstream consumers including the federation aggregator (when it exists). Two surfaces, two purposes.
+- Operators who want to dampen the counter for excluded identities MAY pass an `auth_kind != "orcid"` filter before bumping; the reference implementation counts all reads unconditionally, on the theory that excluded *writes* matter but excluded *reads* don't bias the leaderboard meaningfully at v0.1 scale.
+
+### Cohort groundwork
+
+Pure derivation from `created_at` + `created_by` on existing papers + annotations. No new tables, no migration. New `cohorts` block on `PulseSnapshot`:
+
+- `first_write_by_iso_week`: map of ISO-week key (`YYYY-Www`) → count of identities whose earliest paper/annotation falls in that week. Self-exclusion applied. Empty weeks omitted.
+- `weekly_active_humans` / `weekly_active_agents`: list of `{iso_week, distinct_identities}` for the last ~8 ISO weeks (inclusive of the current one). Sorted oldest-first.
+
+These seed retention curves ("did the ORCIDs that wrote in week N also write in week N+4?") without committing to a time-series store. The full RRP-FUTURE for cohort retention will codify a `/stats/pulse/retention?from=YYYY-Www` endpoint once we have ≥6 weeks of real activity.
+
 ## Out of scope (deferred)
 
-- Per-claim view counter (would require RRP for the counter table + telemetry source).
-- Cohort analysis (4-week-retention type metrics; needs longer time-series).
-- A `/stats/pulse/history` endpoint returning daily snapshots (storage cost, RRP-future).
+- `/stats/pulse/history` returning daily snapshots (storage cost; RRP-future once federation matters).
 - Cross-instance federation aggregator (Sprint 22+ once a second instance exists).
+- Full retention/cohort analysis with N+K week buckets (deferred until ≥6 weeks of real-user data).
