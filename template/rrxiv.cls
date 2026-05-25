@@ -1,8 +1,15 @@
-% rrxiv.cls -- rrxiv paper class v0.2
+% rrxiv.cls -- rrxiv paper class v0.3
 %
 % Provides a LaTeX class for rrxiv submissions. Extends `article` with
 % semantic environments that the rrxiv parser extracts into the Canonical
 % Intermediate Representation (CIR) without requiring post-hoc OCR.
+%
+% v0.3 (2026-05-25): visible page-stamp footer. Every page now carries
+% the canonical paper id, version, license, build date, and page number
+% in a small footer rule. Lets a reader holding a printed PDF know which
+% rrxiv revision they're looking at — important when multiple versions
+% of the same paper are in circulation. Override the build date with
+% \rrxivbuilddate{YYYY-MM-DD} for deterministic builds.
 %
 % v0.2 (RRP-0002): edge marker delimiter changed from `:` to `|` to
 % disambiguate edges whose source/target IDs themselves contain colons
@@ -13,7 +20,7 @@
 % License: MIT.
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{rrxiv}[2026/05/05 v0.2 rrxiv paper class]
+\ProvidesClass{rrxiv}[2026/05/25 v0.3 rrxiv paper class]
 
 % Pass options to article
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -35,6 +42,8 @@
                 linkcolor=blue!50!black,
                 citecolor=blue!50!black,
                 urlcolor=blue!50!black]{hyperref}
+\RequirePackage{fancyhdr}
+\RequirePackage{lastpage}
 
 % ---- rrxiv metadata commands ----
 % These are extracted by the rrxiv parser into CIR top-level fields.
@@ -43,6 +52,10 @@
 \newcommand{\rrxivprotocolversion}[1]{\def\@rrxivprotocolversion{#1}}
 \newcommand{\rrxivlicense}[1]{\def\@rrxivlicense{#1}}
 \newcommand{\rrxivtopics}[1]{\def\@rrxivtopics{#1}}
+% Build-date stamp shown in the page footer. Defaults to \today in ISO
+% format; override with \rrxivbuilddate{2026-05-25} to get a deterministic
+% timestamp (useful in CI so the PDF is reproducible across rebuilds).
+\newcommand{\rrxivbuilddate}[1]{\def\@rrxivbuilddate{#1}}
 
 % Defaults
 \rrxivid{TBD}
@@ -50,6 +63,33 @@
 \rrxivprotocolversion{0.1.0}
 \rrxivlicense{CC-BY-4.0}
 \rrxivtopics{}
+\rrxivbuilddate{\the\year-\ifnum\month<10 0\fi\the\month-\ifnum\day<10 0\fi\the\day}
+
+% ---- Page-stamp footer (v0.3) ----
+% Every page carries the canonical paper id, version, license, build
+% date, and page-count in a small footer rule. Style picks:
+%   - footnotesize so it never competes with the body text
+%   - typewriter (\texttt) on the id so rrxiv:YYYY.MM.NNNNN reads as
+%     an identifier, not prose
+%   - thin rule above the footer so it's clearly metadata, not content
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyfoot[L]{\footnotesize\texttt{\@rrxivid} \textperiodcentered\ \@rrxivversion}
+\fancyfoot[C]{\footnotesize\thepage\ /\ \pageref{LastPage}}
+\fancyfoot[R]{\footnotesize\@rrxivlicense\ \textperiodcentered\ \@rrxivbuilddate}
+% \maketitle redefines page 1 to use the `plain` pagestyle, which would
+% strip our footer from the title page (the most-shared page). Override
+% `plain` so the stamp survives \maketitle.
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0.4pt}%
+  \fancyfoot[L]{\footnotesize\texttt{\@rrxivid} \textperiodcentered\ \@rrxivversion}%
+  \fancyfoot[C]{\footnotesize\thepage\ /\ \pageref{LastPage}}%
+  \fancyfoot[R]{\footnotesize\@rrxivlicense\ \textperiodcentered\ \@rrxivbuilddate}%
+}
 
 % ---- Sidecar log channel ----
 % The rrxiv parser reads structured metadata from a `.rrxiv.aux` channel
