@@ -10,6 +10,12 @@ For breaking schema changes, see [`MIGRATIONS.md`](MIGRATIONS.md) for the migrat
 
 ### Added
 
+#### Sprint 20–21 (May 2026) — observability + community pulse
+
+- [RRP-0022](proposals/0022-protocol-observability.md): **Protocol observability + community pulse**. Adds `GET /api/v0/stats/pulse?window={7d|30d|90d|all}` to the protocol surface — a server-computed KPI snapshot covering activity (windowed), health (full-corpus rates: replication coverage, third-party annotation rate, agent participation rate, reproduction-kind breakdown), and lifetime growth (unique identities ever, papers with third-party engagement, claim-graph density, cross-paper extends). Plus top-5 leaderboards for most-annotated papers, claims by replication count, and topics. Self-exclusion semantics let operators drop their own dogfood identities from the activity aggregates so the public pulse reflects *real* community participation. Cached 60s in-process. **Status: Accepted.**
+- New schema [`schema/pulse_snapshot.schema.json`](schema/pulse_snapshot.schema.json) codifying the `PulseSnapshot` JSON shape — bounded cardinality (closed enums for `annotations_by_type` + `reproduction_kind_breakdown`, top-5 caps on leaderboards). Validates against the live response from `api.rrxiv.com`. Third-party rrxiv instances MUST emit the documented fields with the documented types so cross-instance comparisons stay sound.
+- **Operational `/metrics` (non-protocol, recommended).** RRP-0022 documents that reference implementations MAY expose a Prometheus exposition endpoint at `/metrics` (no `/api/v0` prefix) with counters for HTTP requests, annotations posted, submissions, rate-limit 429s, plus a pulse-compute-duration histogram. Cardinality stays bounded (path_pattern + auth_kind labels only). Live on `api.rrxiv.com`.
+
 #### Sprint 19 (May 2026) — annotation surface tightening
 
 - [RRP-TBD / Sprint 19] **Per-type structured payload sub-schemas.** Schema-side this is additive: `claim_retraction`, `paper_retraction`, `replication`, `revision_summary` now have **typed payload shells** the server validates. The constrained shapes are:
