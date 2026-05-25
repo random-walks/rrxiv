@@ -21,9 +21,10 @@
   "stats": {
     "claims": 7,
     "replicated": 2,
+    "partial": 1,
     "contradicted": 0,
     "contested": 1,
-    "untested": 4,
+    "untested": 3,
     "status": "contested",
     "computed_at": "2026-05-18T14:00:00Z"
   }
