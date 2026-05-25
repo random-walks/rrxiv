@@ -199,18 +199,45 @@ Servers may auto-generate a skeleton from the `revision_summary` form field on t
 
 > Author-only fast-path for retracting a single claim without publishing a full v2 (RRP-0020).
 
-The submitting identity must be on the paper's author list (or hold an instance-specific `paper_admin` role); otherwise 403. A non-superseded retraction overrides any other derived `replication_status` for the target claim, surfacing it as `retracted`. The `structured_payload`:
+The submitting identity must be on the paper's author list (or hold an instance-specific `paper_admin` role); otherwise 403. A non-superseded retraction overrides any other derived `replication_status` for the target claim, surfacing it as `retracted`.
+
+**`structured_payload` shape (formalised Sprint 19, Pydantic in `rrxiv-python/src/rrxiv/annotations/payloads.py:ClaimRetractionPayload`):**
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `reason` | enum | yes | One of `data_error`, `methodological_flaw`, `fraud`, `contamination`, `withdrawn_by_author`, `superseded_by_revision`. Taxonomy adopted from `rrxiv:2605.00007` c4 ("five reason categories cover 94% of historical retractions in PubMed") plus `superseded_by_revision` for the revision-of case. |
+| `explanation` | string | no | Plain-text. Optional in v0.1 — the enum carries the load-bearing semantics — but encouraged for non-obvious cases like `contamination` or `methodological_flaw`. |
+| `superseded_by_paper` | string | no | `paper_id` of the surviving paper, when applicable. Used by readers to chase the corrected version. |
+| `superseded_by_claim` | string | no | `claim_id` of the surviving claim within the surviving paper. |
+| `recommended_action` | enum | no | One of `use_v2`, `file_v2`, `no_action`, `see_replications`, `use_superseded_by`. Lets the server give downstream readers a one-line "what now?" without re-deriving from `reason`. |
 
 ```json
 {
-  "reason": "<plaintext, minimum 32 characters>",
-  "kind": "error" | "withdrawal" | "superseded_by_revision" | "other",
-  "recommended_action": "use_v2" | "file_v2" | "no_action" | "see_replications",
-  "see_also_paper_id": "<paper_id or null>"
+  "reason": "superseded_by_revision",
+  "explanation": "v1 was synthetic-era seed content; v2 has substantive prose.",
+  "superseded_by_paper": "rrxiv:2605.00002",
+  "superseded_by_claim": "rrxiv:2605.00002:claim:c1",
+  "recommended_action": "use_superseded_by"
 }
 ```
 
 A retraction can be **lifted** by a later annotation of `annotation_type: "comment"` from the same author, with `in_reply_to` pointing at the retraction and `structured_payload.lifts_retraction: true`. After a lift, the derivation reverts to the normal rule. Lifts cannot themselves be lifted; only a new retraction follows.
+
+### `paper_retraction`
+
+> Paper-level sibling of `claim_retraction`, added in Sprint 18 alongside RRP-0021.
+
+Motivated by `rrxiv:2605.00007` c1 ("Retraction is more naturally modelled as an annotation type — target, reason, scope — than as a paper-level flag"). When set, downstream readers should treat the entire paper as retracted. The v0.1 server does **not** automatically cascade a `paper_retraction` to per-claim status — authors who want both should post a `paper_retraction` on the paper *and* `claim_retraction` annotations on each affected claim. Cascade-derivation is RRP territory for v0.2.
+
+The `target_type` must be `paper`; the `structured_payload` shape is **identical** to `claim_retraction` so tooling that processes retractions can reuse the same parser. See the table under `claim_retraction` above.
+
+```json
+{
+  "reason": "data_error",
+  "explanation": "Authors withdraw following data audit; downstream results unaffected.",
+  "recommended_action": "no_action"
+}
+```
 
 ## Provenance: `created_by`
 
