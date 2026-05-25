@@ -5,7 +5,7 @@
   "description": "Response shape for GET /api/v0/stats/pulse — community KPIs at three time horizons (windowed activity, full-corpus health, lifetime growth) + top-N leaderboards. Bounded cardinality: every label is a closed enum or capped list. See RRP-0022.",
   "version": "0.1.0",
   "type": "object",
-  "required": ["window", "computed_at", "pulse", "health", "growth", "leaderboards"],
+  "required": ["window", "computed_at", "pulse", "health", "growth", "leaderboards", "cohorts"],
   "additionalProperties": true,
   "properties": {
     "window": {
@@ -21,7 +21,8 @@
     "pulse": { "$ref": "#/$defs/PulseActivity" },
     "health": { "$ref": "#/$defs/PulseHealth" },
     "growth": { "$ref": "#/$defs/PulseGrowth" },
-    "leaderboards": { "$ref": "#/$defs/PulseLeaderboards" }
+    "leaderboards": { "$ref": "#/$defs/PulseLeaderboards" },
+    "cohorts": { "$ref": "#/$defs/PulseCohorts" }
   },
   "$defs": {
     "PulseActivity": {
@@ -211,6 +212,20 @@
             "additionalProperties": true
           }
         },
+        "top_claims_by_views": {
+          "type": "array",
+          "maxItems": 5,
+          "description": "Top claims by per-claim view count. The counter is bumped on every successful GET /api/v0/claims/{id}; distinct from `top_claims_by_replications` (which measures *contributed* engagement). Sprint 22.",
+          "items": {
+            "type": "object",
+            "required": ["id", "views"],
+            "properties": {
+              "id": { "type": "string" },
+              "views": { "type": "integer", "minimum": 0 }
+            },
+            "additionalProperties": true
+          }
+        },
         "top_topics": {
           "type": "array",
           "maxItems": 5,
@@ -220,6 +235,45 @@
             "properties": {
               "topic": { "type": "string" },
               "count": { "type": "integer", "minimum": 0 }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "PulseCohorts": {
+      "type": "object",
+      "description": "Cohort-analysis groundwork (Sprint 22). Pure derivation from existing data — no time-series store. Seeds 'new ORCIDs writing for the first time this week' + 'WAU-by-week' charts.",
+      "required": ["first_write_by_iso_week", "weekly_active_humans", "weekly_active_agents"],
+      "properties": {
+        "first_write_by_iso_week": {
+          "type": "object",
+          "description": "Map of ISO-week key (YYYY-Www) → count of identities whose earliest paper / annotation falls in that week. Empty weeks are omitted. Excluded identities are filtered out.",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "weekly_active_humans": {
+          "type": "array",
+          "description": "Distinct human ORCIDs that wrote a paper or annotation in each ISO week. Covers the last ~8 weeks inclusive of the current one, sorted oldest-first so a chart reads left-to-right. Empty weeks show as 0.",
+          "items": {
+            "type": "object",
+            "required": ["iso_week", "distinct_identities"],
+            "properties": {
+              "iso_week": { "type": "string", "pattern": "^[0-9]{4}-W[0-9]{2}$" },
+              "distinct_identities": { "type": "integer", "minimum": 0 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "weekly_active_agents": {
+          "type": "array",
+          "description": "Same shape as weekly_active_humans, but for agent identities.",
+          "items": {
+            "type": "object",
+            "required": ["iso_week", "distinct_identities"],
+            "properties": {
+              "iso_week": { "type": "string", "pattern": "^[0-9]{4}-W[0-9]{2}$" },
+              "distinct_identities": { "type": "integer", "minimum": 0 }
             },
             "additionalProperties": false
           }
