@@ -26,7 +26,7 @@ The genesis paper — [*rrxiv: An Open Protocol for Research Preprints…*](http
 ## Repo contents
 
 - `schema/` — JSON Schemas for the Canonical Intermediate Representation (CIR), claims, annotations, etc. Source of truth.
-- `proposals/` — rrxiv Improvement Proposals (RRPs); RRP-0001 through RRP-0013 currently accepted.
+- `proposals/` — rrxiv Improvement Proposals (RRPs); RRP-0001 through RRP-0021 currently accepted.
 - `spec/` — protocol specification documents.
 - `template/` — `rrxiv.cls` LaTeX class with semantic environments (`\begin{claim}`, `\begin{evidence}`, `\dependson{...}` etc.). Vendored into each paper repo; bump as the class evolves.
 - `tests/conformance/` — conformance test suite for any rrxiv implementation. `rrxiv-python`'s reference server is the executable witness.

@@ -10,6 +10,23 @@ For breaking schema changes, see [`MIGRATIONS.md`](MIGRATIONS.md) for the migrat
 
 ### Added
 
+#### Sprint 19 (May 2026) — annotation surface tightening
+
+- [RRP-TBD / Sprint 19] **Per-type structured payload sub-schemas.** Schema-side this is additive: `claim_retraction`, `paper_retraction`, `replication`, `revision_summary` now have **typed payload shells** the server validates. The constrained shapes are:
+  - `claim_retraction` + `paper_retraction`: `reason` is a closed enum (`data_error` | `methodological_flaw` | `fraud` | `contamination` | `withdrawn_by_author` | `superseded_by_revision`); free-form rationale moves to `explanation`; optional `superseded_by_paper` / `superseded_by_claim` pointers.
+  - `replication`: required `reproduction_kind` (`fresh_replication` | `reproduction_from_artifacts`), `method` (`computational` | `experimental` | `analytical` | `theoretical`), `outcome` (`supports` | `contradicts` | `partial` | `inconclusive`).
+  - The old loose `{kind, recommended_action}` shape on retractions is removed; rrxiv-python tests + AnnotationForm updated.
+- **New `paper_retraction` annotation type.** Distinct from `claim_retraction` — retracts the whole paper without superseding via a v2. Same payload shell as `claim_retraction` (reason enum + explanation + optional `superseded_by_paper`). RRP-0020 expanded to cover both.
+- **`POST /annotations/bulk`** endpoint added to [`schema/api.openapi.yaml`](schema/api.openapi.yaml) — up to 100 annotations per request, per-index status array, single rate-limit unit. Motivated by Sprint 16's 44-claim retraction tripping the 30 rpm write limit.
+- **Conformance test for the annotation post round-trip**: validates payload shells happy-path + rejection of unknown `reason` values + bulk envelope edge cases.
+- **Top-level [`COOKBOOK.md`](COOKBOOK.md)** with 12 copy-paste recipes: submit v1, revise, retract claim, retract paper, replicate, comment / code link / dataset link, read the corpus, bulk submission, refresh seed, encode a public-domain classic, snapshot, diff CIRs.
+
+#### Sprint 18 (May 2026) — structured authorship
+
+- [RRP-0021](proposals/0021-author-roles-and-embedded-from.md): **structured authorship.** `Author.role` enum (`author` | `agent` | `embedded` | `contributor`) and `Paper.embedded_from` URI/citation pointer for papers that encode prior works (e.g., Euclid's *Elements* encoded by a modern author *embedded from* the canonical Heath translation). Adds vocabulary for the "AI agents are first-class participants" + "encode public-domain classics" patterns without conflating them with original authorship. **Status: Accepted.**
+- Parser: `\author{A \and B \and C}` now splits cleanly into three `Author` entries (was: rendered as one literal). Surfaced live on the home page where `"Blaise Albis-Burdige \and Claude (agent)"` had been showing as one author.
+- Pagination: `/stats.head_papers` distinct from `papers` — the home-page "Showing 9 of 20" pager was counting superseded v1s. The web client now prefers `head_papers` and falls back when server is older.
+
 #### SRV sprint (May 2026) — submission, revision, community
 
 - **Relaxed URI formats** to `uri-reference` on [`schema/paper.schema.json`](schema/paper.schema.json) (`source.uri`, `source.rendered_pdf_uri`, `source.rendered_html_uri`) and [`schema/figure.schema.json`](schema/figure.schema.json) (`uri`). Relative URIs like `/api/v0/papers/<id>/source` are now first-class — they keep CIRs portable across rrxiv instances (the URI resolves against whichever host serves the CIR). Surfaced by strict CIR validation in the new diff endpoint (RRP-0017) when the canonical instance had been emitting relative URIs all along. Absolute URIs remain valid; this is strictly a widening.
@@ -58,7 +75,7 @@ For breaking schema changes, see [`MIGRATIONS.md`](MIGRATIONS.md) for the migrat
 - **[`CONTRIBUTING.md`](CONTRIBUTING.md)**: rewritten. Removed "implementation mostly doesn't exist yet" framing — the canonical instance is live and `rrxiv-python` ships in production. New sections direct contributors to: design discussion, the live instance, second-language implementations, and the paper corpus.
 - **[`schema/annotation.schema.json`](schema/annotation.schema.json)**: additive — new `in_reply_to` field (RRP-0018); new recognised `annotation_type` values `revision_summary` (RRP-0017) and `claim_retraction` (RRP-0020); refined `replication` payload with required `reproduction_kind` discriminator (RRP-0019); new optional `confidence_interval`, `reproducibility_manifest_uri`, `reproducibility_manifest_hash` fields.
 - **[`schema/claim.schema.json`](schema/claim.schema.json)**: new optional `reproducibility.manifest_uri` + `reproducibility.manifest_hash` for author-attached reproducibility manifests (RRP-0019). `replication_status` is now **derived server-side** from annotations rather than stored as authored — backward-compatible at the wire level, but a behaviour change worth noting.
-- **[`schema/api.openapi.yaml`](schema/api.openapi.yaml)**: adds `GET /papers/{id}/diff?from=…` (RRP-0017), `GET /papers/{id}/errata`, `POST /api/v0/submissions?dry_run=true` (RRP-0016), `GET /annotations/{id}/replies` (RRP-0018).
+- **[`schema/api.openapi.yaml`](schema/api.openapi.yaml)**: adds `GET /papers/{id}/diff?from=…` (RRP-0017), `GET /papers/{id}/errata`, `POST /api/v0/submissions?dry_run=true` (RRP-0016), `GET /annotations/{id}/replies` (RRP-0018), `POST /annotations/bulk` (Sprint 19).
 - **[`spec/0005-submission.md`](spec/0005-submission.md)**: points to `submission_request.schema.json`; documents dry-run mode.
 - **[`spec/0006-annotations.md`](spec/0006-annotations.md)**: documents `in_reply_to`, `revision_summary`, `claim_retraction`, `reproduction_kind`; replaces "future annotations RRP" placeholder for quorum rules with concrete defaults per RRP-0019.
 
