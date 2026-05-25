@@ -6,11 +6,12 @@
   "authors": [
     {
       "name": "rrxiv Project",
-      "is_agent": false
+      "is_agent": false,
+      "role": "author"
     }
   ],
   "abstract": "Three claims plus four inline edges that cover every edge kind:\ndepends_on, supports, extends, and\ncontradicts.",
-  "submitted_at": "2026-05-05T17:48:10.468559Z",
+  "submitted_at": "2026-05-25T22:46:26.507132Z",
   "license": "CC-BY-4.0",
   "topics": [
     "example",
@@ -18,17 +19,17 @@
   ],
   "source": {
     "format": "latex",
-    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrvix-dev-workspace/repos/rrxiv/tests/conformance/fixtures/with-edges/with-edges.tex"
+    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrxiv-dev-workspace/repos/rrxiv/tests/conformance/fixtures/with-edges/with-edges.tex"
   },
   "sections": [
     {
-      "id": "claim:foundation",
+      "id": "sec:0",
       "type": "section",
       "title": "Foundation",
       "order": 0
     },
     {
-      "id": "claim:derived",
+      "id": "sec:1",
       "type": "section",
       "title": "Derived claims",
       "order": 1
@@ -51,6 +52,11 @@
         "rrxiv-0001:claim:queryability"
       ],
       "replication_status": "untested",
+      "source_location": {
+        "file": "with-edges.tex",
+        "line_start": 27,
+        "line_end": 30
+      },
       "extracted_by": "author",
       "canonical": true
     },
@@ -67,6 +73,11 @@
         "some-other-paper:claim:opposite"
       ],
       "replication_status": "untested",
+      "source_location": {
+        "file": "with-edges.tex",
+        "line_start": 34,
+        "line_end": 38
+      },
       "extracted_by": "author",
       "canonical": true
     },
@@ -80,6 +91,11 @@
         "rrxiv-fixture-with-edges:claim:foundation"
       ],
       "replication_status": "untested",
+      "source_location": {
+        "file": "with-edges.tex",
+        "line_start": 42,
+        "line_end": 45
+      },
       "extracted_by": "author",
       "canonical": true
     }

@@ -6,11 +6,12 @@
   "authors": [
     {
       "name": "rrxiv Project",
-      "is_agent": false
+      "is_agent": false,
+      "role": "author"
     }
   ],
   "abstract": "A single claim that contradicts a claim from another paper. Tests the\ncontradicts edge's appearance in the CIR's claim record.",
-  "submitted_at": "2026-05-05T17:48:10.606295Z",
+  "submitted_at": "2026-05-25T22:46:26.881257Z",
   "license": "CC-BY-4.0",
   "topics": [
     "example",
@@ -18,11 +19,11 @@
   ],
   "source": {
     "format": "latex",
-    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrvix-dev-workspace/repos/rrxiv/tests/conformance/fixtures/contradicts/contradicts.tex"
+    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrxiv-dev-workspace/repos/rrxiv/tests/conformance/fixtures/contradicts/contradicts.tex"
   },
   "sections": [
     {
-      "id": "claim:counter",
+      "id": "sec:0",
       "type": "section",
       "title": "The contradicting claim",
       "order": 0
@@ -39,6 +40,11 @@
         "prior-paper:claim:original-result"
       ],
       "replication_status": "untested",
+      "source_location": {
+        "file": "contradicts.tex",
+        "line_start": 27,
+        "line_end": 31
+      },
       "extracted_by": "author",
       "canonical": true
     }
