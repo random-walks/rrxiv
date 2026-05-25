@@ -68,6 +68,8 @@ Use the [`rrxiv-paper-template`](https://github.com/random-walks/rrxiv-paper-tem
 
 Once your paper builds locally, push to GitHub and follow the [conventions doc](CONVENTIONS.md) to either run your own instance or open a PR to add the paper to the canonical [`rrxiv-instance` manifest](https://github.com/random-walks/rrxiv-instance/blob/main/papers/manifest.json).
 
+For copy-paste recipes covering the rest of the protocol — retracting a claim, replicating a result, encoding a public-domain classic, taking a snapshot, reading the corpus via the CLI — see [`COOKBOOK.md`](COOKBOOK.md).
+
 ## Running the docs site locally
 
 ```bash
