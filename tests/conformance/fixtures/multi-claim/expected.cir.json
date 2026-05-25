@@ -6,11 +6,12 @@
   "authors": [
     {
       "name": "rrxiv Project",
-      "is_agent": false
+      "is_agent": false,
+      "role": "author"
     }
   ],
   "abstract": "Three claims of three different types (theoretical, empirical,\nmethodological) so the parser's ordinal-pairing can be exercised\nwithout any inline edges complicating the picture.",
-  "submitted_at": "2026-05-05T17:48:10.325146Z",
+  "submitted_at": "2026-05-25T22:46:25.769620Z",
   "license": "CC-BY-4.0",
   "topics": [
     "example",
@@ -18,23 +19,23 @@
   ],
   "source": {
     "format": "latex",
-    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrvix-dev-workspace/repos/rrxiv/tests/conformance/fixtures/multi-claim/multi-claim.tex"
+    "uri": "file:///Users/blaise/Desktop/blaise-oss/rrxiv-dev-workspace/repos/rrxiv/tests/conformance/fixtures/multi-claim/multi-claim.tex"
   },
   "sections": [
     {
-      "id": "claim:existence",
+      "id": "sec:0",
       "type": "section",
       "title": "Theoretical claim",
       "order": 0
     },
     {
-      "id": "claim:volume",
+      "id": "sec:1",
       "type": "section",
       "title": "Empirical claim",
       "order": 1
     },
     {
-      "id": "claim:pairing",
+      "id": "sec:2",
       "type": "section",
       "title": "Methodological claim",
       "order": 2
@@ -48,6 +49,11 @@
       "claim_type": "theoretical",
       "evidence_type": "argument",
       "replication_status": "untested",
+      "source_location": {
+        "file": "multi-claim.tex",
+        "line_start": 28,
+        "line_end": 32
+      },
       "extracted_by": "author",
       "canonical": true
     },
@@ -58,6 +64,11 @@
       "claim_type": "theoretical",
       "evidence_type": "argument",
       "replication_status": "untested",
+      "source_location": {
+        "file": "multi-claim.tex",
+        "line_start": 36,
+        "line_end": 40
+      },
       "extracted_by": "author",
       "canonical": true
     },
@@ -68,6 +79,11 @@
       "claim_type": "theoretical",
       "evidence_type": "argument",
       "replication_status": "untested",
+      "source_location": {
+        "file": "multi-claim.tex",
+        "line_start": 44,
+        "line_end": 48
+      },
       "extracted_by": "author",
       "canonical": true
     }

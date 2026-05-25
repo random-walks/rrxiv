@@ -6,11 +6,12 @@
   "authors": [
     {
       "name": "rrxiv Project",
-      "is_agent": false
+      "is_agent": false,
+      "role": "author"
     }
   ],
   "abstract": "This paper exists as a parser conformance fixture. It contains one claim,\none piece of evidence, one citation, and one open question. Its only\npurpose is to round-trip through rrxiv-python's parser into a\nvalid Canonical Intermediate Representation (CIR).",
-  "submitted_at": "2026-05-05T17:08:46.441623Z",
+  "submitted_at": "2026-05-25T22:46:25.407837Z",
   "license": "CC-BY-4.0",
   "topics": [
     "example",
@@ -36,6 +37,12 @@
       "claim_type": "theoretical",
       "evidence_type": "argument",
       "replication_status": "untested",
+      "proof": "The tests/conformance/ suite in this repository runs the parser\non this file and asserts the result validates against the schema.\nThe test passes in CI on every push.",
+      "source_location": {
+        "file": "minimal.tex",
+        "line_start": 36,
+        "line_end": 48
+      },
       "extracted_by": "author",
       "canonical": true
     }

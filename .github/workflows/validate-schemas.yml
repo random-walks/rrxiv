@@ -25,16 +25,44 @@ jobs:
           node-version: '22'
 
       - name: Install ajv tooling
-        run: npm install -g ajv-cli@5 ajv-formats@3
+        run: npm install -g ajv@8 ajv-formats@3
 
       - name: Validate every schema against the JSON Schema 2020-12 meta-schema
+        # ajv-cli's `compile -s X -r Y` deduplication is per-key, not per-$id —
+        # passing the same schema as both -s and -r errors with "already exists".
+        # And running per-file with no -r breaks on cross-file $refs
+        # (cir.schema.json -> paper.schema.json#/$defs/Author).
+        #
+        # Tiny inline Node script: addSchema every sibling once, then compile
+        # each by $id. Same pattern tests/schemas/test.mjs uses; strictly
+        # stronger than the per-file ajv-cli loop because cross-refs resolve.
         run: |
-          set -e
-          shopt -s nullglob
-          for f in schema/*.schema.json; do
-            echo "==> Compiling $f"
-            ajv compile -s "$f" --spec=draft2020 --strict=false -c ajv-formats
-          done
+          node -e '
+            import("ajv/dist/2020.js").then(async ({default: Ajv2020}) => {
+              const addFormats = (await import("ajv-formats")).default;
+              const {readFileSync, readdirSync} = await import("node:fs");
+              const {join} = await import("node:path");
+              const ajv = new Ajv2020({strict: false, allErrors: true});
+              addFormats(ajv);
+              const dir = "schema";
+              const schemas = readdirSync(dir).filter(f => f.endsWith(".schema.json"));
+              for (const f of schemas) ajv.addSchema(JSON.parse(readFileSync(join(dir, f), "utf-8")));
+              let failed = 0;
+              for (const f of schemas) {
+                const s = JSON.parse(readFileSync(join(dir, f), "utf-8"));
+                try {
+                  ajv.compile(s);
+                  console.log(`OK  ${f}`);
+                } catch (e) {
+                  console.log(`ERR ${f}: ${e.message}`);
+                  failed++;
+                }
+              }
+              process.exit(failed > 0 ? 1 : 0);
+            });
+          '
+        env:
+          NODE_PATH: /usr/lib/node_modules
 
       - name: Run schema validation tests if present
         run: |
