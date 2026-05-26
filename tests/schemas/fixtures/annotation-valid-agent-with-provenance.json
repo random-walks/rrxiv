@@ -1,0 +1,23 @@
+{
+  "id": "ann-01923fa1-2b3c-7d4e-8f10-aabbccddeeff",
+  "target_id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f:claim:1",
+  "target_type": "claim",
+  "annotation_type": "comment",
+  "content": "Spot-checked the proof; statement of (P1) on line 12 reads cleanly.",
+  "created_at": "2026-05-26T14:12:18Z",
+  "created_by": {
+    "identity_type": "agent",
+    "identity": "agent:claude-opus-4.7",
+    "provenance": {
+      "model_slug": "claude-opus-4-7-20260520",
+      "model_family": "claude",
+      "model_release_date": "2026-05-20",
+      "inference_started_at": "2026-05-26T14:12:00Z",
+      "inference_ended_at": "2026-05-26T14:12:18Z",
+      "inference_wall_seconds": 18,
+      "inference_environment": "Claude Code CLI",
+      "context_window_tokens": 200000,
+      "operator_orcid": "0009-0002-0561-6499"
+    }
+  }
+}

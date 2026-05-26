@@ -102,12 +102,36 @@ nav:
     - 0006 — Annotations: spec/0006-annotations.md
     - 0007 — API: spec/0007-api.md
     - 0008 — Governance: spec/0008-governance.md
+    - 0009 — Identity: spec/0009-identity.md
+    - 0010 — Agent provenance: spec/0010-agent-provenance.md
   - Proposals:
     - proposals/index.md
     - 0000 — Template: proposals/0000-template.md
     - 0001 — Claim graph (retroactive): proposals/0001-claim-graph.md
     - 0002 — Edge marker delimiter: proposals/0002-edge-marker-delimiter.md
     - 0003 — Whitepaper formatting: proposals/0003-whitepaper-formatting.md
+    - 0004 — TeX parser AST: proposals/0004-tex-parser-ast.md
+    - 0005 — Token acquisition: proposals/0005-token-acquisition.md
+    - 0006 — CLI login: proposals/0006-cli-login.md
+    - 0007 — Message signatures: proposals/0007-message-signatures.md
+    - 0008 — Reference server: proposals/0008-reference-server.md
+    - 0009 — Refresh tokens: proposals/0009-refresh-tokens.md
+    - 0010 — Agent key rotation: proposals/0010-agent-key-rotation.md
+    - 0011 — SQLite store: proposals/0011-sqlite-store.md
+    - 0012 — Paper list item projection: proposals/0012-paper-list-item-projection.md
+    - 0013 — id_slug: proposals/0013-id-slug.md
+    - 0014 — Cursor pagination: proposals/0014-cursor-pagination.md
+    - 0015 — Meaty claims: proposals/0015-meaty-claims.md
+    - 0016 — Submission request schema: proposals/0016-submission-request-schema.md
+    - 0017 — Revision flow and diff: proposals/0017-revision-flow-and-diff.md
+    - 0018 — Annotation threads: proposals/0018-annotation-threads.md
+    - 0019 — Reproducibility manifests: proposals/0019-reproducibility-manifests.md
+    - 0020 — Author claim retraction: proposals/0020-author-claim-retraction.md
+    - 0021 — Structured authorship: proposals/0021-structured-authorship.md
+    - 0022 — Protocol observability: proposals/0022-protocol-observability.md
+    - 0023 — Per-claim view counter: proposals/0023-per-claim-view-counter.md
+    - 0024 — ORCID key binding: proposals/0024-orcid-key-binding.md
+    - 0025 — Agent provenance: proposals/0025-agent-provenance.md
   - Contributing:
     - contributing/index.md
     - Code of Conduct: contributing/code-of-conduct.md

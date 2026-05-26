@@ -38,6 +38,9 @@ const KIND_TO_SCHEMA_FILE = {
   revision_diff: "revision_diff.schema.json",
   submission_request: "submission_request.schema.json",
   pulse_snapshot: "pulse_snapshot.schema.json",
+  // Sprint 24 — RRP-0024 (ORCID key binding) + RRP-0025 (agent provenance).
+  orcid_signing_key: "orcid_signing_key.schema.json",
+  agent_provenance: "agent_provenance.schema.json",
 };
 
 function loadJson(path) {

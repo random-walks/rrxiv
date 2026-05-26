@@ -17,7 +17,11 @@
 \rrxivtopics{example,conformance}
 
 \title{A minimal rrxiv paper}
-\author{rrxiv Project}
+% Structured authorship (RRP-0021) + agent provenance (RRP-0025).
+% Each \rrxivauthor call emits a RRXIV:author:<n>|... line to the
+% sidecar and falls through to authblk's \author{} for the visual
+% title block.
+\rrxivauthor[role=author,affiliation={rrxiv Project}]{rrxiv Project}
 \date{2026-05-04}
 
 \begin{document}

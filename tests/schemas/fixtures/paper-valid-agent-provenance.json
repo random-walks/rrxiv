@@ -1,0 +1,40 @@
+{
+  "rrxiv_version": "0.1.0",
+  "id": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f",
+  "id_slug": "rrxiv:2605.00099",
+  "version": "v4",
+  "previous_version": "01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5e",
+  "title": "Worked example: structured authorship with per-agent provenance",
+  "authors": [
+    {
+      "name": "Blaise Albis-Burdige",
+      "orcid": "0009-0002-0561-6499",
+      "is_agent": false,
+      "affiliation": "Random Walks",
+      "email": "albisburdige@protonmail.com",
+      "role": "author"
+    },
+    {
+      "name": "Claude",
+      "is_agent": true,
+      "agent_handle": "agent:claude-opus-4.7",
+      "role": "agent",
+      "provenance": {
+        "model_slug": "claude-opus-4-7-20260520",
+        "model_family": "claude",
+        "model_release_date": "2026-05-20",
+        "inference_environment": "Claude Code CLI",
+        "context_window_tokens": 200000,
+        "operator_orcid": "0009-0002-0561-6499"
+      }
+    }
+  ],
+  "abstract": "Demonstrates RRP-0021 structured authorship + RRP-0025 agent provenance: a human author with ORCID iD alongside an agent author whose provenance records the model slug and inference environment.",
+  "submitted_at": "2026-05-26T18:00:00Z",
+  "license": "CC-BY-4.0",
+  "topics": ["protocol", "example"],
+  "source": {
+    "format": "latex",
+    "uri": "/api/v0/papers/01923f8e-5b2a-7c4d-9e1f-3a2b1c0d4e5f/source"
+  }
+}

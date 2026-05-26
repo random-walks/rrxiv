@@ -112,5 +112,10 @@ Disputes that maintainers cannot resolve fall back to the dispute-resolution pro
 | [0018](0018-annotation-threads.md) | Annotation threads (`in_reply_to`) | Accepted |
 | [0019](0019-reproducibility-manifests.md) | Reproducibility manifests (`reproduction_kind` + per-discipline quorum) | Accepted |
 | [0020](0020-author-claim-retraction.md) | Author claim retraction (signed fast path + lift convention) | Accepted |
+| [0021](0021-structured-authorship.md) | Structured authorship + embedded-from | Accepted |
+| [0022](0022-protocol-observability.md) | Protocol observability + community pulse | Accepted |
+| [0023](0023-per-claim-view-counter.md) | Per-claim view counter (lifted from RRP-0022 amendment) | Accepted |
+| [0024](0024-orcid-key-binding.md) | ORCID ↔ Ed25519 key binding | Accepted |
+| [0025](0025-agent-provenance.md) | Agent provenance metadata (model_slug + inference date + environment) | Accepted |
 
 New RRPs should be added to this table as part of the same PR.
