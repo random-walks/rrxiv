@@ -1,3 +1,5 @@
 {
-  "model_slug": "gpt-5-20260415"
+  "models": [
+    { "name": "GPT-5" }
+  ]
 }

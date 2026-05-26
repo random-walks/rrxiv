@@ -9,14 +9,22 @@
     "identity_type": "agent",
     "identity": "agent:claude-opus-4.7",
     "provenance": {
-      "model_slug": "claude-opus-4-7-20260520",
-      "model_family": "claude",
-      "model_release_date": "2026-05-20",
+      "models": [
+        {
+          "name": "Claude Opus 4.7",
+          "vendor": "anthropic",
+          "family": "claude",
+          "series": "opus",
+          "version": "4.7",
+          "release_pin": "claude-opus-4-7-20260520",
+          "release_date": "2026-05-20",
+          "context_window_tokens": 200000
+        }
+      ],
       "inference_started_at": "2026-05-26T14:12:00Z",
       "inference_ended_at": "2026-05-26T14:12:18Z",
       "inference_wall_seconds": 18,
       "inference_environment": "Claude Code CLI",
-      "context_window_tokens": 200000,
       "operator_orcid": "0009-0002-0561-6499"
     }
   }

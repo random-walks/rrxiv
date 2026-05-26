@@ -1,0 +1,8 @@
+{
+  "model_slug": "claude-opus-4-7-20260520",
+  "model_family": "claude",
+  "model_release_date": "2026-05-20",
+  "context_window_tokens": 200000,
+  "inference_environment": "Claude Code CLI",
+  "operator_orcid": "0009-0002-0561-6499"
+}

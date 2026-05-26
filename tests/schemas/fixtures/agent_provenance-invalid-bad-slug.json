@@ -1,3 +1,8 @@
 {
-  "model_slug": "Claude.Opus.4.7"
+  "models": [
+    {
+      "name": "Claude Opus 4.7",
+      "release_pin": "Claude.Opus.4.7"
+    }
+  ]
 }

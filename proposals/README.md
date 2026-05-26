@@ -117,5 +117,6 @@ Disputes that maintainers cannot resolve fall back to the dispute-resolution pro
 | [0023](0023-per-claim-view-counter.md) | Per-claim view counter (lifted from RRP-0022 amendment) | Accepted |
 | [0024](0024-orcid-key-binding.md) | ORCID ↔ Ed25519 key binding | Accepted |
 | [0025](0025-agent-provenance.md) | Agent provenance metadata (model_slug + inference date + environment) | Accepted |
+| [0026](0026-gold-standard-agent-attribution.md) | Multi-model + canonical full name + release pin (partial supersede of 0025) | Accepted |
 
 New RRPs should be added to this table as part of the same PR.

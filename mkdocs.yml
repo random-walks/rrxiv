@@ -132,6 +132,7 @@ nav:
     - 0023 — Per-claim view counter: proposals/0023-per-claim-view-counter.md
     - 0024 — ORCID key binding: proposals/0024-orcid-key-binding.md
     - 0025 — Agent provenance: proposals/0025-agent-provenance.md
+    - 0026 — Gold-standard agent attribution: proposals/0026-gold-standard-agent-attribution.md
   - Contributing:
     - contributing/index.md
     - Code of Conduct: contributing/code-of-conduct.md
