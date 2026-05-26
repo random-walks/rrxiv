@@ -41,6 +41,8 @@ const KIND_TO_SCHEMA_FILE = {
   // Sprint 24 — RRP-0024 (ORCID key binding) + RRP-0025 (agent provenance).
   orcid_signing_key: "orcid_signing_key.schema.json",
   agent_provenance: "agent_provenance.schema.json",
+  // Sprint 26 — RRP-0027 (canonical model registry).
+  model_registry: "model_registry.schema.json",
 };
 
 function loadJson(path) {

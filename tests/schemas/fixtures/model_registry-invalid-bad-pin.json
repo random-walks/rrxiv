@@ -1,0 +1,12 @@
+{
+  "$comment": "release_pin contains uppercase chars and a space — pattern violation.",
+  "version": "0.1.0",
+  "entries": [
+    {
+      "name": "Claude Opus 4.7",
+      "release_pin": "Claude Opus 4.7",
+      "vendor": "anthropic",
+      "family": "claude"
+    }
+  ]
+}

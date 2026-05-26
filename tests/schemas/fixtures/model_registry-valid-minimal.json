@@ -1,0 +1,11 @@
+{
+  "version": "0.1.0",
+  "entries": [
+    {
+      "name": "Claude Opus 4.7",
+      "release_pin": "claude-opus-4-7-20260520",
+      "vendor": "anthropic",
+      "family": "claude"
+    }
+  ]
+}
