@@ -22,7 +22,7 @@ The protocol already decided this — twice — but the implementation and the l
 
 So three id shapes coexist across the repos (UUIDv7, `paper-<hex>`, slug, repo-name) and "nothing agrees." Concrete harm:
 
-- **Claim-id ambiguity.** Claim ids are `<paper_id>:<local_label>`. With a UUID paper-id (no internal colon), `…4e5f:queryability` splits unambiguously on the first colon. With a slug paper-id, `rrxiv:2605.00002:c1` has **two** colons and no canonical split. The live euclid paper already exhibits the colon mess (`rrxiv-paper-euclid-elements:prop:I.4`).
+- **Claim graph stability.** Claim ids are citable and slug-based — `<id_slug>:<local_label>` (e.g. `rrxiv:2605.00002:claim:c1`) — and are authored client-side, since the machine `id` doesn't exist until submission. Cross-paper edges therefore reference *slugs*, which this RRP preserves; re-minting the machine `id` leaves the claim graph fully wired with no edge rewriting. Keying claims off the stable citable id (not the volatile machine id) is the point.
 - **Latent endpoint break.** `revision_diff.VersionRef.paper_id` is declared `format: uuid`, which `datamodel-code-generator` renders as a Python `UUID`. The live slug-shaped ids are **not** valid UUIDs, so the diff response cannot be constructed for the current corpus (masked only by `revisions_count: 0`).
 - **Federation.** A per-instance slug cannot be the global graph anchor (RRP-0013 §Federation ambiguity). The claim graph needs the opaque, globally-unique `id`.
 
@@ -36,6 +36,10 @@ So three id shapes coexist across the repos (UUIDv7, `paper-<hex>`, slug, repo-n
 | **`id_slug`** | `rrxiv:YYMM.NNNNN` | The human-facing, citable identifier (URLs, citations). Server-minted, per-instance. Unchanged from RRP-0013. |
 
 This restates `spec/0005` and RRP-0013; it introduces no new policy. The new normative bit is the explicit **opaque-to-clients** rule for `id`, and the schema-level consistency below.
+
+### Claim ids (citable, slug-based)
+
+A claim's `id` is `<id_slug>:<local_label>` (e.g. `rrxiv:2605.00002:claim:c1`), and `claim.paper_id` is the owning paper's `id_slug`. Claim ids are built **client-side at authoring time**, before any machine `id` exists, so they key off the stable, human-citable slug — consistent with claims being first-class *citable* artifacts. Cross-paper edges (`depends_on`/`supports`/`contradicts`/`extends`) reference slug-based claim ids; because slugs are preserved by the migration below, the entire cross-paper claim graph survives re-minting with **no edge rewriting**. Globally-unique (instance-qualified) claim ids for cross-instance federation are deferred to the v1.0 federation RRP, consistent with RRP-0013 §Federation.
 
 ### Schema changes (every paper-id field is an opaque string)
 
@@ -99,7 +103,7 @@ The citable ids (slugs) are **preserved and corrected**; only the internal machi
 | `schema/cir.schema.json` | same | 0.2.0 → 0.2.1 |
 | `schema/submission_request.schema.json` | remove `format: uuid` on `previous_version` | 0.1.0 → 0.2.0 |
 | `schema/revision_diff.schema.json` | remove `format: uuid` on `VersionRef.paper_id` | 0.1.0 → 0.2.0 |
-| `schema/claim.schema.json` | `paper_id` description clarified | 0.2.0 → 0.2.1 |
+| `schema/claim.schema.json` | `id` + `paper_id` documented as citable slug-based; examples updated | 0.2.0 → 0.2.2 |
 | `schema/citation.schema.json` | `target_paper_id` description clarified | 0.1.0 → 0.1.1 |
 | `spec/0005-submission.md` | cite RRP-0029; add the opaque-to-clients rule | — |
 | `spec/0002-cir.md` | reference the dual-identifier model | — |
