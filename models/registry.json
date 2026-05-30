@@ -2,8 +2,21 @@
   "$schema": "../schema/model_registry.schema.json",
   "$comment": "Canonical model registry per RRP-0027. Maintained by PR; one entry per release pin. Setting is_current:false soft-deprecates an entry; removing entries is forbidden (a paper may have cited the pin). Add new models as papers begin to use them.",
   "version": "0.1.0",
-  "updated_at": "2026-05-26",
+  "updated_at": "2026-05-30",
   "entries": [
+    {
+      "name": "Claude Opus 4.8",
+      "release_pin": "claude-opus-4-8",
+      "vendor": "anthropic",
+      "family": "claude",
+      "series": "opus",
+      "version": "4.8",
+      "release_date": "2026-05-30",
+      "context_window_tokens": 1000000,
+      "is_current": true,
+      "display_order": 5,
+      "aliases": ["Claude 4.8 Opus", "claude-opus-4.8", "Claude (Opus 4.8)"]
+    },
     {
       "name": "Claude Opus 4.7",
       "release_pin": "claude-opus-4-7-20260520",
