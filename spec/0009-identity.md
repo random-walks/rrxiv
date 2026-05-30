@@ -47,6 +47,13 @@ The bearer TTL is 24h by default (`token_ttl_seconds_orcid` setting). Refresh is
 
 ### Signed ORCID writes (Sprint 24)
 
+> **Implementation status (2026-05):** the **server side is shipped** — the
+> `/auth/orcid/keys` bind/list/revoke endpoints and the signature-verification
+> middleware described below are live. The **client `rrxiv auth` CLI shown in
+> the flow and automatic key-signing of `submit`/`annotation` writes are not
+> yet implemented**; ORCID writes are bearer-authenticated today. The flow
+> below is the intended client UX, tracked as a follow-up.
+
 Bearer-only auth means anyone with the bearer can write — including an attacker who steals the bearer from a compromised laptop or a misconfigured CI log. To raise the bar, the protocol supports **ORCID-key binding** (RRP-0024): a user can bind one or more Ed25519 public keys to their ORCID iD, then sign each write with the corresponding private key.
 
 The bind flow:
