@@ -82,12 +82,13 @@ Dry-run lets authors and CI pipelines validate against the server's reference en
 
 ## ID assignment
 
-v0.1 uses **UUIDv7** for paper IDs. Properties:
+v0.1 uses **UUIDv7** for paper IDs (ratified in [RRP-0029](../proposals/0029-paper-id-uuidv7.md)). Properties:
 
 - **Time-ordered** — IDs minted later sort lexicographically after IDs minted earlier. Useful for lazy "latest first" queries.
 - **128 bits, plenty of entropy** — sybil-resistant against accidental collisions.
 - **Unrecyclable** — if a submission is retired during ingestion (steps 4–9 fail), its ID is never reused. The gap is a feature; UUIDv7 has so much entropy that gaps are not a problem.
 - **Server-minted** — clients do not propose IDs. This means an author resubmitting a rejected attempt gets a fresh ID.
+- **Opaque to clients** — the `id` is a machine identifier; clients MUST NOT parse, derive, or construct it. Humans, URLs, and citations use the `id_slug` (RRP-0013) instead.
 
 The ID format may evolve via RRP. Candidate alternatives for v1.0:
 

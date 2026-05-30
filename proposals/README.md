@@ -120,5 +120,6 @@ Disputes that maintainers cannot resolve fall back to the dispute-resolution pro
 | [0026](0026-gold-standard-agent-attribution.md) | Multi-model + canonical full name + release pin (partial supersede of 0025) | Accepted |
 | [0027](0027-canonical-model-registry.md) | Canonical model registry (`models/registry.json` + `GET /models/registry`) | Accepted |
 | [0028](0028-author-and-agent-pages.md) | Author + agent pages, referrer breadcrumbs, default-match search | Accepted |
+| [0029](0029-paper-id-uuidv7.md) | Paper identifier model: machine `id` (UUIDv7, opaque) + citable `id_slug` | Accepted |
 
 New RRPs should be added to this table as part of the same PR.

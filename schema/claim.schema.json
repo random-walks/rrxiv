@@ -3,7 +3,7 @@
   "$id": "https://rrxiv.com/schema/v0/claim.schema.json",
   "title": "Claim",
   "description": "A single falsifiable assertion extracted from a paper. The unit of structured knowledge in the rrxiv corpus. Claim graph edges (depends_on, supports, contradicts, extends) connect claims across papers.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "object",
   "required": ["id", "statement", "claim_type", "evidence_type"],
   "properties": {
@@ -14,7 +14,7 @@
     },
     "paper_id": {
       "type": "string",
-      "description": "ID of the paper this claim originates in. Same paper may contain many claims."
+      "description": "The originating paper's `id` (server-assigned UUIDv7). A claim's own `id` is `<paper_id>:<local_label>`; because the UUID contains no colon, that split is unambiguous. See RRP-0029."
     },
     "statement": {
       "type": "string",
