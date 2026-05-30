@@ -1,0 +1,8 @@
+{
+  "cir": "{\"rrxiv_version\":\"0.1.0\",\"id\":\"placeholder\",\"version\":\"v2\",\"previous_version\":\"rrxiv:2605.00002\",\"title\":\"Toy paper\"}",
+  "bundle": "<binary tar.gz placeholder>",
+  "previous_version": "rrxiv:2605.00002",
+  "revision_summary": "Revision referencing the prior version by its citable id_slug. Valid under RRP-0029: previous_version is an opaque string (was format:uuid), so RRP-0013 dual-resolution (id OR id_slug) holds at the schema layer.",
+  "dry_run": false,
+  "client_compile_hash": "a3f5b1c9e2d4f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1"
+}
