@@ -22,7 +22,7 @@ complements the workspace-level rules in `../../CLAUDE.md` and
 
 - A schema change needs an **RRP** (per `proposals/README.md` "When you need an RRP" — anything touching id minting, a breaking change, a new top-level field). Bump the schema's own `version` field; add fixtures.
 - `schema/api.openapi.yaml` is a **generated** artifact (synced from the rrxiv-python server via `scripts/sync-openapi.sh`). Do NOT hand-edit it; the running server's `app.openapi()` is ground truth.
-- Branch protection requires a PR (no required checks). Merge with `gh pr merge --squash --admin`.
+- Branch protection requires a PR (no required checks). Merge with `gh pr merge --squash --delete-branch` — no `--admin` needed (Actions billing fixed 2026-07-02; path-filtered checks simply don't block).
 
 ## Identifier model (RRP-0029)
 
