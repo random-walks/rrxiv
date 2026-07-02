@@ -1,0 +1,30 @@
+name: api-health
+
+# Synthetic uptime check for the canonical instance (api.rrxiv.com).
+# Lives here rather than in rrxiv-instance because Actions minutes are
+# free on public repos; a failed run makes GitHub email the maintainer.
+# Observed failure class: RRXIV-WEB-8 (transient /scopes unreachability).
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: GET /api/v0/scopes with retries
+        run: |
+          url="https://api.rrxiv.com/api/v0/scopes"
+          for attempt in 1 2 3; do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 "$url" || echo "000")
+            if [ "$code" = "200" ]; then
+              echo "attempt $attempt: HTTP 200 — healthy"
+              exit 0
+            fi
+            echo "attempt $attempt: HTTP $code"
+            [ "$attempt" -lt 3 ] && sleep 20
+          done
+          echo "::error::$url unhealthy after 3 attempts (last HTTP $code)"
+          exit 1
