@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use rrxiv (the protocol spec, JSON Schemas, rrxiv.cls, or the RRP corpus), please cite the whitepaper below — it is the single canonical citation for the protocol."
+type: software
+title: "rrxiv: protocol specification, JSON Schemas, and LaTeX class"
+authors:
+  - family-names: "Albis-Burdige"
+    given-names: "Blaise"
+    email: "albisburdige@protonmail.com"
+    orcid: "https://orcid.org/0009-0002-0561-6499"
+license: MIT
+repository-code: "https://github.com/random-walks/rrxiv"
+url: "https://rrxiv.com"
+version: 0.1.0
+keywords:
+  - preprint servers
+  - open science
+  - claim graphs
+  - AI agents
+  - scientific infrastructure
+  - protocol design
+preferred-citation:
+  type: article
+  title: "rrxiv: An Open Protocol for Research Preprints in the Era of Human-Agent Coproduction"
+  year: 2026
+  authors:
+    - family-names: "Albis-Burdige"
+      given-names: "Blaise"
+      orcid: "https://orcid.org/0009-0002-0561-6499"
+    - name: "Claude Opus 4.7"
+    - name: "Claude Opus 4.8"
+  url: "https://rrxiv.com/papers/rrxiv:2605.00001"
+  notes: "Whitepaper v6, protocol v0.1.0. Agent co-authors are recorded per RRP-0026 (gold-standard agent attribution); the authoritative author list lives in the paper's rrxiv-meta.json."

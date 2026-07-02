@@ -6,7 +6,7 @@ This file lists the active maintainers of the rrxiv protocol. It is the canonica
 
 | Identity | GitHub | Conflict-of-interest disclosures |
 | -------- | ------ | -------------------------------- |
-| Blaise Albis-Burdige — <albisburdige@protonmail.com> | [@random-walks](https://github.com/random-walks) | TBD |
+| Blaise Albis-Burdige — <albisburdige@protonmail.com> | [@random-walks](https://github.com/random-walks) | Sole maintainer; also personally operates the canonical instance (rrxiv.com / api.rrxiv.com) — the operator/protocol split is documented in [`spec/0008-governance.md`](spec/0008-governance.md). The project originated during the wind-down of Ubik, Inc. (dissolved 2026), but is fully MIT-licensed and its codebase is independent of any Ubik work; no ongoing corporate interest exists. |
 
 The first maintainer set is the founding contributors at v0.1; additional maintainers join via the RRP process described in `spec/0008-governance.md` §"Stewardship structure".
 
@@ -51,8 +51,10 @@ Disclosures are not bars to maintainership; they're context for evaluating indiv
 
 ## Contact
 
-Operational issues with the canonical instance: <albisburdige@protonmail.com> (interim operator contact until a separate operating entity is established per `spec/0008-governance.md`).
+Operational issues with the canonical instance: <albisburdige@protonmail.com> — the maintainer personally operates the canonical instance until a separate operating entity is established; this is disclosed in the conflict-of-interest table above.
 
 Protocol questions, RRP discussions, contribution: GitHub issues and PRs on this repository.
+
+Security reports: see [`SECURITY.md`](SECURITY.md) — privately, not via public issues.
 
 Code-of-conduct reports: see [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) — <albisburdige@protonmail.com>.
