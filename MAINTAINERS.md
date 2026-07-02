@@ -6,7 +6,7 @@ This file lists the active maintainers of the rrxiv protocol. It is the canonica
 
 | Identity | GitHub | Conflict-of-interest disclosures |
 | -------- | ------ | -------------------------------- |
-| TBD      | [@random-walks](https://github.com/random-walks) | TBD |
+| Blaise Albis-Burdige — <albisburdige@protonmail.com> | [@random-walks](https://github.com/random-walks) | TBD |
 
 The first maintainer set is the founding contributors at v0.1; additional maintainers join via the RRP process described in `spec/0008-governance.md` §"Stewardship structure".
 
@@ -51,8 +51,8 @@ Disclosures are not bars to maintainership; they're context for evaluating indiv
 
 ## Contact
 
-Operational issues with the canonical instance: TBD (the operator's contact channel, established at the time the canonical instance launches).
+Operational issues with the canonical instance: <albisburdige@protonmail.com> (interim operator contact until a separate operating entity is established per `spec/0008-governance.md`).
 
 Protocol questions, RRP discussions, contribution: GitHub issues and PRs on this repository.
 
-Code-of-conduct reports: see [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). Reporting contact also TBD pending public launch.
+Code-of-conduct reports: see [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) — <albisburdige@protonmail.com>.

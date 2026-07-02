@@ -18,7 +18,7 @@ Project maintainers are responsible for clarifying and enforcing standards of ac
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the project maintainers at the contact email below. All complaints will be reviewed and investigated promptly and fairly. All maintainers are obligated to respect the privacy and security of the reporter.
 
-**Reporting contact:** TBD — to be set before the repo is made public (Phase 0 milestone M0.7).
+**Reporting contact:** Blaise Albis-Burdige — <albisburdige@protonmail.com>.
 
 ## Scope
 
