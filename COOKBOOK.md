@@ -2,7 +2,7 @@
 
 Copy-paste recipes for the operations you'll actually do against a running rrxiv instance. Defaults assume the canonical instance at `https://api.rrxiv.com/api/v0` — set `RRXIV_SERVER` for any other server.
 
-All recipes use the [`rrxiv` CLI](https://github.com/random-walks/rrxiv-python). Install it with `pip install "rrxiv @ git+https://github.com/random-walks/rrxiv-python.git"` — not on PyPI yet, so once published this becomes `pip install rrxiv`. (If you have the workspace checked out, `uv run --project ../rrxiv-python rrxiv` runs it against the sibling checkout instead.) Quick install check:
+All recipes use the [`rrxiv` CLI](https://github.com/random-walks/rrxiv-python). Install it with `pip install rrxiv`. (From a workspace checkout, `uv run --project ../rrxiv-python rrxiv` runs it against the sibling checkout instead.) Quick install check:
 
 ```sh
 rrxiv version
