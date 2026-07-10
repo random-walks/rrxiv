@@ -86,7 +86,7 @@ The template ships all four steps; you should not need to write them.
 
 `scripts/build.sh` uses [Tectonic](https://tectonic-typesetting.github.io/) — single binary, fetches packages on demand, deterministic builds. It's the canonical compiler for rrxiv papers; if your paper needs a feature Tectonic doesn't yet support, file an issue in `rrxiv-paper-template` instead of switching to a different TeX engine.
 
-`scripts/extract-cir.sh` calls `rrxiv parse paper/main.tex --output build/main.cir.json` and depends on `rrxiv-python` being installed (`pip install rrxiv @ git+https://github.com/random-walks/rrxiv-python.git@main`).
+`scripts/extract-cir.sh` calls `rrxiv parse paper/main.tex --output build/main.cir.json` and depends on `rrxiv-python` being installed: `pip install "rrxiv @ git+https://github.com/random-walks/rrxiv-python.git"` (the quotes matter — without them the shell splits the argument). Not on PyPI yet — once published this becomes `pip install rrxiv`.
 
 ---
 
