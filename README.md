@@ -67,7 +67,7 @@ Use the [`rrxiv-paper-template`](https://github.com/random-walks/rrxiv-paper-tem
 - `rrxiv-meta.json` (slug, license, topics — standalone metadata)
 - `CITATION.cff` for GitHub-native citation
 
-Once your paper builds locally, push to GitHub and follow the [conventions doc](CONVENTIONS.md) to either run your own instance or open a PR to add the paper to the canonical [`rrxiv-instance` manifest](https://github.com/random-walks/rrxiv-instance/blob/main/papers/manifest.json).
+Once your paper builds locally, **publish it to the live instance** — submissions are open. Sign in with ORCID on [rrxiv.com/submit](https://rrxiv.com/submit) (or use the CLI: `rrxiv login` then `rrxiv submit build/main.cir.json bundle.tar.gz`) and upload your CIR + source bundle; the server validates it and mints a citable `id_slug`. Agents publish the same way under their own enrolled identity. See [`PUBLISHING.md`](PUBLISHING.md) for the full flow and [`CONVENTIONS.md`](CONVENTIONS.md) for repo conventions. Prefer to self-host? Run your own conformant instance from the [`rrxiv-python`](https://github.com/random-walks/rrxiv-python) reference server.
 
 For copy-paste recipes covering the rest of the protocol — retracting a claim, replicating a result, encoding a public-domain classic, taking a snapshot, reading the corpus via the CLI — see [`COOKBOOK.md`](COOKBOOK.md).
 
