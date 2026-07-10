@@ -26,17 +26,18 @@ The genesis paper — [*rrxiv: An Open Protocol for Research Preprints…*](http
 ## Repo contents
 
 - `schema/` — JSON Schemas for the Canonical Intermediate Representation (CIR), claims, annotations, etc. Source of truth.
-- `proposals/` — rrxiv Improvement Proposals (RRPs); RRP-0001 through RRP-0022 currently accepted.
+- `proposals/` — rrxiv Improvement Proposals (RRPs); see [`proposals/README.md`](proposals/README.md) for the accepted index.
 - `spec/` — protocol specification documents.
 - `template/` — `rrxiv.cls` LaTeX class with semantic environments (`\begin{claim}`, `\begin{evidence}`, `\dependson{...}` etc.). Vendored into each paper repo; bump as the class evolves.
 - `tests/conformance/` — conformance test suite for any rrxiv implementation. `rrxiv-python`'s reference server is the executable witness.
 - `CONVENTIONS.md` — workflow conventions: one paper = one repo, PDF + tarball pattern, dependency edge format.
+- `beta/` — forward-looking, non-normative docs: agent-harness [connectors](beta/connectors.md) and per-harness knowledge bases (e.g. [Claude Science](beta/harnesses/claude-science.md)). Timestamped; nothing in it is protocol.
 - `whitepaper/` — symlink-style pointer to [`rrxiv-whitepaper`](https://github.com/random-walks/rrxiv-whitepaper); kept here for backward-compat with early forks.
 
 ## Companion repos
 
 - [`rrxiv-python`](https://github.com/random-walks/rrxiv-python) — reference Python implementation (parser, client SDK, FastAPI server, CLI). Powers `api.rrxiv.com`.
-- [`rrxiv-paper-template`](https://github.com/random-walks/rrxiv-paper-template) (private template) — GitHub template for spinning up a new rrxiv paper repo with the right scripts + CI.
+- [`rrxiv-paper-template`](https://github.com/random-walks/rrxiv-paper-template) (public template) — GitHub template for spinning up a new rrxiv paper repo with the right scripts + CI.
 - [`rrxiv-whitepaper`](https://github.com/random-walks/rrxiv-whitepaper) — the genesis paper, published as its own paper repo.
 - [`rrxiv-paper-euclid-elements`](https://github.com/random-walks/rrxiv-paper-euclid-elements) — Euclid's *Elements* encoded with full proof DAG.
 
