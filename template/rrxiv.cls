@@ -4,6 +4,11 @@
 % semantic environments that the rrxiv parser extracts into the Canonical
 % Intermediate Representation (CIR) without requiring post-hoc OCR.
 %
+% v0.8.1 (2026-07-14): \rrxivauthor now pairs each \author with an
+% \affil (empty when none given) — authblk silently keeps only the LAST
+% of repeated bare \author{} calls, so multi-author papers using
+% \rrxivauthor rendered a single name in the PDF title block.
+%
 % v0.8 (2026-07-14, RRP-0030): the `claim` environment's optional
 % argument becomes a key=value list exposing claim.schema fields at the
 % authoring site: `type=` (claim_type), `evidence=` (evidence_type),
@@ -52,7 +57,7 @@
 % License: MIT.
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{rrxiv}[2026/07/14 v0.8 rrxiv paper class]
+\ProvidesClass{rrxiv}[2026/07/14 v0.8.1 rrxiv paper class]
 
 % Pass options to article
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -323,8 +328,13 @@
 RRXIV:author:\arabic{rrxiv@author@count}|name=#2|orcid=\rrxiv@author@orcid|role=\rrxiv@author@role|handle=\rrxiv@author@handle|is_agent=\rrxiv@author@isagent|affiliation=\rrxiv@author@affiliation|email=\rrxiv@author@email|model_name=\rrxiv@author@modelname|model_vendor=\rrxiv@author@modelvendor|model_family=\rrxiv@author@modelfamily|model_series=\rrxiv@author@modelseries|model_version=\rrxiv@author@modelversion|model_release_pin=\rrxiv@author@modelreleasepin|model_release_date=\rrxiv@author@modelrelease|inference_environment=\rrxiv@author@infenv%
   }%
   % Render via authblk's \author so the visible title block still has
-  % the name. authblk handles repeated \author{} calls correctly.
+  % the name. authblk drops an author unless the entry is closed by an
+  % \affil — repeated bare \author{} calls silently keep only the LAST
+  % one (verified against plain article+authblk too). Pair every author
+  % with an \affil, empty when no affiliation was given (an empty
+  % \affil renders nothing).
   \author{#2}%
+  \affil{\rrxiv@author@affiliation}%
 }
 
 % ---- Convenience macros consistent with common math notation ----
