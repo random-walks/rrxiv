@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "claim_uri": "https://rrxiv.com/claims/01923f8e-0009-7c4d-9e1f-3a2b1c0d4e5f:prop:I.1",
+  "environment": {
+    "kind": "docker",
+    "image": "ghcr.io/example/repro:abc123"
+  },
+  "entrypoint": "python run.py --seed 0",
+  "not_a_real_field": true
+}
