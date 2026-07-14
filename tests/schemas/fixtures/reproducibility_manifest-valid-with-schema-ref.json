@@ -1,0 +1,22 @@
+{
+  "$schema": "https://rrxiv.com/schema/reproducibility_manifest.schema.json",
+  "version": "1.0",
+  "title": "Reproduction manifest for Claim I.47 (Pythagorean theorem)",
+  "claim_uri": "https://rrxiv.com/claims/01923f8e-0009-7c4d-9e1f-3a2b1c0d4e5f:prop:I.47",
+  "environment": {
+    "kind": "docker",
+    "image": "ghcr.io/example/repro:abc123",
+    "digest": "sha256:abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234"
+  },
+  "data": {
+    "kind": "url",
+    "uri": "https://example.com/data.tar.gz",
+    "hash": "sha256:1111222233334444555566667777888899990000aaaabbbbccccddddeeeeffff"
+  },
+  "entrypoint": "python run.py --seed 0",
+  "expected_outputs": [
+    { "path": "out/result.json", "hash": "sha256:1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd" }
+  ],
+  "estimated_runtime_minutes": 12,
+  "estimated_cost_usd": 0.04
+}

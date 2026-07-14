@@ -80,6 +80,10 @@ For breaking schema changes, see [`MIGRATIONS.md`](MIGRATIONS.md) for the migrat
 
 ### Changed
 
+#### Erratum (July 2026) — manifest `$schema` self-identification
+
+- **[`schema/reproducibility_manifest.schema.json`](schema/reproducibility_manifest.schema.json) v0.1.0 → v0.1.1**: additive erratum. The root had `additionalProperties: false` but never declared `$schema`, so a manifest copying [RRP-0019](proposals/0019-reproducibility-manifests.md)'s own example (which includes `"$schema": "https://rrxiv.com/schema/reproducibility_manifest.schema.json"`) failed validation. Added an **optional** `$schema` string property (plain string, no `format`, for leniency). No relaxation of `additionalProperties` for any other key. Aligns the schema to the already-Accepted RRP's example — no new RRP required. Fixtures added: `reproducibility_manifest-valid-with-schema-ref.json` (mirrors the RRP example, must pass) and `reproducibility_manifest-invalid-unknown-key.json` (a *different* unknown key still fails).
+
 #### SRV sprint (May 2026)
 
 - **[`CONTRIBUTING.md`](CONTRIBUTING.md)**: rewritten. Removed "implementation mostly doesn't exist yet" framing — the canonical instance is live and `rrxiv-python` ships in production. New sections direct contributors to: design discussion, the live instance, second-language implementations, and the paper corpus.
