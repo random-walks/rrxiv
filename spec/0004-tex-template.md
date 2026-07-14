@@ -71,6 +71,28 @@ Sketch or describe the evidence supporting the claim above.
 
 The optional argument in `[brackets]` is a human-readable title shown in the rendered PDF. The `\label{...}` inside the body is the user-chosen anchor; the parser uses it to construct the canonical claim ID `<paper_id>:<label>`. If you omit `\label`, the parser falls back to `<paper_id>:claim:N` (using the sidecar index).
 
+Since class v0.8 (RRP-0030), the optional argument of `claim` may instead be a
+key=value list exposing claim-schema fields at the authoring site:
+
+```latex
+\begin{claim}[type=empirical, evidence=experiment, confidence=0.72,
+              labels={negative-result, small-n}, title=Main result]
+\label{claim:c4}
+...
+\end{claim}
+```
+
+Recognized keys: `title` (rendered note), `type` (claim_type), `evidence`
+(evidence_type), `confidence` / `confidence-low` / `confidence-high` /
+`rationale` (the confidence object), `labels={...}`, and the scope keys
+`models=` / `datasets=` / `regimes=` / `assumptions=` (comma-separated lists
+in braces). Detection is backwards compatible: an argument containing no `=`
+is a plain title; a title containing a literal `=` must be written
+`title={...}`. Explicit `type=`/`evidence=` override the parser's
+title-prefix inference; unknown keys or enum-invalid values are a parse
+**error**, not a silent default. See
+[`proposals/0030-claim-authoring-keys.md`](../proposals/0030-claim-authoring-keys.md).
+
 **Recommended labelling convention:**
 
 | Environment | Label prefix |

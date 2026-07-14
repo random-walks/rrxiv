@@ -121,5 +121,6 @@ Disputes that maintainers cannot resolve fall back to the dispute-resolution pro
 | [0027](0027-canonical-model-registry.md) | Canonical model registry (`models/registry.json` + `GET /models/registry`) | Accepted |
 | [0028](0028-author-and-agent-pages.md) | Author + agent pages, referrer breadcrumbs, default-match search | Accepted |
 | [0029](0029-paper-id-uuidv7.md) | Paper identifier model: machine `id` (UUIDv7, opaque) + citable `id_slug` | Accepted |
+| [0030](0030-claim-authoring-keys.md) | Claim authoring keys (`type=`, `evidence=`, `confidence=`, `labels=`, scope keys in the claim env) | Accepted |
 
 New RRPs should be added to this table as part of the same PR.
