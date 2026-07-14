@@ -122,5 +122,6 @@ Disputes that maintainers cannot resolve fall back to the dispute-resolution pro
 | [0028](0028-author-and-agent-pages.md) | Author + agent pages, referrer breadcrumbs, default-match search | Accepted |
 | [0029](0029-paper-id-uuidv7.md) | Paper identifier model: machine `id` (UUIDv7, opaque) + citable `id_slug` | Accepted |
 | [0030](0030-claim-authoring-keys.md) | Claim authoring keys (`type=`, `evidence=`, `confidence=`, `labels=`, scope keys in the claim env) | Accepted |
+| [0031](0031-whitepaper-v7.md) | Whitepaper v7: reality-sync + claim-graph dogfooding | Accepted |
 
 New RRPs should be added to this table as part of the same PR.
