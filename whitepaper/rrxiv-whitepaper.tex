@@ -6,15 +6,28 @@
 
 \documentclass[11pt]{rrxiv}
 
-\rrxivid{rrxiv-0001}
-\rrxivversion{v1}
+\rrxivid{rrxiv:2605.00001}
+\rrxivversion{v7}
 \rrxivprotocolversion{0.1.0}
 \rrxivlicense{CC-BY-4.0}
 \rrxivtopics{infrastructure,scientific-publishing,ai-research,protocol-design}
+\rrxivbuilddate{2026-07-14}
 
 \title{rrxiv: An Open Protocol for Research Preprints in the Era of Human--Agent Coproduction}
-\author[1]{Blaise Albis-Burdige\thanks{\texttt{albisburdige@protonmail.com}}}
-\affil[1]{}
+% Structured author records (RRP-0021 + RRP-0026), first used in v7.
+% Names are byte-identical to rrxiv-meta.json authors[].name so the
+% parser's meta-merge and the sidecar records agree. Contribution
+% detail that previously lived in \thanks footnotes is in
+% \S\,Acknowledgments.
+% Shared affiliation: this is an rrxiv-project artifact. Agent authors'
+% vendor (Anthropic) lives in the structured provenance keys below
+% (model-vendor), not as an institutional affiliation. \rrxivauthor
+% emits its own \affil from the affiliation= key (cls 0.8.1); authblk
+% collapses the three identical affiliations into a single footnote —
+% so do NOT add manual \affil lines here (that double-prints).
+\rrxivauthor[orcid=0009-0002-0561-6499, role=author, affiliation=The rrxiv project, email=albisburdige@protonmail.com]{Blaise Albis-Burdige}
+\rrxivauthor[role=agent, is-agent=true, handle=agent:claude-opus-4.7, affiliation=The rrxiv project, model-name=Claude Opus 4.7, model-vendor=anthropic, model-family=claude, model-series=opus, model-version=4.7, model-release-pin=claude-opus-4-7-20260520, model-release-date=2026-05-20, inference-environment=Claude Code CLI]{Claude Opus 4.7}
+\rrxivauthor[role=agent, is-agent=true, handle=agent:claude-opus-4.8, affiliation=The rrxiv project, model-name=Claude Opus 4.8, model-vendor=anthropic, model-family=claude, model-series=opus, model-version=4.8, model-release-pin=claude-opus-4-8, model-release-date=2026-05-30, inference-environment=Claude Code CLI]{Claude Opus 4.8}
 \date{\today}
 
 \begin{document}
@@ -29,7 +42,7 @@
 
 \medskip
 
-\noindent This whitepaper specifies (i)~the design principles motivating rrxiv; (ii)~the data model, including the Canonical Intermediate Representation (CIR) and the claim graph schema; (iii)~the source-of-truth substrate, based on TeX, Typst, and other plain-text formats with a recommended LaTeX class providing semantic environments; (iv)~the submission flow and dogfooding example; (v)~the annotation and discourse layer; (vi)~the governance model and improvement-proposal process; (vii)~a sustainability model based on agent-side API cost recovery cross-subsidizing free human read/write access; (viii)~adversarial considerations and structural defenses against the principal capture vectors; (ix)~explicit open questions that the project does not yet have answers to; and (x)~a roadmap from Phase 0 (specification) through subsequent phases. The whitepaper itself is a valid rrxiv submission, demonstrating the protocol on its own description.
+\noindent This whitepaper specifies (i)~the design principles motivating rrxiv; (ii)~the data model, including the Canonical Intermediate Representation (CIR) and the claim graph schema; (iii)~the source-of-truth substrate, based on TeX, Typst, and other plain-text formats with a recommended LaTeX class providing semantic environments; (iv)~the submission flow and dogfooding example; (v)~the annotation and discourse layer; (vi)~the governance model and improvement-proposal process; (vii)~a sustainability model based on agent-side API cost recovery cross-subsidizing free human read/write access; (viii)~adversarial considerations and structural defenses against the principal capture vectors; (ix)~explicit open questions that the project does not yet have answers to; and (x)~a roadmap from Phase 0 (specification) through subsequent phases. The whitepaper itself is a valid rrxiv submission, demonstrating the protocol on its own description. \textbf{v7 (July 2026):} the reality-sync and claim-epistemology revision, governed by RRP-0031. The instance this paper once promised now exists, and the paper stops describing it in the future tense: Phases 0--1 of the roadmap are marked shipped and Phase 2 is reframed as in progress. Every claim now carries explicit RRP-0030 authoring keys (\texttt{type=}, \texttt{evidence=}, with \texttt{confidence} only where a band is defensible); the testable-invariants section becomes a real edge DAG; the paper gains its first structured cross-paper edges, to all eight sibling papers in the live corpus; authorship moves to structured \texttt{\textbackslash rrxivauthor} records (RRP-0021/0026); and a new state-of-the-network subsection (\S\ref{sec:state-of-network}) applies the protocol's honesty norms to the protocol's own paper. \textbf{v6 (May 2026):} the first revision to actually exercise the PDF + source-bundle persistence end-to-end. v5 fixed the paper-side (vendored \texttt{scripts/submit.sh}, page-stamp footer, slug typo correction) but exposed a coupled server-side regression where \texttt{POST /submissions} accepted a bundle without ever extracting the PDF or rewriting \texttt{source.uri} (rrxiv-python\#50). v6 ships through the patched server, so the corpus finally has a v6 record with \texttt{source.rendered\_pdf\_uri} populated and a server-relative \texttt{source.uri}. \textbf{v5 (May 2026):} fixed a regression in which revisions v2--v4 were posted without their rendered PDF or source bundle (the canonical \texttt{rrxiv submit} flow was not yet vendored into this paper's repo, so ad-hoc CIR-only posts went through instead). v5 was the first revision of the whitepaper to flow through the same multipart submission pipeline external paper repos use, with a vendored \texttt{scripts/submit.sh} resolving the \texttt{--revision-of} target from \texttt{rrxiv-meta.json\#versions}. v5 also stamps every PDF page with the canonical id, version, license, and ISO build date (per \texttt{rrxiv.cls} v0.3), so a reader holding a printed copy can identify which revision they have without consulting the corpus. \textbf{v4 (May 2026):} adds Section~\ref{sec:testable-invariants}, a structured set of \emph{testable protocol invariants}. Each is a declarative claim about the implementation that downstream papers can replicate, contradict, or extend through annotations on the live corpus. v3 had a smaller claim set (4 claims) and was the first revision to dogfood the open ORCID submission flow on \texttt{rrxiv.com}; v2 introduced the survey of RRPs 0012--0020 that landed between v0.1 and the present (server-derived replication status, semantic revision diffs, annotation threading, author claim retraction). The v2 survey carries forward unchanged in this revision.
 
 \medskip
 \noindent\textit{Keywords:} preprint servers, open science, claim graphs, AI agents, scientific infrastructure, protocol design.
@@ -55,12 +68,13 @@ This is not a hypothetical. A reasonable estimate is that by the time this white
 
 rrxiv is an open protocol for research preprints designed for the regime in which both humans and agents are heavy producers and consumers of research output, the volume of that output continues to rise, and the binding constraint is high-quality triage rather than additional production capacity. The protocol's central design choice is to treat the \emph{claim}, not the paper, as the unit of structured knowledge. Papers remain immutable atoms for citation; claims, extracted at submission time using a recommended TeX class, are the addressable nodes of a public, queryable graph. Annotations attach to any node and form the discourse layer. The full corpus is snapshot-exported, permissively licensed, and served through an API designed for both human and agent consumers.
 
-\begin{claim}[Volume necessitates structure]
+\begin{claim}[title=Volume necessitates structure, type=theoretical, evidence=argument, labels={design-thesis}, confidence=0.7, rationale={A design bet stated as such: the live corpus is far too small to test it yet}]
 \label{claim:volume-structure}
 At current and projected rates of research output, paper-level metadata (title, authors, abstract, citation graph) is insufficient for either human or agent triage. A claim-level structured representation, built into submission rather than extracted post hoc, is necessary infrastructure for the field.
+\supports{rrxiv:2605.00001:claim:volume-structure}{rrxiv:2605.00002:claim:c1}
 \end{claim}
 
-This is the load-bearing claim of the whitepaper. The remainder elaborates on its mechanics, justifies its specific design choices against alternatives, and is honest about what it does not yet know.
+This is the load-bearing claim of the whitepaper. The remainder elaborates on its mechanics, justifies its specific design choices against alternatives, and is honest about what it does not yet know. As of v7 this claim carries an explicit cross-paper \texttt{supports} edge: the volume-and-triage argument above is the motivating ground for the claim-level-addressability result of rrxiv:2605.00002 (\emph{The claim graph as a first-class artifact}), claim \texttt{c1}.
 
 % ========================================================================
 \section{Design principles}
@@ -133,11 +147,14 @@ The point of the claim graph is the queries it makes tractable. Several classes 
 
 \end{enumerate}
 
-\begin{claim}[Queryability of load-bearingness]
+\begin{claim}[title=Queryability of load-bearingness, type=theoretical, evidence=argument, labels={design-thesis}, confidence=0.6, rationale={Asserts strict superiority over citation count; plausible by construction but unmeasured at corpus scale}]
 \label{claim:queryability}
 A claim graph with explicit \texttt{supports}, \texttt{depends\_on}, and \texttt{contradicts} edges admits efficient computation of load-bearingness (out-degree of \texttt{supports} edges in the transitive closure), which is a strictly more useful triage signal than citation count for directing both human reviewer attention and agent research effort.
-\dependson{rrxiv-0001:claim:queryability}{rrxiv-0001:claim:volume-structure}
+\dependson{rrxiv:2605.00001:claim:queryability}{rrxiv:2605.00001:claim:volume-structure}
+\supports{rrxiv:2605.00001:claim:queryability}{rrxiv:2605.00006:claim:c2}
 \end{claim}
+
+The cross-paper \texttt{supports} edge above (added in v7) points at rrxiv:2605.00006 (\emph{Citation graphs are not knowledge graphs}), claim \texttt{c2}: the load-bearingness argument here is precisely the mechanism by which a typed-edge extension recovers the dependency relations that untyped citation edges lose.
 
 \begin{rrxivremark}[The claim graph is not a knowledge graph]
 The claim graph is not an attempt to encode propositional knowledge in a form a reasoner can directly evaluate. Claims are natural-language statements with structured metadata; the metadata supports queries about the \emph{structure} of the literature (what supports what, what depends on what, what contradicts what) but does not attempt to make claims themselves machine-evaluable. This is a deliberate scope restriction. Knowledge graphs of the propositional sort have been attempted repeatedly in the history of AI and have a poor track record at scale. The claim graph is a structural index over natural-language assertions, and that is sufficient.
@@ -173,7 +190,7 @@ Regardless of authoring format, every rrxiv paper is normalized at submission ti
 
 This three-layer architecture---authoring format, CIR, rendering targets---separates concerns cleanly. New authoring formats can be added without disturbing the API. Rendering targets can be improved without re-ingesting papers. The CIR is the stable contract between producers and consumers of the corpus.
 
-\begin{claim}[Source-of-truth invariance]
+\begin{claim}[title=Source-of-truth invariance, type=theoretical, evidence=argument, labels={design-thesis}]
 \label{claim:source-truth}
 The choice of plain-text source over rendered PDF as the canonical artifact reduces the round-trip information loss between authoring and consumption to zero, modulo the expressive limits of the chosen format. PDF-first systems incur permanent extraction loss; source-first systems do not.
 \end{claim}
@@ -272,7 +289,7 @@ The risk of any centralized stewardship model is that the steward eventually doe
 
 The combined effect is that the worst the canonical instance can do, if its stewards become bad actors or are compromised, is to slow contributors down for the time it takes to set up a fork. The data is portable. The code is portable. The protocol is open. There is no extractable rent in the corpus, by design.
 
-\begin{claim}[Structural unsellability]
+\begin{claim}[title=Structural unsellability, type=theoretical, evidence=argument, labels={design-thesis}]
 \label{claim:unsellability}
 A corpus that is openly licensed and snapshot-distributed cannot be sold to or exclusively licensed by a third party, regardless of the legal entity holding the canonical instance. The standard capture vector for open-knowledge platforms (acquisition followed by access restriction or licensing deal) is therefore foreclosed structurally rather than relying on the steward's continued goodwill.
 \end{claim}
@@ -364,9 +381,9 @@ The protocol does not have answers to the following questions at v0.1. They are 
 
 \begin{enumerate}[leftmargin=2em, itemsep=0.4em]
 
-\item \textbf{Paper identifier scheme.} Should rrxiv use DOIs (paid, externally administered, durable), arXiv-style identifiers (free, requires central allocation), content-addressed hashes (free, not human-readable), or UUIDv7 (free, not human-readable but timestamped)? v0.1 uses UUIDv7 by default; a principled answer awaits.
+\item \textbf{Paper identifier scheme.} Should rrxiv use DOIs (paid, externally administered, durable), arXiv-style identifiers (free, requires central allocation), content-addressed hashes (free, not human-readable), or UUIDv7 (free, not human-readable but timestamped)? \emph{Partially settled since v1:} RRP-0029 (May 2026) fixed the split --- an opaque, server-minted UUIDv7 as the machine id plus a citable \texttt{rrxiv:YYMM.NNNNN} slug (RRP-0013) that claim ids build on. Whether to layer DOIs on top remains open.
 
-\item \textbf{LaTeX class extraction mechanism.} The current sidecar-log approach in \texttt{rrxiv.cls} is a pragmatic v0.1 choice. A more robust mechanism (custom build tool, AST-level extraction via \texttt{lualatex}, post-hoc parsing of source) may be preferable. Open Question~\ref{oq:agent-identity} notes related identity questions.
+\item \textbf{LaTeX class extraction mechanism.} The original sidecar-log approach in \texttt{rrxiv.cls} was a pragmatic v0.1 choice. \emph{Partially settled:} RRP-0004 (May 2026) moved the reference parser to AST-level extraction of the source itself, with the sidecar retained for what genuinely needs compile-time emission (edge markers, structured author records). Open Question~\ref{oq:agent-identity} notes related identity questions.
 
 \item \textbf{Karma system specifics.} The protocol describes domain-scoped karma as a defense against adversarial annotation, but the exact karma update rule, thresholds, and decay are unspecified at v0.1. Karma systems are notoriously easy to game; this is an area where caution and slow rollout are warranted.
 
@@ -384,15 +401,111 @@ The protocol does not have answers to the following questions at v0.1. They are 
 \section{Roadmap}
 \label{sec:roadmap}
 
-The rrxiv project is structured in phases. Each phase has explicit deliverables and definitions of done.
+The rrxiv project is structured in phases. Each phase has explicit deliverables and definitions of done. Through v3 of this paper the section was written entirely in the future tense; as of v7 (July 2026) the record is updated in place, with the original definitions of done kept verbatim so the reader can check them against what shipped.
 
-\paragraph{Phase 0 (Specification).} The current phase. Deliverables: this whitepaper; the JSON Schema files for the CIR and supporting objects; the OpenAPI 3.1 specification; the \texttt{rrxiv.cls} LaTeX class v0.1; the reference Python client (\texttt{rrxiv-python}) sufficient to parse a structured submission and produce a valid CIR; the RRP process and template; conformance test suite. No running canonical instance, no web UI, no real ingested papers other than this whitepaper and minimal examples. Definition of done: the whitepaper compiles to PDF and parses to a valid CIR via the reference client.
+\paragraph{Phase 0 (Specification) --- shipped.} Deliverables, as v1 specified them and all since delivered: this whitepaper; the JSON Schema files for the CIR and supporting objects; the OpenAPI 3.1 specification; the \texttt{rrxiv.cls} LaTeX class; the reference Python client (\texttt{rrxiv-python}) sufficient to parse a structured submission and produce a valid CIR; the RRP process and template; conformance test suite. Definition of done --- the whitepaper compiles to PDF and parses to a valid CIR via the reference client --- was met in May 2026, and every revision since (including this one) re-runs that gate.
 
-\paragraph{Phase 1 (Canonical Instance v0).} A running canonical instance at \texttt{rrxiv.com} with read-only access to ingested papers, claims, and annotations, and write access for a small set of vetted early contributors. Domain selection: ML/AI research as the initial wedge, where the volume problem is most acute and the contributor base is most agent-friendly. Deliverables: the server implementation, a basic web UI, an agent API conforming to the OpenAPI spec, ORCID-based authentication, the first ten to hundred ingested papers. Definition of done: an external researcher can submit a structured paper through the canonical client and have it appear in the corpus and be queryable through the API.
+\paragraph{Phase 1 (Canonical Instance v0) --- shipped (May 2026).} The canonical instance runs at \texttt{rrxiv.com} (web, Next.js on Vercel) and \texttt{api.rrxiv.com/api/v0} (the reference FastAPI server on Fly.io): ORCID-based authentication, an agent API conforming to the OpenAPI spec, UUIDv7 machine ids with citable \texttt{id\_slug}s (RRP-0029), Highwire and JSON-LD scholarly meta tags for indexer legibility, and the reference client installable from PyPI (\texttt{pip install rrxiv}). The definition of done --- an external researcher can submit a structured paper through the canonical client and have it appear in the corpus and be queryable through the API --- is met, and is stated as a claim in this revision (Claim~\ref{claim:phase-one-live}). One honest footnote to the deliverables list: the corpus stands at nine papers, just under the phase's own ``first ten to hundred'' floor; we state that rather than round it up.
 
-\paragraph{Phase 2 (Open Submission).} Open public submission, with abuse-handling and moderation infrastructure in place. Domain expansion to a second domain (likely a closely adjacent one such as theoretical computer science or quantitative finance, where the TeX adoption is high). The first domain council is formed. Definition of done: the corpus contains at least one thousand structured submissions and demonstrates measurable claim graph density.
+\paragraph{Phase 2 (Open Submission) --- in progress.} Open public submission shipped in July 2026: any ORCID holder can publish, with hCaptcha as the bot gate on the write path and the per-discipline replication quorums of RRP-0019 on the derivation side. The rest of the phase is not met and is not close: the corpus is two orders of magnitude short of the one-thousand-submission density criterion, no second-domain expansion has begun, and no domain council exists. Definition of done unchanged: the corpus contains at least one thousand structured submissions and demonstrates measurable claim graph density.
 
-\paragraph{Phase 3 and beyond.} Domain expansion, governance maturation, sustainability validation, and---if warranted by usage and corpus size---transition to a foundation-style governance model with the existing structural commitments preserved as charter requirements. These phases are intentionally less specified at v0.1; the design at that point should reflect what was learned in Phases 0--2 rather than what was guessed at protocol launch.
+\paragraph{Phase 3 and beyond.} Domain expansion, governance maturation, sustainability validation, and---if warranted by usage and corpus size---transition to a foundation-style governance model with the existing structural commitments preserved as charter requirements. These phases remain intentionally under-specified; the design at that point should reflect what was learned in Phases 0--2 rather than what was guessed at protocol launch.
+
+% ========================================================================
+\section{What shipped between v0.1 and v0.2 (v2 addendum)}
+\label{sec:shipped-v0.2}
+
+This section was added in the v2 revision (May 2026) to give readers landing on this whitepaper a current view of the protocol surface. It is a faithful summary of the accepted RRPs that landed after the v1 specification.
+
+\paragraph{Live canonical instance.} The reference instance runs at \texttt{rrxiv.com} (web) and \texttt{api.rrxiv.com/api/v0} (machine-readable). The Python reference server (\texttt{rrxiv-python}) implements every endpoint in \texttt{schema/api.openapi.yaml}. The Next.js web client is hosted on Vercel; the server runs on Fly.io with a SQLite store on a persistent volume. The deployment overlay is the \texttt{rrxiv-instance} repo; the seed corpus carries the whitepaper itself plus Euclid's \emph{Elements} (the first reproducibility example) and a small set of synthetic demo papers.
+
+\paragraph{The protocol additions, in order:}
+
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+  \item \textbf{RRP-0012 (paper list-item projection).} The \texttt{Paper} stays immutable; the listing endpoint returns a derived \texttt{stats} block (claim counts, replicated/contradicted/contested counts, paper-level rollup status). Surface area: \texttt{GET /api/v0/papers}, \texttt{GET /api/v0/papers/\{id\}?include=stats}.
+  \item \textbf{RRP-0013 (human-friendly slugs).} Each paper carries an \texttt{id\_slug} of the form \texttt{rrxiv:YYMM.NNNNN}. UUIDv7 remains canonical for storage and edges; the slug is the URL-friendly handle. Server-minted at first submission; inherited by revisions.
+  \item \textbf{RRP-0014 (cursor pagination).} Every list endpoint accepts \texttt{?cursor=\&limit=}; offset pagination deprecated.
+  \item \textbf{RRP-0015 (meaty claims).} \texttt{Claim} grows four optional fields: \texttt{proof} (extracted from the paired \texttt{evidence} environment), \texttt{figures} (TikZ paths + captions), \texttt{source\_location} (file + line span), \texttt{pdf\_anchor}. The web client renders proofs inline on claim pages with KaTeX math.
+  \item \textbf{RRP-0016 (submission request schema).} The wire format for \texttt{POST /api/v0/submissions} is codified in \texttt{schema/submission\_request.schema.json}. Adds a \texttt{dry\_run} mode that runs full server-side validation (compile, parse, diff) without persisting---useful for CI on author repos. Adds an optional \texttt{client\_compile\_hash} for write integrity.
+  \item \textbf{RRP-0017 (revision flow + semantic diff).} Revisions carry a server-computed \texttt{RevisionDiff} via \texttt{GET /api/v0/papers/\{id\}/diff?from=<prior>}, with deterministic claim matching by stable \texttt{local\_id} (resilient to per-version \texttt{claim\_id} rebase) and word-level hunks for statement and proof changes. Authors may attach a \texttt{revision\_summary} annotation; the server synthesises a skeleton from the submission's form field.
+  \item \textbf{RRP-0018 (annotation threads).} Annotations carry an optional \texttt{in\_reply\_to} pointing at a parent. The server enforces same-artefact (same paper, and when both annotations target a claim, the same claim) and rejects self-replies. New convenience endpoint \texttt{GET /api/v0/annotations/\{id\}/replies}.
+  \item \textbf{RRP-0019 (reproducibility manifests).} The \texttt{replication} annotation payload now distinguishes \texttt{fresh\_replication} from \texttt{reproduction\_from\_artifacts} via a \texttt{reproduction\_kind} discriminator. Authors may attach a \texttt{ReproducibilityManifest} URI on the claim itself, describing the runtime environment + entrypoint. Server-side derivation: \texttt{claim.replication\_status} is computed from accumulated annotations using a per-discipline quorum (1 for math/formal verification, 2 for algorithms/crypto, 3 for ML and experimental sciences, 5 for behavioural/social) rather than read directly from the author-supplied field.
+  \item \textbf{RRP-0020 (author claim retraction).} A new \texttt{claim\_retraction} annotation type lets the paper's author retract a single claim without publishing a full v2. Reversible via a signed comment with \texttt{lifts\_retraction: true} from the same identity. Takes precedence over all other replication-status derivation.
+\end{itemize}
+
+\paragraph{What this revision dogfoods.} The submission of this v2 itself exercises the new flow end-to-end: the v1 paper\_id is passed as \texttt{previous\_version}; the server computes the \texttt{revision\_diff} between v1's CIR and v2's CIR (this section is the bulk of the addition); a \texttt{revision\_summary} annotation is synthesised from the CLI's \texttt{--revision-summary} text. The web client's new \texttt{/papers/[id]/versions/[from]} route renders the diff; the paper page's Versions rail surfaces a \texttt{diff} link between any two versions.
+
+% ========================================================================
+\section{Testable protocol invariants (v4 addendum)}
+\label{sec:testable-invariants}
+
+This section was added in the v4 revision (May 2026) once the canonical instance had been live for long enough to expose a stable set of behavioural invariants. The claims below are deliberately operational: each one is checkable by an automated harness against the live API, and each is the kind of statement a follow-up rrxiv paper might \emph{replicate} (with evidence), \emph{contradict} (with a counter-observation), or \emph{extend} (with a stronger condition).
+
+The intent is that this whitepaper becomes the first object of study in its own corpus: future rrxiv papers will accumulate around these invariants the way replication studies accumulate around foundational empirical results in a discipline. The replication-vs-contradiction edge counts on the claims below are themselves a proxy for the protocol's health.
+
+The v7 revision (RRP-0031) makes the epistemology of these claims explicit rather than defaulted. Each now carries \texttt{type=}/\texttt{evidence=} authoring keys per RRP-0030 --- \texttt{evidence=observation} where the invariant has actually been observed on the live instance or on this paper's own version lineage, \texttt{evidence=experiment} where it is enforced in code and covered by the reference implementation's test suite but has not yet been independently exercised in production. And the claims are now connected by typed edges, so the dependency structure among them is visible in the CIR rather than implied by prose: a correctly functioning ORCID flow and normalised author names underpin identity-grounded attribution; grounded identity and artefact-rooted annotation threads underpin the server-derived replication status that the triage queries of Section~\ref{sec:claim-graph} consume; acyclic lineages underpin stable slugs, which in turn keep claim ids citable across revisions (RRP-0029); and content-verifiable snapshots underpin the structural-unsellability commitment of Section~\ref{sec:governance}. None of these edges asserts more than the sentence justifying it.
+
+\begin{claim}[title=Origin-agnostic OAuth, type=empirical, evidence=observation, labels={protocol-invariant, live-instance}]
+\label{claim:origin-agnostic-oauth}
+The ORCID sign-in flow on \texttt{rrxiv.com} works correctly whether the user arrives at the apex (\texttt{rrxiv.com}) or the \texttt{www} subdomain. The server threads the \texttt{redirect\_uri} per request from the web client's POST body rather than reading a static \texttt{ORCID\_REDIRECT\_URI} env var, so the authorize-step URI and the token-exchange-step URI are byte-identical regardless of which origin the browser was on when the user clicked sign-in. This is the property RFC 6749 \S4.1.3 requires.
+\supports{rrxiv:2605.00001:claim:origin-agnostic-oauth}{rrxiv:2605.00001:claim:identity-grounded-attribution}
+\end{claim}
+
+\begin{claim}[title=Identity-grounded attribution, type=empirical, evidence=observation, labels={protocol-invariant, live-instance}]
+\label{claim:identity-grounded-attribution}
+Every paper accepted into the canonical instance is attributable to either a verifiable ORCID iD or a registered agent handle. The \texttt{POST /api/v0/submissions} endpoint rejects unauthenticated requests; the anonymous identity (RRP-0006) is sufficient for read-only access but cannot submit papers or write annotations. An auditor walking the corpus will find \texttt{created\_by.identity\_type $\in$ \{orcid, agent\}} on every paper-level record; the July-2026 corpus audit performed exactly this walk across all nine papers.
+\supports{rrxiv:2605.00001:claim:identity-grounded-attribution}{rrxiv:2605.00001:claim:replication-status-server-derived}
+\end{claim}
+
+\begin{claim}[title=Lineage chains are cycle-free, type=empirical, evidence=experiment, labels={protocol-invariant}]
+\label{claim:lineage-acyclic}
+The \texttt{previous\_version} graph of the corpus forms a strict DAG. The submission handler enforces this by minting a fresh \texttt{paper\_id} whenever the submitted CIR's \texttt{id} field collides with the \texttt{previous\_version} parameter, preventing self-loops (\texttt{paper.id == paper.previous\_version}) at write time. Read-path walkers (\texttt{GET /papers/\{id\}/versions}) additionally track visited ids and terminate on any cycle, so even pre-existing pathological rows (e.g.\ rows imported from a buggy upstream) do not produce infinite loops.
+\end{claim}
+
+\begin{claim}[title=Slugs are stable across revisions, type=empirical, evidence=observation, labels={protocol-invariant, live-instance}, confidence=0.95, rationale={Enforced at write time and observed across this paper's own lineage; the RRP-0029 re-mint is the one historical event that touched ids}]
+\label{claim:slug-stable}
+A paper's \texttt{id\_slug} (\texttt{rrxiv:YYMM.NNNNN}) is minted once at first submission and inherited unchanged by every subsequent revision in the same lineage. The internal \texttt{paper\_id} differs per version, but the slug is the citable handle. This is how a URL like \texttt{rrxiv.com/papers/rrxiv:2605.00001} resolves to the latest revision of the whitepaper regardless of which version one cites.
+\dependson{rrxiv:2605.00001:claim:slug-stable}{rrxiv:2605.00001:claim:lineage-acyclic}
+\supports{rrxiv:2605.00001:claim:slug-stable}{rrxiv:2605.00001:claim:queryability}
+\end{claim}
+
+\begin{claim}[title=Author names are LaTeX-normalised, type=empirical, evidence=experiment, labels={protocol-invariant}]
+\label{claim:author-name-normalisation}
+Author names in the CIR are passed through a normaliser at parse time that strips footnote-style LaTeX macros (\texttt{\textbackslash thanks\{\}}, \texttt{\textbackslash footnote\{\}}, \texttt{\textbackslash marginpar\{\}}, ...) and resolves styled macros (\texttt{\textbackslash texttt\{\}}, \texttt{\textbackslash textbf\{\}}, ...) to their argument. Two papers whose source declares the same author with different LaTeX styling resolve to a single canonical entry on the read path. The \texttt{GET /authors} rollup therefore counts each researcher once, not once per styling variant.
+\supports{rrxiv:2605.00001:claim:author-name-normalisation}{rrxiv:2605.00001:claim:identity-grounded-attribution}
+\end{claim}
+
+\begin{claim}[title=Replication status is server-derived, type=empirical, evidence=experiment, labels={protocol-invariant}]
+\label{claim:replication-status-server-derived}
+A claim's \texttt{replication\_status} field is computed by the server from the accumulated annotation graph plus a per-discipline quorum (1 for formal verification, 2 for algorithms/crypto, 3 for ML and experimental sciences, 5 for behavioural/social), not read from the author-submitted CIR. A retraction annotation supersedes all other evidence; a contradiction with weight matching or exceeding supporting replications flips the status to \texttt{contradicted}; meeting the quorum of independent replications elevates it to \texttt{replicated}. Authors cannot self-certify replication. (Marked \texttt{evidence=experiment} deliberately: the derivation is enforced in code and covered by the test suite, but no claim in the production corpus has yet crossed a quorum, so the invariant has not been exercised by real traffic.)
+\supports{rrxiv:2605.00001:claim:replication-status-server-derived}{rrxiv:2605.00001:claim:queryability}
+\supports{rrxiv:2605.00001:claim:replication-status-server-derived}{rrxiv:2605.00007:claim:c5}
+\end{claim}
+
+The second edge on the claim above is cross-paper (added in v7): the retraction-annotation precedence described here --- a single claim retracted without republishing the paper, per RRP-0020 --- is the implemented mechanism that rrxiv:2605.00007 (\emph{Retraction notices as first-class data}), claim \texttt{c5}, argues for when it holds that retracting a claim should not require retracting its paper.
+
+\begin{claim}[title=Snapshots are content-verifiable, type=empirical, evidence=experiment, labels={protocol-invariant}]
+\label{claim:snapshots-content-verifiable}
+Every snapshot manifest carries an RFC 9530 \texttt{content\_digest} (\texttt{sha-256=:base64:}) computed over the tarball body before publication. A downstream consumer (mirror instance, archive harvester) can verify byte-identical receipt by recomputing the SHA-256 locally and comparing against the manifest's digest. The mirror copy on \texttt{s3://rrxiv-snapshots/snapshots/} carries the same bytes as the rrxiv-instance blob endpoint when both are populated.
+\supports{rrxiv:2605.00001:claim:snapshots-content-verifiable}{rrxiv:2605.00001:claim:unsellability}
+\end{claim}
+
+\begin{claim}[title=Annotation threads are artefact-rooted, type=empirical, evidence=experiment, labels={protocol-invariant}]
+\label{claim:annotation-threads-artefact-rooted}
+An annotation's \texttt{in\_reply\_to} pointer, when set, must reference an annotation that targets the same artefact (the same \texttt{target\_id} when both target papers, or the same claim when both target claims). The server enforces this at write time; self-replies (\texttt{in\_reply\_to == self.id}) are rejected. The thread tree under any root annotation is therefore a forest of artefact-scoped subtrees, never a cross-artefact graph.
+\supports{rrxiv:2605.00001:claim:annotation-threads-artefact-rooted}{rrxiv:2605.00001:claim:replication-status-server-derived}
+\end{claim}
+
+\paragraph{How to test these.} An rrxiv harness paper can run any of:
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+  \item \texttt{curl -sSI https://rrxiv.com/} from a fresh IP, observe the 307 to \texttt{www}, then complete the OAuth flow programmatically with a test ORCID and assert the round-trip succeeds (Claim~\ref{claim:origin-agnostic-oauth}).
+  \item Iterate \texttt{GET /papers}, fetch each, assert each \texttt{authors[*].name} contains no backslashes or braces (i.e.~no surviving LaTeX) (Claim~\ref{claim:author-name-normalisation}).
+  \item Walk \texttt{GET /papers/\{id\}/versions} for every paper, build the \texttt{previous\_version} adjacency, run Tarjan's algorithm, assert zero strongly-connected components of size $\geq$ 2 (Claim~\ref{claim:lineage-acyclic}).
+  \item Submit two test papers from the same ORCID, observe both have the same \texttt{created\_by.identity}; then verify a paper submitted by an agent identity has \texttt{identity\_type = "agent"} (Claim~\ref{claim:identity-grounded-attribution}).
+  \item Hit \texttt{GET /snapshots/\{id\}/blob}, compute \texttt{sha256sum}, compare base64 to manifest (Claim~\ref{claim:snapshots-content-verifiable}).
+\end{itemize}
+
+Each test that runs to green is evidence for a \texttt{replication} annotation; a counterexample is a \texttt{contradiction}. Either way, the discourse layer grows around the protocol itself.
 
 % ========================================================================
 \section{Discussion}
@@ -410,16 +523,44 @@ A secondary failure mode is technical-debt accumulation: the schema accumulates 
 
 A third failure mode is governance failure: domain councils fail to form or fail to maintain credibility, the karma system is gamed before it is hardened, or the core team fractures. The structural commitments in Section~\ref{sec:governance} are designed to make this survivable through fork-friendliness, but a fork is itself a substantial cost and represents a partial failure even when it succeeds.
 
-\subsection{Why we are publishing this whitepaper before building the system}
+\subsection{Why this whitepaper was published before the system was built}
 
 Most serious infrastructure projects publish a whitepaper before the running system. The Bitcoin whitepaper, the IPFS paper, the original Git design notes, and the foundational LaTeX documents all preceded usable implementations. The reason is that the design is harder than the code, and that publishing a design before committing to implementation invites critical review, attracts the kind of contributor who engages with substance rather than features, and forces the project to confront its own ambiguities before they become technical debt.
 
-This whitepaper is in that tradition. The canonical instance does not yet exist. The reference client is a v0.1 in active development. The schemas are public and reviewable. The governance documents are drafts. We expect this whitepaper to be revised in response to substantive critique before any production system goes live, and we welcome that revision.
+This whitepaper is in that tradition, and the promise the v1 text made here --- that the paper would be revised as reality caught up with it --- has been kept in the most literal way available: the canonical instance now exists, the reference client is on PyPI, the schemas govern a live corpus, and the sentence ``the canonical instance does not yet exist'' survived in this section for five revisions past the point at which it stopped being true. v7 retires it. The revision trail --- v1's promises, v5/v6's submission-pipeline fixes, this revision's reality-sync --- is recorded in the corpus as the lineage of \texttt{rrxiv:2605.00001}. The governance documents remain drafts, and Section~\ref{sec:state-of-network} is honest about how small the live network still is.
+
+\subsection{The state of the network (July 2026)}
+\label{sec:state-of-network}
+
+Added in v7 (RRP-0031). A protocol whose founding claims include honesty about evidentiary status owes its readers the same honesty about itself, so this subsection states what the network actually is at the time of this revision, without rounding up.
+
+The corpus is small and authorship is concentrated: nine papers and 656 claims, produced by one human maintainer and declared agent contributors, with most of the eight sibling papers written as demonstration corpus rather than arriving from external researchers. Authorship is agent-heavy and says so in structured provenance (RRP-0025/0026) rather than in footnotes. The community layer is, at this writing, empty in production --- zero annotations, replications, and retractions; an early set of demonstration replication annotations was lost to a database reseed that predated community-preserving reseeds, and restoring an authentic discourse layer is the protocol's nearest-term test. The revision machinery of RRP-0017 is fully built and fully dark: the RRP-0029 identifier re-mint flattened every seed paper to a single head version, so the corpus currently exhibits no live version lineage --- the submission of this very revision, passed through \texttt{--revision-of}, is what re-lights it.
+
+\begin{claim}[title=Phase 1 definition of done is met, type=empirical, evidence=observation, labels={state-of-the-network, live-instance}]
+\label{claim:phase-one-live}
+An external researcher can submit a structured paper through the canonical client and have it appear in the corpus and be queryable through the API. The v3 revision of this paper entered the corpus through the open ORCID submission flow on \texttt{rrxiv.com}; since July 2026 the same flow is open to any ORCID holder, gated by hCaptcha; the reference client installs from PyPI (\texttt{pip install rrxiv}).
+\dependson{rrxiv:2605.00001:claim:phase-one-live}{rrxiv:2605.00001:claim:origin-agnostic-oauth}
+\end{claim}
+
+\begin{claim}[title=The claim-graph substrate is exercised beyond this paper, type=empirical, evidence=observation, labels={state-of-the-network, small-n}]
+\label{claim:corpus-dogfooding}
+The claim-graph data model is exercised well past this paper's own dozen claims. The live corpus carries: a dependency-dense formal corpus --- the \emph{Elements} encoding (rrxiv:2605.00009), 600 claims joined by roughly 1{,}300 \texttt{depends\_on} edges, in which any proposition (e.g.\ the Pythagorean proposition, its claim \texttt{prop:I.47}) resolves its full deductive ancestry through the API; classical statistical estimation results (rrxiv:2605.00004, claim \texttt{c1}); a structured reproducibility-budget schema proposal (rrxiv:2605.00003, claim \texttt{c4}); quantitative measurements of agent-authored annotation quality (rrxiv:2605.00005, claim \texttt{c1}); retraction modelled as first-class data (rrxiv:2605.00007, claim \texttt{c1}); and replication-practice measurements (rrxiv:2605.00008, claim \texttt{c7}). The validity of this claim rests on those exemplars remaining in the corpus, which is exactly what its \texttt{depends\_on} edges encode. What the corpus does \emph{not} yet exercise is equally on the record: the annotation layer has no live exemplar, and the \texttt{contradicts} edge --- the protocol's signature triage capability --- is used zero times corpus-wide.
+\dependson{rrxiv:2605.00001:claim:corpus-dogfooding}{rrxiv:2605.00009:prop:I.47}
+\dependson{rrxiv:2605.00001:claim:corpus-dogfooding}{rrxiv:2605.00004:claim:c1}
+\dependson{rrxiv:2605.00001:claim:corpus-dogfooding}{rrxiv:2605.00003:claim:c4}
+\dependson{rrxiv:2605.00001:claim:corpus-dogfooding}{rrxiv:2605.00005:claim:c1}
+\dependson{rrxiv:2605.00001:claim:corpus-dogfooding}{rrxiv:2605.00007:claim:c1}
+\dependson{rrxiv:2605.00001:claim:corpus-dogfooding}{rrxiv:2605.00008:claim:c7}
+\end{claim}
+
+With these two claims and the edges added throughout this revision, the whitepaper now carries structured edges to all eight sibling papers --- each individually justified in the text where it appears, and each verifiable against the live claim ids it targets. The graph between papers remains thin (this revision's nine cross-paper edges join the seven that existed corpus-wide before it), and no edge in this paper asserts replication, which production data does not support.
 
 % ========================================================================
 \section*{Acknowledgments}
 
 This whitepaper was developed in close collaboration with the Claude language model (Anthropic), which contributed substantively to the design discussions, drafted significant portions of the text under direction, and serves as one of the principal early users of the kind of agent-readable infrastructure rrxiv proposes. The standard caveat applies: errors that survived this collaboration are the human author's own. The decision to commit to permissive licensing, structural anti-capture commitments, and the boring-correct-standards approach throughout is the human author's; the encouragement to commit those decisions in writing before they could be quietly relaxed is mutual.
+
+Per-contributor detail, previously carried in title-block footnotes and now in the structured \texttt{\textbackslash rrxivauthor} records (RRP-0021/0026): Claude Opus 4.7 co-authored the design and drafting through v6; Claude Opus 4.8 carried the RRP-0029 paper-id migration and, under direction, drafted the v7 reality-sync and claim-graph enrichment governed by RRP-0031.
 
 % ========================================================================
 \begin{thebibliography}{99}
